@@ -56,3 +56,22 @@
   Test API with tools like Postman. Add error handling, validation, and logs for better debugging and security.
 
 ---
+
+#### 📅 **Day 4 – 22/05/2025 (Thursday)**
+
+**🛠️ Tasks & Explanations:**
+
+* ❤️ **Implement Like Feature for Posts**
+  Add a "Like" button to each post component. On click, update the like count in the database and reflect it immediately on the UI. Use optimistic UI updates for better UX. Ensure the backend route (`PATCH` or `PUT`) handles like increments and data consistency.
+
+* 🎨 **Enhance UI using Material UI (MUI)**
+  Integrate MUI components for a modern and consistent look. Replace basic HTML elements with MUI counterparts like `Card`, `Button`, `TextField`, `Dialog`, etc.
+  ➤ **Reference:** Followed best practices from [this MUI Crash Course video](https://youtu.be/fzxEECHnsvU?si=DXRssvjjYSU0KT5J) for understanding how to use them effectively.
+
+* 🖌️ **Refactor CSS and Responsiveness**
+  Review and clean up existing CSS. Use MUI’s styling system (like `sx` prop and `styled()` API) for custom styles. Ensure all components are mobile-friendly with responsive breakpoints and flexible layouts.
+
+* ⚙️ **Code Cleanup and UI Consistency**
+  Ensure consistent color schemes, spacing, and typography across the app. Use MUI's `ThemeProvider` to define a global theme. Reorganize component code for better readability and reusability.
+
+---
