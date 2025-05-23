@@ -75,3 +75,20 @@
   Ensure consistent color schemes, spacing, and typography across the app. Use MUI's `ThemeProvider` to define a global theme. Reorganize component code for better readability and reusability.
 
 ---
+
+### 📅 **Day 5 – 23/05/2025 (Friday)**
+
+**🛠️ Key Tasks:**
+
+* 🔐 **Integrated Google Authentication**
+
+  * Set up `@react-oauth/google` using credentials from [Google Cloud Console](https://console.cloud.google.com/apis/credentials?project=ecstatic-moon-424809-m0).
+  * Enabled secure login with the `GoogleLogin` component.
+
+* 🧑‍💼 **Developed Sign In & Sign Up Forms**
+
+  * Built responsive sign-in and sign-up forms using Material UI components.
+  * Included fields for name, email, and password with validation.
+  * Implemented password visibility toggle and form switching logic.
+
+---
