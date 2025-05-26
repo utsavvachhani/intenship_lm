@@ -2,11 +2,11 @@
 ### 🚀 **LaMinds Internship Task Tracker**
 
 🗓️ **Start Date:** 19/05/2025 (Monday)
-
+Daily Breakdown with Detailed Tasks 
 
 ---
 ---
-📍 **Week 1 – Daily Breakdown with Detailed Tasks**
+📍 **Week 1 – 19/05/2025 (Monday) to 23/05/2025 (Friday)**
 
 ---
 
@@ -101,7 +101,9 @@
 ---
 
 
----
+------
+📍 **Week 2 – 26/05/2025 (Monday) to **
+
 ---
 
 ### 📅 **Day 6 – 26/05/2025 (Monday)**
