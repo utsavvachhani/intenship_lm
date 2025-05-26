@@ -7,6 +7,7 @@
 ---
 
 #### 📅 **Day 1 – 19/05/2025 (Monday)**
+📍 **Week 1 – Day 1**
 
 **🛠️ Tasks & Explanations:**
 
@@ -22,6 +23,7 @@
 ---
 
 #### 📅 **Day 2 – 20/05/2025 (Tuesday)**
+📍 **Week 1 – Day 2**
 
 **🛠️ Tasks & Explanations:**
 
@@ -43,6 +45,7 @@
 ---
 
 #### 📅 **Day 3 – 21/05/2025 (Wednesday)**
+📍 **Week 1 – Day 3**
 
 **🛠️ Tasks & Explanations:**
 
@@ -58,7 +61,7 @@
 ---
 
 #### 📅 **Day 4 – 22/05/2025 (Thursday)**
-
+📍 **Week 1 – Day 4**
 **🛠️ Tasks & Explanations:**
 
 * ❤️ **Implement Like Feature for Posts**
@@ -77,7 +80,7 @@
 ---
 
 ### 📅 **Day 5 – 23/05/2025 (Friday)**
-
+📍 **Week 1 – Day 5**
 **🛠️ Key Tasks:**
 
 * 🔐 **Integrated Google Authentication**
@@ -90,5 +93,46 @@
   * Built responsive sign-in and sign-up forms using Material UI components.
   * Included fields for name, email, and password with validation.
   * Implemented password visibility toggle and form switching logic.
+
+---
+
+
+---
+---
+
+### 📅 **Day 6 – 26/05/2025 (Monday)**
+
+📍 **Week 2 – Day 1**
+
+**🛠️ Tasks & Explanations:**
+
+* 🔐 **Completed Sign In & Sign Up Functionality**
+
+  * Developed full Sign In and Sign Up pages with working form fields for name, email, and password using Material UI components.
+  * Connected forms with backend authentication routes (`/signin` and `/signup`) using Axios.
+  * Handled form submission logic, error responses, and state updates.
+
+* 🔄 **Integrated Backend Authentication**
+
+  * Connected to a Node.js + Express backend with MongoDB using Mongoose for secure user storage.
+  * Implemented password hashing with `bcryptjs` and token generation with `jsonwebtoken`.
+  * Ensured error handling for common cases like mismatched passwords and existing users.
+
+* ☁️ **Fixed Google Sign-In via OAuth**
+
+  * Successfully configured and fixed the `@react-oauth/google` component.
+  * Managed Google Cloud Console credentials and ensured support for `localhost` during development.
+  * Decoded Google token on frontend, dispatched auth actions to Redux, and stored user info in localStorage.
+
+* 💾 **Local Storage Handling**
+
+  * Stored JWT tokens and user profiles in `localStorage` for persistent login sessions.
+  * Retrieved user data globally via Redux state, enabling conditionally rendered components (e.g., Navbar showing user's name and logout button).
+
+* 🗂️ **Finalized All Auth-Related Files**
+
+  * Created and organized React files: `Auth.jsx`, `Input.jsx`, `Icon.jsx`, and styling.
+  * Refactored Redux actions and reducers to handle authentication logic.
+  * Cleaned up backend structure: routes, controllers, and middleware (`auth.js`) for cleaner token handling and verification.
 
 ---
