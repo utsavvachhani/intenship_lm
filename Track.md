@@ -103,7 +103,7 @@ Daily Breakdown with Detailed Tasks
 
 
 ------
-📍 **Week 2 – 26/05/2025 (Monday) to **
+📍 **Week 2 – 26/05/2025 (Monday) to**
 
 ---
 
