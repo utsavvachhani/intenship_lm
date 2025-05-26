@@ -2,6 +2,7 @@
 ### 🚀 **LaMinds Internship Task Tracker**
 
 🗓️ **Start Date:** 19/05/2025 (Monday)
+<br>
 Daily Breakdown with Detailed Tasks 
 
 ---
