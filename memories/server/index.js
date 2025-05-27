@@ -1,40 +1,3 @@
-// import express from 'express';
-// import bodyParset from 'body-parser';
-// import mongoose from 'mongoose';
-// import cors from 'cors';
-// import dotenv from 'dotenv';
-// import postRoutes from './routes/posts.js';
-// import userRoutes from './routes/user.js';
-
-// const app = express();
-// dotenv.config();
-
-// app.use(cors());
-// app.use(bodyParset.json({ limit:"30mb",extended: true}));
-// app.use(bodyParset.urlencoded({ limit:"30mb",extended: true}));
-// app.use(express.json());
-
-
-// const PORT = process.env.PORT || 5000;
-// app.get('/',(req,res)=>{
-//     res.send('Hello to Memories API.');
-// })
-// // mongoose.connect(CONNECTION_URL)
-// //   .then(() => console.log('MongoDB connected'))
-// //   .catch(err => console.error(err));
-
-// app.use('/posts',postRoutes);
-// app.use('/user',userRoutes);
-
-// mongoose.connect(process.env.CONNECTION_URL,{useNewURLParser : true, useUnifiedTopology: true})
-//     .then(() => { app.listen(PORT, () => console.log(`server running on port : ${PORT}`))   })
-//     .catch((err)=>{ console.log(err);
-// })
-
-// // mongoose.set('useFindAndModify', false);
-
-
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
@@ -42,8 +5,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import serverless from 'serverless-http';
 
-import postRoutes from '../routes/posts.js';
-import userRoutes from '../routes/user.js';
+import postRoutes from './routes/posts.js';
+import userRoutes from './routes/user.js';
 
 dotenv.config();
 
@@ -57,18 +20,33 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 // Routes
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
+
 app.get('/', (req, res) => {
-  res.send('Hello from Vercel Serverless Express!');
+  res.send('Hello from Serverless Express on Vercel!');
 });
 
-// MongoDB connection
+// MongoDB connection logic
 let isConnected = false;
 async function connectDB() {
   if (!isConnected) {
-    await mongoose.connect(process.env.CONNECTION_URL);
-    isConnected = true;
+    try {
+      await mongoose.connect(process.env.CONNECTION_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
+      isConnected = true;
+      console.log('MongoDB connected');
+    } catch (error) {
+      console.error('MongoDB connection error:', error);
+    }
   }
 }
-await connectDB();
 
-export const handler = serverless(app);
+// Custom handler to wrap with DB init
+const handler = async (req, res) => {
+  await connectDB();
+  return app(req, res);
+};
+
+export const handlerExport = serverless(handler);
+export default handlerExport;
