@@ -15,7 +15,7 @@ function Post({post, setCurrentId}) {
   const user = JSON.parse(localStorage.getItem('profile'));
   const Likes = () => {
     if (post.likes.length > 0) {
-      return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
+      return post.likes.find((like) => like === (user?.result?.sub || user?.result?._id))
         ? (
           <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
         ) : (
@@ -33,7 +33,7 @@ function Post({post, setCurrentId}) {
       <Typography variant="h6">{post.name}</Typography>
       <Typography variant="body">{moment(post.createdAt).fromNow()}</Typography>
     </div>
-    {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
+    {(user?.result?.sub === post?.creator || user?.result?._id === post?.creator) && (
       <div className={classes.overlay2}>
         <Button 
           style={{color: 'white'}} 
@@ -54,7 +54,7 @@ function Post({post, setCurrentId}) {
       <Button size="small" color='primary' disabled={!user?.result} onClick={()=>{ dispatch(likePost(post._id))}}>
         <Likes />
       </Button>
-      {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
+      {(user?.result?.sub === post?.creator || user?.result?._id === post?.creator) && (
         <Button size="small" color='primary' onClick={()=>{ dispatch(deletePost(post._id))}}>
           <DeleteIcon fontSize="small"/>
           Delete
