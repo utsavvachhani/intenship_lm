@@ -143,3 +143,32 @@ Daily Breakdown with Detailed Tasks
   * Cleaned up backend structure: routes, controllers, and middleware (`auth.js`) for cleaner token handling and verification.
 
 ---
+
+
+Absolutely! Here's your **LaMinds Internship Task Tracker – Day 7** entry (for today) following the same structured and emoji-enhanced style:
+
+---
+
+### 📅 **Day 7 – 27/05/2025 (Tuesday)**
+
+📍 **Week 2 – Day 2**
+
+**🛠️ Tasks & Explanations:**
+
+* 🧑‍💼 **Final Polishing of Sign In & Sign Up Functionality**
+  * Handled form validation edge cases and error messaging for a smooth user experience.
+  * Managed secure token handling with `jsonwebtoken` and Redux state updates.
+  * Ensured seamless switching between Sign In and Sign Up forms.
+
+* 💬 **Post Features: Like, Create, Delete, and Update**
+
+  * 🔄 **Like Post Functionality:** Implemented `PATCH` request to allow users to like posts. Optimistic UI updates ensure real-time feedback.
+  * ➕ **Create Post:** Verified post submission via secure API endpoints and ensured newly created posts appear immediately on the UI.
+  * 🗑️ **Delete Post:** Enabled users to remove posts with confirmation prompts and immediate UI update.
+  * ♻️ **Update Post:** Used modal editing form for updating existing post content and images. Connected changes to backend and synced Redux store.
+
+* 🚀 **Website Deployment**
+
+  * 🌐 Successfully deployed the full-stack app on **Vercel** at:
+    🔗 **[https://memories-app-omega.vercel.app](https://memories-app-omega.vercel.app)**
+  * Integrated environment variables and ensured all features (auth, CRUD, like) work properly on production.
