@@ -18,9 +18,11 @@ function Form({currentId, setCurrentId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(currentId === 0){
+    // console.log(currentId);
+    
+    if(currentId === null){
       dispatch(createPost({ ...postData, name : user?.result?.name}));
-      clear()
+      clear() 
     }
     else{
       dispatch(updatePost(currentId, {...postData, name : user?.result?.name}));
@@ -29,7 +31,7 @@ function Form({currentId, setCurrentId }) {
   }
 
   const clear = () => {
-    setCurrentId(null),
+    setCurrentId(null);
     setPostData({
     title: '',
     message: '',
@@ -37,6 +39,7 @@ function Form({currentId, setCurrentId }) {
     selectedFile: ''
   })}
 
+  
   if(!user?.result?.name) {
     return (
       <Paper 
@@ -48,6 +51,7 @@ function Form({currentId, setCurrentId }) {
       </Paper>
     )
   }
+  
   return (
     <>
       <Paper 

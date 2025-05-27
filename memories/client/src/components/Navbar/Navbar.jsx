@@ -13,23 +13,23 @@ function Navbar() {
     const navigate = useNavigate();
     const location = useLocation()
     const [ user, setUser ] = useState(JSON.parse(localStorage.getItem(`profile`)));
-    console.log(user);
+    // console.log(user);
     const logout = () => {
       dispatch({ type: LOGOUT });
-      navigate(`/`);
       setUser(null);
+      navigate(`/auth`);
     }
 
-    
-useEffect(() => {
+  useEffect(() => {
   const token = user?.token;
-  if (token) {
-    const decodedToken = jwtDecode(token);
-    if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-  }
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
 
-  setUser(JSON.parse(localStorage.getItem('profile')));
-}, [location]);
+    setUser(JSON.parse(localStorage.getItem('profile')));
+  }, [location]);
+
 
   return (
     <div>
