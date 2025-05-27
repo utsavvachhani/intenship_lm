@@ -12,12 +12,10 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-// Routes
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
 
@@ -25,7 +23,6 @@ app.get('/', (req, res) => {
   res.send('Hello from Serverless Express on Vercel!');
 });
 
-// MongoDB connection logic
 let isConnected = false;
 async function connectDB() {
   if (!isConnected) {
@@ -42,11 +39,10 @@ async function connectDB() {
   }
 }
 
-// Custom handler to wrap with DB init
 const handler = async (req, res) => {
   await connectDB();
   return app(req, res);
 };
 
-export const handlerExport = serverless(handler);
-export default handlerExport;
+// ✅ THIS is all you need at the end:
+export default serverless(handler);
