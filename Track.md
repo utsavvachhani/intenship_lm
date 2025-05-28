@@ -172,3 +172,37 @@ Absolutely! Here's your **LaMinds Internship Task Tracker – Day 7** entry (for
   * 🌐 Successfully deployed the full-stack app on **Vercel** at:
     🔗 **[https://memories-app-omega.vercel.app](https://memories-app-omega.vercel.app)**
   * Integrated environment variables and ensured all features (auth, CRUD, like) work properly on production.
+
+---
+
+### 📅 **Day 8 – 28/05/2025 (Wednesday)**
+
+📍 **Week 2 – Day 3**
+
+**🛠️ Tasks & Explanations:**
+
+* 🔍 **Implemented `getPostsBySearch` Feature (Frontend & Backend)**
+
+  * 📡 **Backend:** Created a new route `/posts/search` in Express to handle query-based searches.
+  * 🔗 **Query Logic:** Parsed search queries (e.g., title and tags) and filtered relevant posts from MongoDB using Mongoose’s `$regex` and `$in` operators.
+  * ✅ **Tested API:** Verified with Postman that correct posts were returned based on dynamic search terms.
+
+* 🌐 **Connected `getPostsBySearch` to Frontend**
+
+  * 🚀 **API Integration:** Used Axios to call the `/posts/search` route with parameters based on user input.
+  * 🧠 **State Handling:** Managed search-related data using React state and Redux.
+  * 🔁 **URL Synchronization:** Implemented React Router's `useNavigate` and `useLocation` hooks to dynamically update the URL (`?searchQuery=...&tags=...`) based on search input.
+
+* 🖥️ **UI Enhancements for Search Experience**
+
+  * 🔎 **Search Bar Component:** Designed a responsive and interactive search bar using Material UI components (`TextField`, `Button`, `ChipInput`).
+  * 📋 **Result Display:** Fetched and displayed related posts matching the search query dynamically as the URL changed—no page refresh needed.
+  * 🧩 **Conditional Rendering:** Handled edge cases like "no results found" or empty input gracefully.
+
+* 🧼 **Minor UI Polishing and UX Improvements**
+
+  * 🎨 Adjusted layout spacing and typography in the post listing and form sections.
+  * 📱 Improved mobile responsiveness for the search section.
+  * ✨ Enhanced transitions and input feedback for a smoother search experience.
+
+---
