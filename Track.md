@@ -206,3 +206,48 @@ Absolutely! Here's your **LaMinds Internship Task Tracker – Day 7** entry (for
   * ✨ Enhanced transitions and input feedback for a smoother search experience.
 
 ---
+### 📅 **Day 9 – 29/05/2025 (Thursday)**
+
+📍 **Week 2 – Day 4**
+
+**🛠️ Tasks & Explanations:**
+
+* 📄 **Implemented Pagination Feature (Frontend & Backend)**
+
+  * 🔙 **Backend Update:**
+    Added support for pagination in the `GET /posts` route by accepting `page` query parameters.
+    Used Mongoose's `.limit()` and `.skip()` functions to fetch a limited set of posts per request.
+    ➤ Also returned `currentPage` and `numberOfPages` in the API response for better client-side handling.
+
+  * 💻 **Frontend Integration:**
+    Built a Pagination component using Material UI’s `Pagination` and `PaginationItem`.
+    Incorporated React Router's `useNavigate` to switch between pages via URL (e.g., `?page=1`).
+    Dynamically fetched posts based on the current page and updated Redux store accordingly.
+
+  * 🔁 **Routing Logic with React Router:**
+    Used `useParams` and `useEffect` to monitor URL changes and trigger new API calls as the page changed.
+
+---
+
+* ⚙️ **Loading State Handling for Better UX**
+
+  * 🚀 **Start and End Loading Actions:**
+    Implemented `START_LOADING` and `END_LOADING` Redux actions to manage a global loading state.
+    Dispatched these actions around every async request (e.g., `fetchPosts`, `searchPosts`, `createPost`) to show or hide spinners during loading.
+
+  * 🌀 **User Feedback with Spinners:**
+    Displayed loading indicators using MUI's `CircularProgress` during data fetches to improve user feedback.
+    Ensured the UI is responsive and avoids flickering or janky updates during async operations.
+
+---
+
+* 📦 **Optimized API Data Handling & Redux State**
+
+  * 🗃️ **Structured API Responses:**
+    Updated API to send structured responses (`data`, `currentPage`, `totalPages`) for easier consumption on frontend.
+
+  * 📁 **Redux Enhancements:**
+    Refined Redux slice for posts to track additional metadata like loading state and total pages.
+    Updated selectors and reducers to support paginated data and keep components decoupled and clean.
+
+---
