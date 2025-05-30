@@ -28,7 +28,7 @@ app.use('/user',userRoutes);
 
 mongoose.connect(process.env.CONNECTION_URL,{useNewURLParser : true, useUnifiedTopology: true})
     .then(() => { app.listen(PORT, () => console.log(`server running on port : ${PORT}`))   })
-    .catch((err)=>{ console.log(err);
+    .catch((err)=>{ console.log(err);   
 })
 
-// mongoose.set('useFindAndModify', false);
+// mongoose.set('useFindAndModify', false); 
