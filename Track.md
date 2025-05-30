@@ -251,3 +251,25 @@ Absolutely! Here's your **LaMinds Internship Task Tracker – Day 7** entry (for
     Updated selectors and reducers to support paginated data and keep components decoupled and clean.
 
 ---
+### 📅 **Day 10 – 30/05/2025 (Friday)**
+
+📍 **Week 2 – Day 5**
+
+**🛠️ Tasks & Summary:**
+
+* 📄 **Post Details Page Setup**
+
+  * Implemented dynamic routing (`/posts/:id`) to view full post details.
+  * Fetched individual post data by ID and displayed title, image, tags, and description.
+
+* 🤖 **Recommended Posts Feature**
+
+  * Used existing `getPostsBySearch` logic to fetch posts with similar tags.
+  * Displayed recommended posts (excluding current one) under "You might also like".
+
+* 🎨 **UI Improvements & Testing**
+
+  * Ensured PostDetails and recommended sections are responsive and styled consistently.
+  * Verified navigation between posts and data accuracy.
+
+---
