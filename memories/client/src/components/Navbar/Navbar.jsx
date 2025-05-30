@@ -28,6 +28,7 @@ function Navbar() {
     }
 
     setUser(JSON.parse(localStorage.getItem('profile')));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
 
@@ -35,11 +36,11 @@ function Navbar() {
     <div>
         <AppBar 
         className={classes.appBar} position="static" color="inherit">
+          <Toolbar className={classes.toolbarMain} >
           <div className={classes.brandContainer} >
-            <Typography className={classes.heading} component={Link} to='/' variant="h2" align="center">Memories</Typography>
             <img className={classes.image} src={memories} alt="memories" height="60" />
+            <Typography className={classes.heading} component={Link} to='/' variant="h2" align="center">Memories</Typography>
           </div>
-          <Toolbar className={classes.toolbar}>
             { user ? (
                     <div className={classes.profile}>
                         <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>{user.result.name ? user.result.name.charAt(0) : 'U'}</Avatar>

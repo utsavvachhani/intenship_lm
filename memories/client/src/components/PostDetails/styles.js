@@ -1,0 +1,67 @@
+import {makeStyles} from '@mui/styles';
+
+export default makeStyles((theme) => ({
+  media: {
+    borderRadius: '20px',
+    objectFit: 'cover',
+    width: '100%',
+    maxHeight: '600px',
+  },
+  card: {
+    display: 'flex',
+    width: '100%',
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+      flexDirection: 'column',
+    },
+  },
+  section: {
+    borderRadius: '20px',
+    margin: '10px',
+    flex: 1,
+  },
+  imageSection: {
+    marginLeft: '20px',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 0,
+    },
+  },
+  recommendedPosts: {
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
+  },
+  loadingPaper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px',
+    borderRadius: '15px',
+    height: '39vh',
+  },
+  title: {
+    fontWeight: 600,
+    fontFamily: 'Arial, sans-serif',
+    color: '#333',
+  },
+  tags: {
+    fontFamily: "'Courier New', Courier, monospace",
+    color: '#555',
+  },
+  message: {
+    fontFamily: 'Segoe UI, sans-serif',
+    lineHeight: 1.6,
+    color: '#444',
+  },
+  creator: {
+    fontWeight: 600,
+    marginTop: theme.spacing(2),
+    fontFamily: 'Arial, sans-serif',
+    color: '#000',
+  },
+  date: {
+    fontStyle: 'italic',
+    marginTop: theme.spacing(1),
+  },
+}));

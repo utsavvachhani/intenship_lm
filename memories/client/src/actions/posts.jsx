@@ -1,27 +1,60 @@
 import * as api from '../api';
-import { CREATE, FETCH_ALL, UPDATE, DELETE, LIKE} from '../constants/actionTypes.js'
+import { CREATE, FETCH_ALL,FETCH_POST, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH, START_LOADING, END_LOADING} from '../constants/actionTypes.js'
 
 //Action Creators
-export const getPosts = () => async(dispatch) => {
-
-    const action = {}    
+export const getPost = (id) => async(dispatch) => {
     try {
-        const { data } = await api.fetchPosts();
-        dispatch({type: FETCH_ALL, payload: data})
+        dispatch({ type: START_LOADING });
+        const { data } = await api.fetchPost(id);
+        // console.log(data);
+        dispatch({type: FETCH_POST, payload: data})
+        dispatch({ type: END_LOADING });
     } catch (error) {
         console.log(error.message);
-        dispatch(action);
-        
     }
     // console.log(`inside getposts`);
 }
 
-export const createPost = (post) => async (dispatch) => {
+export const getPosts = (page) => async(dispatch) => {
     try {
-        const { data } = await api.createPost(post);
+        dispatch({ type: START_LOADING });
+        const { data } = await api.fetchPosts(page);
+        // console.log(page);
+        // console.log(data);
+        dispatch({type: FETCH_ALL, payload: data})
+        dispatch({ type: END_LOADING });
+    } catch (error) {
+        console.log(error.message);
+    }
+    // console.log(`inside getposts`);
+}
+
+export const getPostsBySearch = (searchQuery) => async (dispatch) =>  {
+    try {
+        dispatch({ type: START_LOADING });
+
+        const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
+        // console.log(data);
+        dispatch({ type: FETCH_BY_SEARCH, payload: data})
+        dispatch({ type: END_LOADING });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const createPost = (post, navigate) => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING });
+        const { data  } = await api.createPost(post);
         // console.log("inside create post");
         dispatch({type: CREATE, payload: data})
-        dispatch(getPosts());
+        console.log(data);
+        
+        navigate(`/posts/${data._id}`);
+        // dispatch(getPosts());
+        dispatch({ type: END_LOADING });
+
 
     } catch (error) {
         console.log(error);

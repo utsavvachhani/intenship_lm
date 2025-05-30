@@ -1,44 +1,41 @@
 import { makeStyles } from '@mui/styles';
 import { deepPurple } from '@mui/material/colors';
 
-
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   appBar: {
     borderRadius: 15,
     margin: '30px 0',
+    padding: '10px 30px',
+  },
+  toolbarMain: {
     display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '10px 50px',
+    flexWrap: 'wrap',
   },
   heading: {
     color: 'rgba(0,183,255, 1)',
     textDecoration: 'none',
+    marginLeft: '10px',
+    fontWeight: 600,
   },
   image: {
-    marginLeft: '15px',
-  },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    width: '400px',
-  },
-  profile: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '400px',
-  },
-  userName: {
-    display: 'flex',
-    alignItems: 'center',
+    marginRight: '10px',
   },
   brandContainer: {
     display: 'flex',
     alignItems: 'center',
   },
+  profile: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+  },
+  userName: {
+    fontWeight: 500,
+  },
   purple: {
-    // color: theme.palette.getContrastText(deepPurple[500]),
+    color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
 }));
