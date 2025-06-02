@@ -273,3 +273,53 @@ Absolutely! Here's your **LaMinds Internship Task Tracker – Day 7** entry (for
   * Verified navigation between posts and data accuracy.
 
 ---
+---
+
+### 📅 **Day 11 – 02/06/2025 (Monday)**
+
+📍 **Week 3 – Day 1**
+
+**🛠️ Tasks & Explanations:**
+
+---
+
+### 💬 **🗣️ Added Comments Functionality to Each Post**
+
+* 🛠️ **Frontend UI for Comment Section:**
+
+  * Built a **comment input field** under each post's detail view using Material UI's `TextField` and `Button`.
+  * Allowed logged-in users to type and submit comments without page reload.
+  * Displayed a dynamic list of all existing comments below the post content.
+
+* 🔗 **Backend Integration:**
+
+  * Extended the backend (`POST /posts/:id/comment`) to handle new comment submissions.
+  * Stored comments as part of the post schema in MongoDB (array of strings or objects).
+  * Ensured that new comments were added efficiently and returned in updated response.
+
+* 🔁 **Live Comment Rendering:**
+
+  * After comment submission, the frontend fetches and renders the updated comment list.
+  * Used optimistic updates to instantly reflect the comment before re-fetching from server.
+
+* 🔐 **User Identity with Comments:**
+
+  * Tagged each comment with the commenter’s name (retrieved from localStorage / JWT payload).
+  * Styled each comment with user avatars and formatted timestamps (e.g., “5 minutes ago”).
+
+---
+
+### 🎨 **✨ Final CSS Touches & UI Polishing**
+
+* 🎯 **Focus on Happy & Clean UI:**
+
+  * Chose a **light, joyful color palette** (pastel pinks, whites, purples) to create a feel-good user experience.
+  * Added gentle **hover effects**, **elevation shadows**, and **rounded corners** for a smooth, modern feel.
+  * Applied spacing and alignment fixes across sections (e.g., Post Cards, Auth Forms, Navbar).
+
+* 📱 **Responsive Finishing:**
+
+  * Ensured the **Comment Section** and **Post Details** render beautifully on mobile and tablet screens.
+  * Used `Grid`, `Box`, and `Container` components to maintain layout harmony across screen sizes.
+
+---
