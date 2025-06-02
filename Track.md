@@ -103,7 +103,7 @@ Daily Breakdown with Detailed Tasks
 
 
 ------
-📍 **Week 2 – 26/05/2025 (Monday) to**
+📍 **Week 2 – 26/05/2025 (Monday) to 30/05/2025 (Friday)**
 
 ---
 
@@ -141,12 +141,6 @@ Daily Breakdown with Detailed Tasks
   * Created and organized React files: `Auth.jsx`, `Input.jsx`, `Icon.jsx`, and styling.
   * Refactored Redux actions and reducers to handle authentication logic.
   * Cleaned up backend structure: routes, controllers, and middleware (`auth.js`) for cleaner token handling and verification.
-
----
-
-
-Absolutely! Here's your **LaMinds Internship Task Tracker – Day 7** entry (for today) following the same structured and emoji-enhanced style:
-
 ---
 
 ### 📅 **Day 7 – 27/05/2025 (Tuesday)**
@@ -273,6 +267,9 @@ Absolutely! Here's your **LaMinds Internship Task Tracker – Day 7** entry (for
   * Verified navigation between posts and data accuracy.
 
 ---
+------
+📍 **Week 2 – 02/06/2025 (Monday) to 06/06/2025 (Friday)**
+
 ---
 
 ### 📅 **Day 11 – 02/06/2025 (Monday)**
