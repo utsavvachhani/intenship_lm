@@ -268,7 +268,7 @@ Daily Breakdown with Detailed Tasks
 
 ---
 ------
-📍 **Week 2 – 02/06/2025 (Monday) to 06/06/2025 (Friday)**
+📍 **Week 3 – 02/06/2025 (Monday) to 06/06/2025 (Friday)**
 
 ---
 
