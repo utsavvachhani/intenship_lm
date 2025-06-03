@@ -15,6 +15,14 @@
       margin: 'auto',
       backgroundColor: `${theme.card.backgroundColor}  !important`,
     },
+    cardActions: {
+      padding: '0 16px 8px 16px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'start !important',
+      marginTop: 'auto',
+      flexDirection: 'column',
+    },
     media: {
       height: 250,
       width: '100%',
@@ -45,38 +53,42 @@
       margin: '10px 16px 0 16px',
       flexWrap: 'wrap',
     },
-    tag: {
-      color: `${theme.card.text} !important`,
-    },
-    title: {
-      margin: '10px 16px 0 16px',
-      fontWeight: 600,
-      fontSize: '1.5rem',
-      fontFamily: 'Arial, sans-serif',
-      color: `${theme.card.text} !important`,
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-    },
-    message: {
-      margin: '10px 16px',
-      fontSize: '0.95rem',
-      color: `${theme.card.text} !important`,
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      display: '-webkit-box',
-      WebkitLineClamp: 3,
-      WebkitBoxOrient: 'vertical',
-      minHeight: '3.6em',
-    },
-    cardActions: {
-      padding: '0 16px 8px 16px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginTop: 'auto',
-      flexDirection: 'column',
-    },
+
+  tag: {
+    fontFamily: '"Georgia", "Times New Roman", serif', // Italic-like font
+    fontStyle: 'italic',
+    fontWeight: 500,
+    color: theme.card.text,
+  },
+
+  title: {
+    margin: '10px 16px !important',
+    fontWeight: '700 !important',
+    fontSize: '1.7rem !important',
+    fontFamily: '"Segoe UI", "Roboto", "Helvetica Neue", sans-serif !important',
+    color: `${theme.card.text} !important`,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    textAlign: 'start',
+  },
+
+  message: {
+    margin: '0 16px 10px 16px',
+    fontSize: '1.2rem !important',
+    fontWeight: '400 !important',
+    fontFamily: '"Roboto", "Arial", sans-serif !important',
+    color: `${theme.card.text} !important`,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: 'vertical',
+    minHeight: '3.6em',
+    textAlign: 'start',
+  },
+
+    
     likeButton:{
       color: `${theme.card.like} !important`,
 
@@ -88,9 +100,11 @@
 
     deleteButton: { 
       color: `${theme.card.delete} !important`,
-    }
-  }));
-    
+    },
 
-
-  
+    cardFooter: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: '8px 16px',
+    },
+}));

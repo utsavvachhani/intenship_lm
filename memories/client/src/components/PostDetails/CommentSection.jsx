@@ -24,7 +24,9 @@ function CommentSection({ post }) {
     <div>
       <div className={classes.commentsOuterContainer}>
         <div className={classes.commentsInnerContainer}>
-            <Typography gutterBottom variant="h6">Comments</Typography>
+            <Typography gutterBottom variant="h6">
+                  <strong>Comments</strong>
+            </Typography>
             {   comments &&  (
                 comments.map((c, i) => (
                         <Typography key={i} variant="subtitle1" gutterBottom> 
@@ -43,8 +45,12 @@ function CommentSection({ post }) {
             <Typography variant="subtitle1" gutterBottom> Please Sign In to Comment </Typography>
           ) : 
           (
-            <div style={{ width:  '70%' }}>
-                <Typography gutterBottom variant="h6">Write a Comments</Typography>
+            <div style={{ width:  '50%' }}>
+                <Typography gutterBottom variant="h6">
+                  <strong>
+                    Write a Comments
+                  </strong>
+                </Typography>
                 <TextField 
                     fullWidth
                     rows={4}
@@ -59,7 +65,7 @@ function CommentSection({ post }) {
                 </Button>
             </div>
           )
-        }
+        } 
       </div>
     </div>
   )

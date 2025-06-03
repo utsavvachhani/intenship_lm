@@ -82,6 +82,8 @@ function Home() {
               </AppBar>
                         
               <Form currentId={currentId} setCurrentId={setCurrentId}/>       
+
+              //pagination
               {   
                 (!searchQuery && !tags.length) && (
                   
@@ -90,6 +92,7 @@ function Home() {
                   </Paper>       
                 )
               }
+              
             </Grid>
           </Grid>
         </Container>

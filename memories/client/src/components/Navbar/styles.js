@@ -16,6 +16,11 @@ export default makeStyles((theme) => ({
     maxWidth: '1200px',
     width: '100%',
     margin: '0 auto',
+    [theme.breakpoints.down('md')]: {
+      // flexWrap: 'wrap',
+      flexDirection: 'column',
+      // justifyContent: 'flex-start',
+    }
   },
 
   leftSide: {
@@ -35,15 +40,22 @@ export default makeStyles((theme) => ({
   textImage: {
     height: '70px',
     objectFit: 'contain',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    }
   },
 
   profile: {
     display: 'flex',
-    justifyContent: 'space-around ',
+    justifyContent: 'center',
+    // justifyContent: 'space-around ',
     alignItems: 'center',
     width: '100%',
-    gap: '10px',
+    gap: '70px',
     marginLeft: '200px',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '0',  
+    }
   },
 
   avatar: {
@@ -54,12 +66,15 @@ export default makeStyles((theme) => ({
   userName: {
     fontWeight: 1000,
     color: theme.palette.text.title,
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    }
   },
 
   logout: {
     backgroundColor: `${theme.palette.button.background} !important`,
-    border: `2px solid ${theme.palette.button.border} !important`,
-    borderRadius: '10px !important',
+    border: `5px solid ${theme.palette.button.border} !important`,
+    borderRadius: '15px !important',
     height: '50px',
     width: '150px',
     color: `${theme.palette.button.text} !important`,

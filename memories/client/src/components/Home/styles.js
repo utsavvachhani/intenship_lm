@@ -33,16 +33,16 @@ export default makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   pagination: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(2),
+    marginTop: 4,
+    padding: '16px',
   },
 
    buttonSubmit: {
     marginBottom: 10,
     backgroundColor: `${theme.palette.button.background} !important`,
     border: `2px solid ${theme.palette.button.border} !important`,
-    borderRadius: '10px !important',
-    height: '50px',
+    borderRadius: '8px !important',
+    height: '35px',
     width: '150px',
     color: `${theme.palette.button.text} !important`,
     '&:hover': {

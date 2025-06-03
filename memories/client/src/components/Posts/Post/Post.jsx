@@ -1,5 +1,5 @@
 import React,{ useState } from 'react'
-import {Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase} from '@mui/material';
+import {Card, Divider, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase} from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -71,12 +71,16 @@ function Post({post, setCurrentId}) {
     <div className={classes.details}>
       <Typography variant="body2" className={classes.tag} >{post.tags.map((tag)=> `#${tag} `)}</Typography>
     </div> 
-      <Typography className={classes.title} gutterBottom>{post.title}</Typography>
+    <Divider className={classes.divider} />
+    
+    <Typography className={classes.title} gutterBottom>{post.title}</Typography>
+    <Divider className={classes.divider} />
     <CardContent>
       <Typography  variant="body2" className={classes.message} component="p" >{post.message}</Typography>
     </CardContent>
-      </ButtonBase>
-    <CardActions>
+
+    </ButtonBase>
+    <CardActions className={classes.cardFooter}>
       <Button size="small" className={classes.likeButton} disabled={!user?.result} onClick={handleLike}>
         <Likes />
       </Button>
