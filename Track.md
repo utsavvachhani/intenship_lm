@@ -320,3 +320,56 @@ Daily Breakdown with Detailed Tasks
   * Used `Grid`, `Box`, and `Container` components to maintain layout harmony across screen sizes.
 
 ---
+
+### 📅 **Day 12 – 03/06/2025 (Tuesday)**
+
+📍 **Week 3 – Day 2**
+
+**🛠️ Tasks & Explanations:**
+
+---
+
+### 🧾 **Adjusted Form CSS with Sticky Styling**
+
+* 🧷 **Sticky Form Section**
+
+  * Refined the layout and positioning of the **Post Creation / Edit Form** to stay **sticky at the top** (especially on larger screens).
+  * Ensured better usability by keeping the form visible while scrolling through post lists.
+  * Used CSS properties like `position: sticky`, `top`, and `z-index` to avoid overlap issues.
+
+* 🖼️ **Improved Layout on All Screens**
+
+  * Adapted sticky behavior only on desktops; ensured natural stacking on mobile for better experience.
+  * Updated styling with **Material UI's `sx` prop** and `Grid` system to make spacing consistent and responsive.
+
+---
+
+### 🧭 **Updated Navbar for Responsive Media**
+
+* 🧑‍💼 **Improved Desktop & Mobile Navigation**
+
+  * Refactored the **Navbar component** to adapt dynamically based on screen width.
+  * Used **Material UI's `useMediaQuery`** to conditionally render elements (like collapsing into a hamburger menu on small devices).
+  * Enhanced user experience by keeping login/logout/user profile always accessible and readable.
+
+* 🎨 **Navbar Styling and Font Consistency**
+
+  * Applied a **unified font family** (e.g., `"Poppins", sans-serif` or `"Roboto"`) across the navbar and other components.
+  * Harmonized color scheme with the rest of the UI (matching header/footer/post card themes).
+  * Ensured dropdowns, links, and icons scale correctly on mobile devices using flexible layout units.
+
+---
+
+### 🖥️ **Post Details Responsiveness & Font Work**
+
+* 📐 **Improved PostDetails Section**
+
+  * Refined layout structure of `/posts/:id` page to support clean rendering on small screens.
+  * Ensured the **post title, tags, description, comments, and recommended posts** stack correctly and don’t overflow.
+  * Adjusted image scaling and container padding for better aesthetics.
+
+* 🔠 **Font Family Integration Across the App**
+
+  * Imported and applied a consistent, clean **font-family (like “Poppins” or “Open Sans”)** across all main components:
+    ➤ Posts, Comments, Forms, Navbar, Buttons, etc.
+  * Ensured the selected font pairs well with the app's light and pastel design system.
