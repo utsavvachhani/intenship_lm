@@ -75,7 +75,7 @@ function Form({currentId, setCurrentId }) {
 
           <Button 
           className={classes.buttonSubmit}
-           variant="contained" color="primary" size="large" type='submit' fullWidth   disabled={!postData.title || !postData.message} >Submit</Button>
+           variant="contained" size="large" type='submit' fullWidth   disabled={!postData.title || !postData.message} >Submit</Button>
           <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Remove</Button>
         </form>
       </Paper>

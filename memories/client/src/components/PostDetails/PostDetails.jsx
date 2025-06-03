@@ -5,6 +5,7 @@ import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom'
 import useStyles from './styles.js';
 import { getPost, getPostsBySearch } from '../../actions/posts.jsx';
+import CommentSection from './CommentSection.jsx';
 
 function PostDetails() {
   const { post, posts } = useSelector((state) => state.posts);
@@ -48,9 +49,9 @@ function PostDetails() {
           <Typography variant="h6" className={classes.creator}>Created by: {post.name}</Typography>
           <Typography variant="body1" className={classes.date}>{moment(post.createdAt).fromNow()}</Typography>
           <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
+          {/* <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography> */}
           <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+          <Typography variant="body1"><strong><CommentSection post={post} /></strong></Typography>
           <Divider style={{ margin: '20px 0' }} />
         </div>  
         <div className={classes.imageSection}>
@@ -71,15 +72,19 @@ function PostDetails() {
                     <Typography gutterBottom variant="subtitle2" > {name} </Typography>
                     <Typography gutterBottom variant="subtitle2" > {message} </Typography>
                     <Typography gutterBottom variant="subtitle1" > Likes : {likes.length} </Typography>
-                    <img src={selectedFile} width="200px" />
+                    {/* <img src={selectedFile} width="200px" /> */}
+                     <img width="200px" src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+
                   </div>
                 ))
               }
             </div>
           </div>
-        ) : (
-          <Typography gutterBottom variant="h4" > No Regamatation</Typography>
-        )
+        ) : null  // No recommended posts found. 
+        // (
+          
+        //   // <Typography gutterBottom variant="h4" > No Regamatation</Typography>
+        // )
       }
     </Paper>
   )

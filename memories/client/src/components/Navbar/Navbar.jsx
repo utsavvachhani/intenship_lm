@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import {Link, useNavigate, useLocation } from 'react-router-dom'
-import useStyles from './styles.js';
 import { AppBar, Typography, Toolbar, Avatar, Button } from '@mui/material';
-import memories from '../../Images/memories.svg';
+import memoriesText from '../../Images/memories-text.png';
+import memoriesLogo from '../../Images/memories-logo.png';
 import { jwtDecode } from 'jwt-decode'; 
 import { useDispatch } from 'react-redux'
 import { LOGOUT } from '../../constants/actionTypes.js';
+import useStyles from './styles.js';
 
-function Navbar() {
+function  Navbar() {
     const dispatch = useDispatch();
     const classes = useStyles();  
     const navigate = useNavigate();
@@ -34,21 +35,22 @@ function Navbar() {
 
   return (
     <div>
-        <AppBar 
-        className={classes.appBar} position="static" color="inherit">
-          <Toolbar className={classes.toolbarMain} >
-          <div className={classes.brandContainer} >
-            <img className={classes.image} src={memories} alt="memories" height="60" />
-            <Typography className={classes.heading} component={Link} to='/' variant="h2" align="center">Memories</Typography>
+        <AppBar className={classes.appBar} position="static" color="thired"  >
+          <Toolbar className={classes.toolbar} >
+          <Link to='/'>
+          <div className={classes.leftSide}>
+            <img className={classes.logo} src={memoriesLogo}  alt="logo" />
+            <img className={classes.textImage} src={memoriesText} alt="memories" height="60" />
           </div>
+          </Link>
             { user ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>{user.result.name ? user.result.name.charAt(0) : 'U'}</Avatar>
-                        <Typography className={classes.userName} variant="h6">{user.result.name}</Typography>
-                        <Button variant='contained' className={classes.logout} color='secondary' onClick={logout} >Logout</Button>
+                        <Avatar className={classes.avatar} alt={user.result.name} src={user.result.imageUrl}>{user.result.name ? user.result.name.charAt(0) : 'UV'}</Avatar>
+                        <Typography className={classes.userName} variant="overline" >{user.result.name}</Typography>
+                        <Button className={classes.logout} variant="contained" onClick={logout} >Logout</Button>
                     </div>
                 ) : (
-                    <Button component={Link} to='/auth' variant='contained'>Signin</Button>
+                    <Button component={Link} to='/auth' variant='contained' className={classes.logout} >Signin</Button>
                 )
             } 
           </Toolbar>

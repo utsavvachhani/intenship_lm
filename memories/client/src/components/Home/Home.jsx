@@ -2,12 +2,12 @@ import React,{useState } from "react";
 import { Container, Grow, Grid, Paper, AppBar, TextField, Button, Chip } from "@mui/material";
 import Form from "./../Form/Form";
 import Posts from "./../Posts/Posts";
-import useStyles from './styles.js';
 import { getPostsBySearch } from '../../actions/posts.jsx'
 import { useDispatch } from "react-redux";
 import Pagination from '../Pagination.jsx';
 import {MuiChipsInput} from 'mui-chips-input';
 import { useNavigate, useLocation } from "react-router-dom";
+import useStyles from './styles.js';
 
 function useQuery(){
   return new URLSearchParams(useLocation().search);
@@ -52,11 +52,11 @@ function Home() {
     <div>
     <Grow in> 
         <Container maxWidth="xl">
-          <Grid container className={classes.gridContainer} justifyContent="space-between" alignItems="stretch" spacing={3}>
-            <Grid item xs={12} sm={7} md={9}>
+          <Grid container className={classes.gridContainer} spacing={3}>
+            <Grid item className={classes.postsGrid} >
               <Posts setCurrentId={setCurrentId}/>
             </Grid>
-            <Grid item xs={12} sm={5} md={9}>
+            <Grid item className={classes.formGrid} >
               <AppBar className={classes.appBarSearch} position="static" variant="contained" color="inherit">
                 <TextField 
                   name="search" 
@@ -77,7 +77,7 @@ function Home() {
                   variant="outlined"
                 />
 
-                <Button onClick={searchPost}  variant="contained" color="primary" size="large" fullWidth > Search </Button>
+                <Button onClick={searchPost} className={classes.buttonSubmit}  variant="contained" color="primary" size="large" fullWidth > Search </Button>
 
               </AppBar>
                         

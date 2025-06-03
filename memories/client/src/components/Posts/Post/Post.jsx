@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useState } from 'react'
 import {Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase} from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -15,18 +15,30 @@ function Post({post, setCurrentId}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('profile'));
+  const [likes, setLikes] = useState(post?.likes);
 
   const openPost = () => {  
     navigate(`/posts/${post._id}`);
   };
 
+  const userId = user?.result?.sub || user?.result?._id;
+  const hasLikePost = post.likes.find((like) => like === (userId));
+  const handleLike = async() => {
+    dispatch(likePost(post._id))
+    if (hasLikePost){
+      setLikes(post.likes.filter((id) => id !== (userId)))
+    } else {
+      setLikes([...post.likes, userId])
+    }
+  }
+
   const Likes = () => {
-    if (post.likes.length > 0) {
-      return post.likes.find((like) => like === (user?.result?.sub || user?.result?._id))
+    if (likes.length > 0) {
+      return likes.find((like) => like === userId)
         ? (
-          <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
+          <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
         ) : (
-          <><ThumbUpOffAltIcon fontSize="small" />&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
+          <><ThumbUpOffAltIcon fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
         );
     }
 
@@ -57,19 +69,19 @@ function Post({post, setCurrentId}) {
       </div>
     )}
     <div className={classes.details}>
-      <Typography variant="body2" color='testSecondary'>{post.tags.map((tag)=> `#${tag} `)}</Typography>
+      <Typography variant="body2" className={classes.tag} >{post.tags.map((tag)=> `#${tag} `)}</Typography>
     </div> 
       <Typography className={classes.title} gutterBottom>{post.title}</Typography>
     <CardContent>
-      <Typography  variant="body2" className={classes.message} color='testSecondary' component="p" >{post.message}</Typography>
+      <Typography  variant="body2" className={classes.message} component="p" >{post.message}</Typography>
     </CardContent>
       </ButtonBase>
     <CardActions>
-      <Button size="small" color='primary' disabled={!user?.result} onClick={()=>{ dispatch(likePost(post._id))}}>
+      <Button size="small" className={classes.likeButton} disabled={!user?.result} onClick={handleLike}>
         <Likes />
       </Button>
       {(user?.result?.sub === post?.creator || user?.result?._id === post?.creator) && (
-        <Button size="small" color='primary' onClick={()=>{ dispatch(deletePost(post._id))}}>
+        <Button size="small" className={classes.deleteButton} onClick={()=>{ dispatch(deletePost(post._id))}}>
           <DeleteIcon fontSize="small"/>
           Delete
         </Button>

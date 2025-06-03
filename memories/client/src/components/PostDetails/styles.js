@@ -1,4 +1,4 @@
-import {makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme) => ({
   media: {
@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     objectFit: 'cover',
     width: '100%',
     maxHeight: '600px',
+
   },
   card: {
     display: 'flex',
@@ -40,28 +41,35 @@ export default makeStyles((theme) => ({
     borderRadius: '15px',
     height: '39vh',
   },
-  title: {
-    fontWeight: 600,
-    fontFamily: 'Arial, sans-serif',
-    color: '#333',
+  commentsOuterContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
-  tags: {
-    fontFamily: "'Courier New', Courier, monospace",
-    color: '#555',
+  commentsInnerContainer: {
+    height: '200px',
+    overflowY: 'auto',
+    marginRight: '30px',
   },
-  message: {
-    fontFamily: 'Segoe UI, sans-serif',
-    lineHeight: 1.6,
-    color: '#444',
-  },
-  creator: {
-    fontWeight: 600,
-    marginTop: theme.spacing(2),
-    fontFamily: 'Arial, sans-serif',
-    color: '#000',
-  },
-  date: {
-    fontStyle: 'italic',
-    marginTop: theme.spacing(1),
+  buttonSubmit: {
+    marginBottom: 10,
+    backgroundColor: `${theme.palette.button.background} !important`,
+    border: `2px solid ${theme.palette.button.border} !important`,
+    borderRadius: '10px !important',
+    height: '50px',
+    width: '150px',
+    color: `${theme.palette.button.text} !important`,
+    '&:hover': {
+      backgroundColor: `${theme.palette.button.hover} !important`,
+      color: `${theme.palette.button.hoverText} !important`,
+      fontWeight: 'bold !important' , 
+    },
+
+    '&.Mui-disabled': {
+    backgroundColor: `${theme.palette.button.disableBaground} !important`, 
+    color: `${theme.palette.button.disabledText} !important`, 
+    border: `2px solid ${theme.palette.button.disabledBorder} !important`,
+    cursor: 'not-allowed',
+    },
+
   },
 }));

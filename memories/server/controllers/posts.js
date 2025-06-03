@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
 export const getPosts = async(req,res)=>{
-  console.log('getPosts called'); 
-    const {page} = req.query;  
+  const {page} = req.query;  
+  console.log('getPosts called  ',page); 
     
     try {
       
@@ -131,5 +131,22 @@ export const likePost = async (req,res) => {
   } catch (error) {
     console.error('Like Error:', error);
     res.status(500).json({ message: error.message });    
+  }
+}
+
+
+export const commentpost = async (req, res) => {
+  const { id } = req.params;
+  const { value } = req.body;
+  try {
+    const post = await PostMessage.findById(id);
+    if(!post) return res.status(404).send('No Post with that id.');
+    post.comments.push(value);
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+    res.json(updatedPost);
+    
+    console.log(`Commented || `);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 }

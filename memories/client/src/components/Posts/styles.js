@@ -2,8 +2,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
-    display: 'flex',
-    alignItems: 'center',
+    padding: theme.spacing(2), 
   },
   smMargin: {
     margin: theme.spacing(1),
