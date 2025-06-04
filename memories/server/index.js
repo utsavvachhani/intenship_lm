@@ -1,26 +1,48 @@
-// index.js
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import serverless from 'serverless-http';
 
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import serverless from "serverless-http";
+import postRoutes from './routes/posts.js';
+import userRoutes from './routes/user.js';
 
-// Load environment variables
 dotenv.config();
-
 const app = express();
 
-// Middlewares
 app.use(cors());
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.json());
 
-// Sample Route
-app.get("/", (req, res) => {
-  res.json({ message: "Serverless API is working on Vercel!" });
+app.get('/', (req, res) => {
+  res.send('Hello to Memories API.');
 });
 
-// Add more routes below
-// app.post("/api/something", (req, res) => { ... });
+app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 
-// Export the serverless handler
+// Mongoose connection (only runs once per container cold start)
+let isConnected = false;
+
+async function connectDB() {
+  if (isConnected) return;
+  try {
+    await mongoose.connect(process.env.CONNECTION_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    isConnected = true;
+    console.log("MongoDB connected");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+  }
+}
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
 export const handler = serverless(app);
