@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useStyles from './styles.js';
 import { getPost, getPostsBySearch } from '../../actions/posts.jsx';
 import CommentSection from './CommentSection.jsx';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 
 function PostDetails() {
   const { post, posts } = useSelector((state) => state.posts);
@@ -43,10 +44,10 @@ function PostDetails() {
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
       <div className={classes.card}>
         <div className={classes.section}>
-          <Typography variant="h3" component="h2" className={classes.title}>{post.title || 'Data Loading'}</Typography>
-          <Typography gutterBottom variant="h6" color="textSecondary" component="h2" className={classes.tags}>{post.tags.map((tag) => `#${tag} `)}</Typography>
+          <Typography style={{fontSize: '2.5rem',}} className={classes.title}>{post.title || 'Data Loading'}</Typography>
+          <Typography gutterBottom className={classes.tags}>{post.tags.map((tag) => `#${tag}  `)}</Typography>
           <Divider style={{ margin: '10PX 0' }} />
-          <Typography gutterBottom variant="body1" component="p" className={classes.message}>{post.message}</Typography>
+          <Typography className={classes.message}>{post.message}</Typography>
           <Divider style={{ margin: '10PX 0' }} />
 
           <Typography variant="h6" className={classes.creator}><strong>Created by:</strong> {post.name}</Typography>
@@ -70,19 +71,20 @@ function PostDetails() {
 
       {
         recommendedPosts.length ? (
-          <div className={classes.media} >
+          <div className={classes.media} style={{paddingBottom: "20px"}} >
             <Typography gutterBottom variant="h5"  > You Might also Like : </Typography>
             <Divider />
             <div className={classes.recommendedPosts}>
               {
                 recommendedPosts.map(({ title, message, name, likes, selectedFile, _id }) => (
                   <div style={{margin: '20px', cursor: 'pointer'}} className={classes.recommendedCard} onClick={() => { openPost(_id)}} key={_id}>
-                    <Typography gutterBottom  className={classes.title} >{title}</Typography>
+                    <Typography gutterBottom style={{ fontSize: '1rem ', }} className={classes.title} >{title}</Typography>
                     <Typography gutterBottom className={classes.creator} > <strong>Created by</strong> :  {name} </Typography>
+                    <Divider style={{ margin: '10PX 0' }} />
                     <Typography gutterBottom  className={classes.message} > {message} </Typography>
-                    <Typography gutterBottom  > <strong></strong>Likes : {likes.length} </Typography>
+                    <Typography gutterBottom  style={{alignItems: 'center', justifyContent: 'center'}}> <ThumbUpAltIcon />  <strong>Likes :</strong>   {likes.length} </Typography>
                     {/* <img src={selectedFile} width="200px" /> */}
-                     <img width="200px" src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+                     <img style={{ width: "200px", maxHeight: "150px" }} src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
 
                   </div>
                 ))

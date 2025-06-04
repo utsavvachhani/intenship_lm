@@ -7,13 +7,13 @@ export const getPosts = async(req,res)=>{
     
     try {
       
-      const LIMIT = 9
-      ;
+      const LIMIT = 9      ;
       const startIndex = ((Number(page))-1)*LIMIT;
       const total = await PostMessage.countDocuments({});
       
       const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
         res.status(200).json({ data: posts, currentPage : Number(page), numberOfPages: Math.ceil(total/LIMIT) });
+        // console.log(posts);
         
     } catch (error) {
         res.status(500).json({message: error.message});
