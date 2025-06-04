@@ -373,3 +373,49 @@ Daily Breakdown with Detailed Tasks
   * Imported and applied a consistent, clean **font-family (like “Poppins” or “Open Sans”)** across all main components:
     ➤ Posts, Comments, Forms, Navbar, Buttons, etc.
   * Ensured the selected font pairs well with the app's light and pastel design system.
+
+---
+
+### 📅 **Day 13 – 04/06/2025 (Wednesday)**
+
+📍 **Week 3 – Day 3**
+
+**🛠️ Tasks & Summary:**
+
+---
+
+### 🧠 **Post Details & Recommendations**
+
+* Improved tag-based recommendation logic.
+* Excluded current post from recommended list.
+* Ensured full responsiveness and clean card styling.
+
+---
+
+### 💬 **Comments Section Responsiveness**
+
+* Made comments input and list mobile-friendly.
+* Adjusted spacing, text, and layout for all screen sizes.
+
+---
+
+### 🔐 **Auth UX with React Toasts**
+
+* Integrated `react-toastify` for login, signup, and logout messages.
+* Positioned toasts at top-right with theme-aligned styles.
+* Used toast + redirect for smoother auth flow.
+
+---
+
+### 🚪 **Logout Finalization**
+
+* Added toast on logout.
+* Cleared Redux & localStorage.
+* Navbar updates and redirect on logout.
+
+---
+
+### 🎨 **General UI Enhancements**
+
+* Minor UI fixes in Navbar and PostDetails.
+* Verified responsiveness and transitions across devices.
