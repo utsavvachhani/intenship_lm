@@ -64,7 +64,7 @@
   title: {
     margin: '10px 16px !important',
     fontWeight: '700 !important',
-    fontSize: '1.5rem !important',
+    fontSize: '1.4rem !important',
     fontFamily: '"Segoe UI", "Roboto", "Helvetica Neue", sans-serif !important',
     color: `${theme.card.text} !important`,
     overflow: 'hidden',
@@ -75,7 +75,7 @@
 
   message: {
     margin: '0 16px 10px 16px',
-    fontSize: '1rem !important',
+    fontSize: '1.2rem !important',
     fontWeight: '400 !important',
     fontFamily: '"Roboto", "Arial", sans-serif !important',
     color: `${theme.card.text} !important`,

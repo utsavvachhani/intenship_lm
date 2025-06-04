@@ -83,7 +83,7 @@ export default makeStyles((theme) => ({
       color: `${theme.palette.button.hoverText} !important`,
       fontWeight: 'bold !important' , 
     },
-},
+  },
 
 
 }));

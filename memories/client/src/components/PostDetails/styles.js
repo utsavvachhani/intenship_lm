@@ -78,7 +78,7 @@ export default makeStyles((theme) => ({
     borderRadius: '20px',
     objectFit: 'cover',
     width: '100%',
-    maxHeight: '400px',
+    maxHeight: '480px',
     minHeight: '300px',
     height: 'auto',
     margin: '0 0 30px 0', 

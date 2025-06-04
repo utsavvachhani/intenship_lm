@@ -4,13 +4,14 @@
   import Home from './components/Home/Home.jsx';
   import Auth from './components/Auth/Auth.jsx';
   import PostDetails from './components/PostDetails/PostDetails.jsx';
-
+import { ToastContainer } from 'react-toastify';
   function App() {
     const user = JSON.parse(localStorage.getItem('profile'));
     
     return (
       <BrowserRouter>
         <Container maxWidth='xl'>
+          <ToastContainer />
           <Navbar />
           <Routes>
             <Route path='/' element={<Navigate to="/posts" replace />} />

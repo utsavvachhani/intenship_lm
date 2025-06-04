@@ -9,6 +9,7 @@ import Icon from './Icon.jsx';
 import Input from './Input.jsx';
 import useStyles from './styles.js';
 import { signin, signup } from '../../actions/auth.jsx'
+import { toast } from 'react-toastify';
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 
@@ -20,15 +21,44 @@ function Auth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // handle form submit logic
     // console.log(formData);
 
+    let res;
     if(isSignup){
-      dispatch(signup(formData, navigate));
+      res = await dispatch(signup(formData));
+      if (res?.success) {
+      toast.success('🎉 Registration successful!', {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      setTimeout(() => navigate('/posts'), 500);
     } else {
-      dispatch(signin(formData, navigate));
+      toast.error(res?.message || 'Signup failed', {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    }
+    } else {
+      res = await dispatch(signin(formData));
+      if (res?.success) {
+      toast.success('🦄 Signed in successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      setTimeout(() => navigate('/posts'), 500);
+    } else {
+      toast.error(res?.message || 'Signin failed', {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    }
     }
     
   };
@@ -63,6 +93,8 @@ function Auth() {
   };
 
   return (
+    <>
+    {/* <ToastContainer position="top-right" autoClose={5000} /> */}
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
@@ -70,15 +102,15 @@ function Auth() {
         </Avatar>
         <Typography variant="h5">{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+          <Grid>
             {isSignup && (
               <>
-                <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
-                <Input name="lastName" label="Last Name" handleChange={handleChange} half />
+                <Input  name="firstName" label="First Name" handleChange={handleChange} autoFocus  />
+                <Input name="lastName" label="Last Name" handleChange={handleChange}  />
               </>
             )}
             <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-            <Input
+            <Input 
               name="password"
               label="Password"
               handleChange={handleChange}
@@ -86,7 +118,7 @@ function Auth() {
               handleShowPassword={handleShowPassword}
             />
             {isSignup && (
-              <Input
+              <Input 
                 name="confirmPassword"
                 label="Repeat Password"
                 handleChange={handleChange}
@@ -95,7 +127,7 @@ function Auth() {
             )}
           </Grid>
 
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button className={classes.logout} type="submit" fullWidth variant="contained" >
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
 
@@ -103,10 +135,11 @@ function Auth() {
           render={(renderProps) =>(
               <Button 
               className={classes.googleButton} 
-              color="primary" 
-              fullWidth 
               onClick={renderProps.onClick} 
-              disabled={renderProps.disabled} startIcon={<Icon/>} variant="contained">
+              disabled={renderProps.disabled} 
+              startIcon={<Icon/>} 
+              variant="contained"
+              >
                 Google Sign In
               </Button>
             )}
@@ -116,14 +149,15 @@ function Auth() {
 
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Button onClick={switchMode} fullWidth>
+              <Button onClick={switchMode} fullWidth style={{marginTop: '15px'}} >
                 {isSignup ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
               </Button>
-            </Grid>
+            </Grid> 
           </Grid>
         </form>
       </Paper>
     </Container>
+    </>
   );
 }
 

@@ -6,6 +6,7 @@ import memoriesLogo from '../../Images/memories-logo.png';
 import { jwtDecode } from 'jwt-decode'; 
 import { useDispatch } from 'react-redux'
 import { LOGOUT } from '../../constants/actionTypes.js';
+import { toast } from 'react-toastify';
 import useStyles from './styles.js';
 
 function  Navbar() {
@@ -18,7 +19,13 @@ function  Navbar() {
     const logout = () => {
       dispatch({ type: LOGOUT });
       setUser(null);
-      navigate(`/auth`);
+      toast.success(' LogOut successfully!', {
+              position: "top-right",
+              autoClose: 5000,
+              theme: "dark",
+      });
+      setTimeout(() => navigate(`/auth`) , 500);
+
     }
 
   useEffect(() => {
