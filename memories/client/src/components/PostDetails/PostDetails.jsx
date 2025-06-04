@@ -71,7 +71,7 @@ function PostDetails() {
 
       {
         recommendedPosts.length ? (
-          <div className={classes.media} style={{paddingBottom: "20px"}} >
+          <div className={classes.recommendedMedia} style={{paddingBottom: "20px"}} >
             <Typography gutterBottom variant="h5"  > You Might also Like : </Typography>
             <Divider />
             <div className={classes.recommendedPosts}>
