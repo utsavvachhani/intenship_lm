@@ -1,29 +1,44 @@
+// api/index.js
 import express from 'express';
-import bodyParset from 'body-parser';
+import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/user.js';
 
-const app = express();
 dotenv.config();
+
+const app = express();
 app.use(cors());
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-
-app.use(bodyParset.json({ limit:"30mb",extended: true}));
-app.use(bodyParset.urlencoded({ limit:"30mb",extended: true}));
-app.use(express.json());
-
-app.use('/posts',postRoutes);
-app.use('/user',userRoutes);
-const PORT = process.env.PORT || 5000;
-app.get('/',(req,res)=>{
+app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
+app.get('/', (req, res) => {
     res.send('Hello to Memories API.');
-})
-mongoose.connect(process.env.CONNECTION_URL,{useNewURLParser : true, useUnifiedTopology: true})
-    .then(() => { app.listen(PORT, () => console.log(`server running on port : ${PORT}`))   })
-    .catch((err)=>{ console.log(err);
-})
+});
 
-// mongoose.set('useFindAndModify', false);
+// Connect to MongoDB **only once**, outside the handler
+let isConnected = false;
+
+async function connectToDB() {
+    if (isConnected) return;
+    try {
+        await mongoose.connect(process.env.CONNECTION_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        isConnected = true;
+        console.log('Connected to MongoDB');
+    } catch (err) {
+        console.error('MongoDB connection error:', err);
+    }
+}
+
+// Vercel expects a default handler export
+export default async function handler(req, res) {
+    await connectToDB();
+    app(req, res); // Use Express to handle the request
+}
