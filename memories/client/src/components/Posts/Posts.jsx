@@ -10,9 +10,11 @@ function Posts({setCurrentId}) {
   // console.log(posts);
   
   
-  if(!posts.length && !isLoading) return <h3>No posts found</h3>
+  if(!posts.length && !isLoading) return <h3 style={{ color: '#ffffff' }}>No posts found</h3>
+
   return (
-    isLoading ? <CircularProgress/> : (
+    isLoading ? <CircularProgress style={{ color: '#ffffff' }} size={60} />
+               : (
       <Grid 
       className={classes.mainContainer} 
       container alignItems='stretch' spacing={3}>

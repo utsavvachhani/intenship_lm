@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useStyles from './styles.js';
 import { getPost, getPostsBySearch } from '../../actions/posts.jsx';
 import CommentSection from './CommentSection.jsx';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 
 function PostDetails() {
   const { post, posts } = useSelector((state) => state.posts);
@@ -33,9 +32,9 @@ function PostDetails() {
   
   if(!post) {
     return <Paper className={classes.loadingPaper} elevation={7}>
-      <CircularProgress size="7em" />
+      <CircularProgress size={100}   value={60} />
     </Paper>
-  }
+  } 
 
   // console.log(`posts`, posts);
   const recommendedPosts = posts.filter(({_id}) => _id !== post._id);
@@ -82,7 +81,7 @@ function PostDetails() {
                     <Typography gutterBottom className={classes.creator} > <strong>Created by</strong> :  {name} </Typography>
                     <Divider style={{ margin: '10PX 0' }} />
                     <Typography gutterBottom  className={classes.message} > {message} </Typography>
-                    <Typography gutterBottom  style={{alignItems: 'center', justifyContent: 'center'}}> <ThumbUpAltIcon />  <strong>Likes :</strong>   {likes.length} </Typography>
+                    <Typography gutterBottom  style={{alignItems: 'center', justifyContent: 'center'}}><strong>Likes :</strong>   {likes.length} </Typography>
                     {/* <img src={selectedFile} width="200px" /> */}
                      <img style={{ width: "200px", maxHeight: "150px" }} src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
 

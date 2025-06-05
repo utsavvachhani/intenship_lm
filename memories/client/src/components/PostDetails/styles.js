@@ -138,7 +138,13 @@ export default makeStyles((theme) => ({
     marginBottom: '10px',
   },
   },
-
+  commentInputContainer: {
+    width: '100%',
+    maxWidth: '600px',
+    '@media (min-width: 768px)': {
+      width: '50%',
+    },
+  },
   buttonSubmit: {
     marginBottom: 10,
     backgroundColor: `${theme.palette.button.background} !important`,

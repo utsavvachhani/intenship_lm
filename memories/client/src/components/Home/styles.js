@@ -21,6 +21,8 @@ export default makeStyles((theme) => ({
     top: theme.spacing(2),
     alignSelf: 'flex-start',
     height: 'fit-content',
+    paddingTop: "10px",
+    // marginBottom: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       width: '100%',      
       position: 'static', 
@@ -30,10 +32,10 @@ export default makeStyles((theme) => ({
   appBarSearch: {
     borderRadius: 4,
     padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    margin : "10px 0 0 0 "    
   },
   pagination: {
-    marginTop: 4,
+    // margin: "10px 0 ",
     padding: '16px',
   },
 

@@ -45,7 +45,7 @@ function CommentSection({ post }) {
             <Typography variant="subtitle1" gutterBottom> Please Sign In to Comment </Typography>
           ) : 
           (
-            <div style={{ width:  '50%' }} sm={{ width: '100%' }} >
+            <div className={classes.commentInputContainer}>
                 <Typography gutterBottom variant="h6">
                   <strong>
                     Write a Comments

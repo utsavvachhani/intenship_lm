@@ -57,6 +57,8 @@ function Home() {
               <Posts setCurrentId={setCurrentId}/>
             </Grid>
             <Grid item className={classes.formGrid} >
+              <Form currentId={currentId} setCurrentId={setCurrentId}/>       
+
               <AppBar className={classes.appBarSearch} position="static" variant="contained" color="inherit">
                 <TextField 
                   name="search" 
@@ -80,8 +82,6 @@ function Home() {
                 <Button onClick={searchPost} className={classes.buttonSubmit}  variant="contained" color="primary" size="large" fullWidth > Search </Button>
 
               </AppBar>
-                        
-              <Form currentId={currentId} setCurrentId={setCurrentId}/>       
 
               //pagination
               {   
@@ -92,7 +92,7 @@ function Home() {
                   </Paper>       
                 )
               }
-              
+                   
             </Grid>
           </Grid>
         </Container>
