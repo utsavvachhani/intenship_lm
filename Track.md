@@ -419,3 +419,38 @@ Daily Breakdown with Detailed Tasks
 
 * Minor UI fixes in Navbar and PostDetails.
 * Verified responsiveness and transitions across devices.
+---
+
+### 📅 **Day 14 – 05/06/2025 (Thursday)**
+
+📍 **Week 3 – Day 4**
+
+---
+
+### 🎨 **Styling & Responsiveness**
+
+* Centralized all component styles into a single shared file.
+* Fixed style nesting issues and cleaned up MUI `makeStyles` usage.
+* Improved responsiveness across Navbar, Forms, and PostDetails using MUI’s Grid and breakpoints.
+
+---
+
+### 🧩 **Profile Planning**
+
+* Outlined structure for a future Profile page (avatar, info, posts).
+* Explored layout ideas for modular design and reusability.
+
+---
+
+### 📘 **Interview Prep**
+
+* Revised key CSS (positioning, Flexbox, Grid) and JS topics (promises, ES6, array methods).
+* Practiced with small examples to reinforce concepts.
+
+---
+
+### 🧼 **Other Tasks**
+
+* Cleaned unused styles and imports.
+* Updated paths after styling refactor.
+
