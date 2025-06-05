@@ -7,14 +7,14 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom' ;
 import Icon from './Icon.jsx';
 import Input from './Input.jsx';
-import useStyles from './styles.js';
 import { signin, signup } from '../../actions/auth.jsx'
 import { toast } from 'react-toastify';
+import {useAuthStyles} from '../../Styles/styles.js';
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 
 function Auth() {
-  const classes = useStyles();
+  const classes = useAuthStyles();
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [ formData, setFormData ] = useState(initialState)

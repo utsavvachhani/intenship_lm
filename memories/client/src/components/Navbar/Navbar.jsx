@@ -7,11 +7,11 @@ import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux'
 import { LOGOUT } from '../../constants/actionTypes.js';
 import { toast } from 'react-toastify';
-import useStyles from './styles.js';
+import { useNavbarStyles } from '../../Styles/styles.js';
 
 function  Navbar() {
     const dispatch = useDispatch();
-    const classes = useStyles();  
+    const classes = useNavbarStyles();  
     const navigate = useNavigate();
     const location = useLocation()
     const [ user, setUser ] = useState(JSON.parse(localStorage.getItem(`profile`)));

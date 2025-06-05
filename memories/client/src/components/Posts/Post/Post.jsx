@@ -4,14 +4,14 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import useStyles from './styles.js';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import {deletePost, likePost } from '../../../actions/posts.jsx'
 import { useNavigate } from'react-router-dom';
+import { usePostStyles } from '../../../Styles/styles.js'
 
 function Post({post, setCurrentId}) {
-    const classes = useStyles();
+    const classes = usePostStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('profile'));

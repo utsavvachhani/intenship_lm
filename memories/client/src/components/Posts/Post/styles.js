@@ -14,6 +14,13 @@
       boxShadow: '0 4px 12px rgb(255, 255, 255)',
       margin: 'auto',
       backgroundColor: `${theme.card.backgroundColor}  !important`,
+      [theme.breakpoints.down('md')]: {
+        // width: '100%',
+        margin: '0',
+        // minHeight: 200,
+        // width: '100%',
+        // maxWidth: '',
+      }
     },
     cardActions: {
       padding: '0 16px 8px 16px',

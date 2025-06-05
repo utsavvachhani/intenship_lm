@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import Pagination from '../Pagination.jsx';
 import {MuiChipsInput} from 'mui-chips-input';
 import { useNavigate, useLocation } from "react-router-dom";
-import useStyles from './styles.js';
+import {useHomeStyles} from '../../Styles/styles.js';
 
 function useQuery(){
   return new URLSearchParams(useLocation().search);
@@ -15,7 +15,7 @@ function useQuery(){
 
 function Home() {
   const [currentId,setCurrentId] = useState(null);
-  const classes = useStyles();
+  const classes = useHomeStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const query = useQuery();

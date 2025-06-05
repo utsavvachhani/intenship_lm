@@ -1,11 +1,11 @@
 import React,{ useState, useRef } from "react"
 import { Typography, TextField, Button } from '@mui/material'
 import { useDispatch } from "react-redux"
-import useStyles from './styles.js'
 import { commentPost } from '../../actions/posts.jsx'
+import {usePostDetailsStyles} from '../../Styles/styles.js';
 
 function CommentSection({ post }) {
-  const classes = useStyles();
+  const classes = usePostDetailsStyles();
   const [comment, setComment] = useState("")
   const [comments, setComments] = useState(post?.comments)
   const dispatch = useDispatch()

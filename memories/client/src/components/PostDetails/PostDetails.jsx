@@ -3,14 +3,14 @@ import { Paper, Typography, CircularProgress, Divider } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom'
-import useStyles from './styles.js';
 import { getPost, getPostsBySearch } from '../../actions/posts.jsx';
 import CommentSection from './CommentSection.jsx';
+import {usePostDetailsStyles} from '../../Styles/styles.js';
 
 function PostDetails() {
   const { post, posts } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const classes = usePostDetailsStyles();
   const navigate = useNavigate();
   const { id } = useParams();
   const openPost = (_id) => {
@@ -83,7 +83,7 @@ function PostDetails() {
                     <Typography gutterBottom  className={classes.message} > {message} </Typography>
                     <Typography gutterBottom  style={{alignItems: 'center', justifyContent: 'center'}}><strong>Likes :</strong>   {likes.length} </Typography>
                     {/* <img src={selectedFile} width="200px" /> */}
-                     <img style={{ width: "200px", maxHeight: "150px" }} src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+                     <img className={classes.recommendedPhoto} src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
 
                   </div>
                 ))
