@@ -454,3 +454,74 @@ Daily Breakdown with Detailed Tasks
 * Cleaned unused styles and imports.
 * Updated paths after styling refactor.
 
+---
+
+### 📅 **Day 15 – 06/06/2025 (Friday)**
+
+📍 **Week 3 – Day 5**
+
+---
+
+### 👤 **Developed User Profile Page (React + Redux)**
+
+**🛠️ Tasks & Explanations:**
+
+* ✅ **Created a Fully Functional User Profile Page**
+
+  * Built a new `UserProfile.jsx` component in React to allow users to **view and update their profile information** (name, email, password).
+  * Conditionally rendered edit forms using `useState` to toggle between view and edit modes.
+  * Prevented editing for users authenticated via Google (`sub` check) and provided appropriate messages.
+
+---
+
+### 🔄 **Integrated Redux and API for Profile Update**
+
+* ⚙️ **Redux Action & API Call:**
+
+  * Created `updateUserProfile` Redux action to handle API interaction.
+  * Connected it with the frontend form, dispatching data to the backend using:
+
+    ```js
+    export const updateUserProfile = (id, formData) => API.patch(`/user/${id}`, formData);
+    ```
+
+* 🔁 **Backend Routing and Controller:**
+
+  * Added a backend route:
+
+    ```js
+    router.patch('/:id', updateUserProfile);
+    ```
+  * Implemented `updateUserProfile` controller logic to:
+
+    * Validate incoming fields (firstName, lastName, email, password).
+    * Hash new passwords (if provided).
+    * Return the updated user object.
+
+* 📁 **Updated User Schema in Mongoose:**
+
+  * Ensured Mongoose user schema supports profile update and password re-hashing logic.
+  * Applied best practices for schema structure and validation.
+
+---
+
+### 🎨 **Enhanced UI Styling with Material UI**
+
+* 🖌️ Used `makeStyles` and `sx` to design a clean, responsive layout.
+* Added a custom **Save / Cancel** button style matching the app theme.
+* Ensured proper spacing, typography, and accessibility (form labels, error checks).
+
+---
+
+### 🔐 **LocalStorage & Toast Feedback**
+
+* 🌐 Updated `localStorage` with new profile data after successful update.
+* 💬 Used `react-toastify` to notify users of successful or failed profile updates.
+* 🚫 Prevented updates when password and confirm password didn't match.
+
+---
+
+### 🧼 **Other Fixes & Refactoring**
+
+* Cleaned up auth reducer to sync updated user profile across components.
+* Ensured responsive behavior of the Profile Page on both desktop and mobile.
