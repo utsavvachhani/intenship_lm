@@ -16,7 +16,7 @@ export const useNavbarStyles = makeStyles((theme) => ({
     maxWidth: '1200px',
     width: '100%',
     margin: '0 auto',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       // flexWrap: 'wrap',
       flexDirection: 'column',
       // justifyContent: 'flex-start',
@@ -40,7 +40,7 @@ export const useNavbarStyles = makeStyles((theme) => ({
   textImage: {
     height: '70px',
     objectFit: 'contain',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down(1045)]: {
       display: 'none',
     }
   },
@@ -61,12 +61,13 @@ export const useNavbarStyles = makeStyles((theme) => ({
   avatar: {
     color: theme.palette.colors.avatar,
     backgroundColor: theme.palette.colors.avatarBackground,
+    textDecoration: 'none',
   },
 
   userName: {
     fontWeight: 1000,
     color: theme.palette.text.title,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down(1200)]: {
       display: 'none',
     }
   },
@@ -91,14 +92,14 @@ export const useHomeStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    [theme.breakpoints.down('lr')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
   },
   postsGrid: {
     width: '68%',
     [theme.breakpoints.down('md')]: {
-      width: '65%', 
+      width: '50%', 
     },
     [theme.breakpoints.down('sm')]: {
       width: '100%', 
@@ -112,11 +113,9 @@ export const useHomeStyles = makeStyles((theme) => ({
     height: 'fit-content',
     paddingTop: "10px",
     [theme.breakpoints.down('md')]: {
-      width: '100%',      
-      position: 'sticky',    
-      alignSelf: 'flex-start'
+      width: '40%',
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',      
       position: 'static', 
       alignSelf: 'flex-start'
@@ -126,7 +125,7 @@ export const useHomeStyles = makeStyles((theme) => ({
   appBarSearch: {
     borderRadius: 4,
     padding: theme.spacing(2),
-    margin : "10px 0 0 0 "    
+    margin : "10px 0 10px 0 "    
   },
   pagination: {
     // margin: "10px 0 ",
@@ -260,7 +259,7 @@ export const usePostDetailsStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
   },
@@ -282,12 +281,10 @@ export const usePostDetailsStyles = makeStyles((theme) => ({
   title: {
     margin: '10px 0 !important',
     fontWeight: '550 !important',
-    // fontSize: '2.4rem !important',
     fontFamily: '"Segoe UI", "Roboto", "Helvetica Neue", sans-serif ',
     color: `${theme.card.text} !important`,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    // whiteSpace: 'nowrap',
     textAlign: 'start',
   },
   tags: {
@@ -299,9 +296,6 @@ export const usePostDetailsStyles = makeStyles((theme) => ({
   message: {
     margin: '0 16px 10px 16px',
     fontSize: '1rem !important',
-    // background: 'black',
-    // fontWeight: '1000px',
-    // fontFamily: '"Roboto", "Arial", sans-serif !important',
     color: `${theme.card.text} !important`,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -394,22 +388,24 @@ export const usePostDetailsStyles = makeStyles((theme) => ({
   },
   commentsInnerContainer: {
     flex: 1,
-  maxHeight: '300px',
-  overflowY: 'auto',
-  paddingRight: '10px',
-  borderRight: '1px solid #ddd',
-  [theme.breakpoints.down('md')]: {
-    borderRight: 'none',
-    borderBottom: '1px solid #ddd',
-    paddingBottom: '10px',
-    marginBottom: '10px',
-  },
+    maxHeight: '300px',
+    overflowY: 'auto',
+    paddingRight: '10px',
+    borderRight: '1px solid #ddd',
+    [theme.breakpoints.down('md')]: {
+      borderRight: 'none',
+      borderBottom: '1px solid #ddd',
+      paddingBottom: '10px',
+      marginBottom: '10px',
+    },
   },
   commentInputContainer: {
-    // width: '100%',
     maxWidth: '600px',
-    [theme.breakpoints.down(1020)]: {
+    [theme.breakpoints.down('md')]: {
       width: '50%',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
     },
   },
   buttonSubmit: {
@@ -565,5 +561,50 @@ export const usePaginationStyles = makeStyles(() => ({
   ul : {
         justifyContent: 'space-between',
         padding: 0,
+        margin: "20px 0"
     }
 }));
+
+export const useProfileStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth: 500,
+    margin: '40px auto',
+    padding: '30px',
+    borderRadius: '12px',
+    boxShadow: theme.shadows[4],
+    backgroundColor: theme.card.backgroundColor,
+  },
+
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: theme.palette.text.primary,
+    marginBottom: theme.spacing(2),
+  },
+
+  field: {
+    marginBottom: theme.spacing(2),
+  },
+
+  buttonSubmit: {
+    marginBottom: '5px !important',
+    backgroundColor: `${theme.palette.button.background} !important`,
+    border: `2px solid ${theme.palette.button.border} !important`,
+    borderRadius: '8px !important',
+    height: '35px',
+    width: '220px',
+    color: `${theme.palette.button.text} !important`,
+    '&:hover': {
+      backgroundColor: `${theme.palette.button.hover} !important`,
+      color: `${theme.palette.button.hoverText} !important`,
+      fontWeight: 'bold !important',
+    },
+    '&.Mui-disabled': {
+      backgroundColor: `${theme.palette.button.disableBaground} !important`,
+      color: `${theme.palette.button.disabledText} !important`,
+      border: `2px solid ${theme.palette.button.disabledBorder} !important`,
+      cursor: 'not-allowed',
+    },
+  },
+}));
+

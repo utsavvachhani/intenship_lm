@@ -29,4 +29,16 @@ export const signup = (formData) => async (dispatch) => {
     }
 }
 
+export const updateUserProfile = (id, formData) => async (dispatch) => {
+    try {
+        // console.log(id,formData);
+        const {data} = await api.updateUserProfile(id,{formData : formData});
+        // console.log("data : ",data);
+        dispatch({ type: AUTH, data});
+        return { success: true };
 
+    } catch (error) {
+        console.log(error);
+        return { success: false, message: 'Something went wrong. Please try again!' };
+    }
+}

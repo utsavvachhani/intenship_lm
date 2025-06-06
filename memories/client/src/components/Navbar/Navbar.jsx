@@ -52,8 +52,10 @@ function  Navbar() {
           </Link>
             { user ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.avatar} alt={user.result.name} src={user.result.imageUrl}>{user.result.name ? user.result.name.charAt(0) : 'UV'}</Avatar>
-                        <Typography className={classes.userName} variant="overline" >{user.result.name}</Typography>
+                        <Link to= {`/user/profile/${user.result._id}`}  style={{ textDecoration: 'none' }}  >
+                        <Avatar className={classes.avatar} alt={user.result.firstName} src={user.imageUrl}>{user.result.firstName ? user.result.firstName.charAt(0)  : 'U' }{user.result.lastName ? user.result.lastName.charAt(0)  : 'V' }</Avatar>
+                        </Link>
+                        <Typography className={classes.userName} variant="overline" >{user.result.firstName}  {user.result.lastName}</Typography>
                         <Button className={classes.logout} variant="contained" onClick={logout} >Logout</Button>
                     </div>
                 ) : (

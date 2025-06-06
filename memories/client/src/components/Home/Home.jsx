@@ -52,10 +52,7 @@ function Home() {
     <div>
     <Grow in> 
         <Container maxWidth="xl">
-          <Grid container className={classes.gridContainer} spacing={3}>
-            <Grid item className={classes.postsGrid} >
-              <Posts setCurrentId={setCurrentId}/>
-            </Grid>
+          <Grid container className={classes.gridContainer}  >
             <Grid item className={classes.formGrid} >
               <Form currentId={currentId} setCurrentId={setCurrentId}/>       
 
@@ -83,7 +80,7 @@ function Home() {
 
               </AppBar>
 
-              //pagination
+              {/* //pagination */}
               {   
                 (!searchQuery && !tags.length) && (
                   
@@ -93,6 +90,9 @@ function Home() {
                 )
               }
                    
+            </Grid>
+            <Grid item className={classes.postsGrid} >
+              <Posts setCurrentId={setCurrentId}/>
             </Grid>
           </Grid>
         </Container>
