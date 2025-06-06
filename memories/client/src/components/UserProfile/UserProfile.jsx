@@ -94,9 +94,9 @@ function UserProfile() {
           </>
         ) : !isEditing ? (
           <>
-            <Typography>First Name: {user?.result?.firstName}</Typography>
-            <Typography>Last Name: {user?.result?.lastName}</Typography>
-            <Typography>Email: {user?.result?.email}</Typography>
+            <Typography><strong>First Name: </strong>{user?.result?.firstName}</Typography>
+            <Typography><strong>Last Name: </strong>{user?.result?.lastName}</Typography>
+            <Typography><strong>Email: </strong> {user?.result?.email}</Typography>
             <Button className={classes.buttonSubmit} onClick={() => setIsEditing(true)} sx={{ mt: 2 }}>
               Edit Profile
             </Button>
