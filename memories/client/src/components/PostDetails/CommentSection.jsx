@@ -41,7 +41,7 @@ function CommentSection({ post }) {
         </div>
         <div ref={commentRef}/>
         {
-          !user?.result?.name ? (
+          !user?.result?.name && !user?.result?.firstName && !user?.result?.lastName  ? (
             <Typography variant="subtitle1" gutterBottom> Please Sign In to Comment </Typography>
           ) : 
           (
