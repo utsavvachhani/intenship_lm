@@ -91,16 +91,7 @@ npm install   @mui/material   @mui/icons-material   @mui/styles   @emotion/react
 #### 🧰 Development Tools
 
 ```bash
-npm install -D 
-  vite 
-  @vitejs/plugin-react 
-  eslint 
-  @eslint/js 
-  eslint-plugin-react-hooks 
-  eslint-plugin-react-refresh 
-  globals 
-  @types/react 
-  @types/react-dom
+npm install -D   vite   @vitejs/plugin-react   eslint   @eslint/js   eslint-plugin-react-hooks   eslint-plugin-react-refresh   globals   @types/react   @types/react-dom
 ```
 
 #### ▶️ Start the Client
