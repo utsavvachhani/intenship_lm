@@ -13,7 +13,7 @@ function CommentSection({ post }) {
   const user = JSON.parse(localStorage.getItem('profile'))
 
   const handleClick = async() => {
-    const finalCommit = `${user?.result?.name} : ${comment} `;
+    const finalCommit = user?.result?.name ? `${user?.result?.name} : ${comment} ` : `${user?.result?.firstName} ${user?.result?.lastName} : ${comment}`;
     const newCommits = await dispatch(commentPost(finalCommit, post._id));
     setComments(newCommits);
     setComment('');

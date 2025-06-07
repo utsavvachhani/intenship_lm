@@ -21,17 +21,17 @@ function Form({currentId, setCurrentId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(currentId);
+    const name = user?.result?.name ? `${user?.result?.name}  ` : `${user?.result?.firstName} ${user?.result?.lastName}`;
     
     if(currentId === null){
-      dispatch(createPost({ ...postData, name : user?.result?.name},navigate));
+      dispatch(createPost({ ...postData, name : name },navigate));
       clear() 
     }
     else{
-      dispatch(updatePost(currentId, {...postData, name : user?.result?.name}));
+      dispatch(updatePost(currentId, {...postData, name : name}));
       clear()
     }
   }
-
   const clear = () => {
     setCurrentId(null);
     setPostData({
