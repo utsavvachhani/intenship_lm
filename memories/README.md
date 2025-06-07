@@ -84,36 +84,36 @@ cd client
 #### 📦 Install Dependencies
 
 ```bash
-npm install \
-  @mui/material \
-  @mui/icons-material \
-  @mui/styles \
-  @emotion/react \
-  @emotion/styled \
-  axios \
-  moment \
-  react-file-base64 \
-  redux \
-  react-redux \
-  redux-thunk \
-  react-router-dom \
-  jwt-decode \
-  @react-oauth/google \
+npm install 
+  @mui/material 
+  @mui/icons-material 
+  @mui/styles 
+  @emotion/react 
+  @emotion/styled 
+  axios 
+  moment 
+  react-file-base64 
+  redux 
+  react-redux 
+  redux-thunk 
+  react-router-dom 
+  jwt-decode 
+  @react-oauth/google 
   react-toastify
 ```
 
 #### 🧰 Development Tools
 
 ```bash
-npm install -D \
-  vite \
-  @vitejs/plugin-react \
-  eslint \
-  @eslint/js \
-  eslint-plugin-react-hooks \
-  eslint-plugin-react-refresh \
-  globals \
-  @types/react \
+npm install -D 
+  vite 
+  @vitejs/plugin-react 
+  eslint 
+  @eslint/js 
+  eslint-plugin-react-hooks 
+  eslint-plugin-react-refresh 
+  globals 
+  @types/react 
   @types/react-dom
 ```
 
