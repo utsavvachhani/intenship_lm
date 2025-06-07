@@ -84,22 +84,8 @@ cd client
 #### 📦 Install Dependencies
 
 ```bash
-npm install 
-  @mui/material 
-  @mui/icons-material 
-  @mui/styles 
-  @emotion/react 
-  @emotion/styled 
-  axios 
-  moment 
-  react-file-base64 
-  redux 
-  react-redux 
-  redux-thunk 
-  react-router-dom 
-  jwt-decode 
-  @react-oauth/google 
-  react-toastify
+npm install   @mui/material   @mui/icons-material   @mui/styles   @emotion/react   @emotion/styled   axios   moment   react-file-base64   redux   react-redux   redux-thunk   react-router-dom   jwt-decode   @react-oauth/google   react-toastify
+
 ```
 
 #### 🧰 Development Tools
