@@ -42,7 +42,7 @@ function Form({currentId, setCurrentId }) {
   })}
 
   
-  if(!user?.result?.name) {
+  if(!user?.result?.firstName && !user?.result?.lastName && !user?.result?.name ) {
     return (
       <Paper 
         className={classes.paper}
