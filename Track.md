@@ -525,3 +525,92 @@ Daily Breakdown with Detailed Tasks
 
 * Cleaned up auth reducer to sync updated user profile across components.
 * Ensured responsive behavior of the Profile Page on both desktop and mobile.
+
+
+---
+------
+📍 **Week 4 – 09/06/2025 (Monday) to 13/06/2025 (Friday)**
+---
+
+### 📅 **Day 16 – 09/06/2025 (Monday)**
+
+📍 **Week 4 – Day 1**
+
+---
+
+## 🛠️ Tasks & Explanations:
+
+---
+
+### 🔍 **Explored MERN Stack Project Ideas & Architectures**
+
+* 📦 **Reviewed Existing MERN Projects**
+
+  * Analyzed multiple MERN stack applications to understand advanced structuring, authentication patterns, and performance optimizations.
+  * Focused on project structure, file separation, component reusability, Redux integration, and deployment strategies.
+
+* 📚 **Noted Best Practices for Full-Stack Development**
+
+  * Folder structure: `controllers`, `routes`, `models`, `middleware`, and centralized API services.
+  * Frontend architecture: smart/dumb components, global state management with Redux or Context, and consistent theming with Material UI.
+
+---
+
+### 🛍️ **Finalized UV Mart E-commerce Project**
+
+* 🧾 **Product Listing Page Setup**
+
+  * Created a responsive product listing page using React + Material UI.
+  * Displayed each product with image, title, description, and price.
+  * Fetched products from a backend endpoint and managed via Redux.
+
+* 👀 **User Product View (Frontend)**
+
+  * Enabled users to view product details on a separate route (`/products/:id`).
+  * Designed a clean layout with product info, price, and related items.
+  * Implemented loading states and conditional rendering for better UX.
+
+---
+
+### 🔐 **Authentication with Google + Sign In / Sign Up Pages**
+
+* 🔧 **Set Up Authentication System in New UV Mart Project**
+
+  * Implemented Google OAuth integration using `@react-oauth/google` and token decoding.
+  * Created dedicated **Sign In** and **Sign Up** pages with Material UI components.
+
+* ⚙️ **Backend Authentication Setup (Express + MongoDB)**
+
+  * Created `/signup`, `/signin`, and `/google-auth` routes.
+  * Handled JWT generation, password hashing (`bcryptjs`), and user validation.
+  * Stored user data securely in MongoDB and returned tokens on successful auth.
+
+---
+
+### 👤 **User Profile Page & Update Feature**
+
+* 🛠️ **Developed Editable Profile Page**
+
+  * Built a page where users can view and update their profile info (name, email, password).
+  * Disabled editing for Google-authenticated users and showed informative messages.
+
+* 🔁 **Redux & API Integration**
+
+  * Connected profile update form with Redux and backend API (`PATCH /user/:id`).
+  * On successful update, new data is reflected in `localStorage` and Redux state.
+
+---
+
+### 🧭 **Navigation & Routing**
+
+* 🧑‍💼 **Updated Navbar Component**
+
+  * Displayed user info conditionally (avatar + name).
+  * Included logout functionality and links to Product List, Profile, and Auth pages.
+
+* 🌐 **Defined Route Structure for UV Mart**
+
+  * Set up React Router paths:
+    * `/auth` – login/signup
+    * `/profile` – user profile
+
