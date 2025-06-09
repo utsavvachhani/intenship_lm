@@ -1,7 +1,7 @@
 import React,{useState } from "react";
 import { Container, Grow, Grid, Paper, AppBar, TextField, Button, Chip } from "@mui/material";
-import Form from "./../Form/Form";
-import Posts from "./../Posts/Posts";
+import Form from "../Form/Form.jsx";
+import Posts from "../Posts/Posts.jsx";
 import { getPostsBySearch } from '../../actions/posts.jsx'
 import { useDispatch } from "react-redux";
 import Pagination from '../Pagination.jsx';

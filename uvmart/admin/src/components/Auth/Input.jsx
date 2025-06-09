@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField,Grid,InputAdornment,IconButton } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {useAuthStyles} from '../../Styles/styles.js';
+import {useAuthStyles} from '../../styles.js';
 
 const Input = ({name,half,handleChange, label, autoFocus, type, handleShowPassword }) => {
     const classes = useAuthStyles();

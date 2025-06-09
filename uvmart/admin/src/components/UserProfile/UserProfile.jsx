@@ -9,8 +9,8 @@ import {
 } from '@mui/material';
 import Input from '../Auth/Input.jsx';
 import { useDispatch } from "react-redux";
-import { useProfileStyles } from '../../Styles/styles.js';
 import { updateUserProfile } from '../../actions/auth.jsx';
+import { useProfileStyles } from '../../styles.js';
 
 function UserProfile() {
   const classes = useProfileStyles();

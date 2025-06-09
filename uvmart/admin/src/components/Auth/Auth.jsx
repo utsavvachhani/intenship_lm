@@ -9,7 +9,7 @@ import Icon from './Icon.jsx';
 import Input from './Input.jsx';
 import { signin, signup } from '../../actions/auth.jsx'
 import { toast } from 'react-toastify';
-import {useAuthStyles} from '../../Styles/styles.js';
+import {useAuthStyles} from '../../styles.js';
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 
