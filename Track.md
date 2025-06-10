@@ -614,3 +614,41 @@ Daily Breakdown with Detailed Tasks
     * `/auth` – login/signup
     * `/profile` – user profile
 
+---
+
+### 📅 **Day 17 – 10/06/2025 (Tuesday)**
+
+📍 **Week 4 – Day 2**
+
+---
+
+### 🛠️ **Tasks & Explanations:**
+
+---
+
+### 🧭 **Developed E-commerce Website Navbar**
+
+* 🏗️ **Created a Responsive Navbar Using React + Tailwind CSS**
+
+  * Set up a **sticky, top-level navigation bar** for the UV Mart project.
+  * Included key sections with **navigation links**:
+
+    * 🛍️ Products
+    * 📈 Bestsellers
+    * 📺 Mini-TV
+    * 📞 Customer Service
+    * 📱 Mobiles
+    * 💡 Electronics
+    * ➕ Sell
+---
+
+### 🎨 **Tailwind CSS Docs Review & Styling**
+
+* 📚 **Read and Practiced TailwindCSS Documentation**
+
+  * Reviewed how utility classes work for spacing, color, typography, and responsive design.
+  * Studied and implemented:
+
+    * `flex`, `justify-between`, `items-center`
+    * `bg-color`, `hover:`, `text-xl`, `p-4`, `rounded`, `gap-x-4`
+    * Responsive prefixes (`sm:`, `md:`, `lg:`)
