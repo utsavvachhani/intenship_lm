@@ -652,3 +652,51 @@ Daily Breakdown with Detailed Tasks
     * `flex`, `justify-between`, `items-center`
     * `bg-color`, `hover:`, `text-xl`, `p-4`, `rounded`, `gap-x-4`
     * Responsive prefixes (`sm:`, `md:`, `lg:`)
+
+---
+
+### 📅 **Day 18 – 11/06/2025 (Wednesday)**
+
+📍 **Week 4 – Day 3**
+
+---
+
+### 🛠️ **Tasks & Learnings Summary**
+
+---
+
+### 🎨 **Combined Styling with Material UI (MUI) & Tailwind CSS**
+
+* Gained hands-on experience using **both MUI and Tailwind CSS** together for efficient UI development.
+* Practiced how to:
+
+  * Use **MUI components** for pre-built UI features (e.g., `AppBar`, `Button`, `TextField`) with logic integration.
+  * Apply **Tailwind utility classes** for custom spacing, layout, and responsiveness (`flex`, `gap-x-4`, `hover:`, `rounded`, etc.).
+* Learned how to **avoid style conflicts** by strategically choosing when to use MUI vs. Tailwind.
+
+---
+
+### 🧭 **AppBar Responsiveness & Authentication Awareness**
+
+* Developed a **responsive navigation bar (AppBar)** for the UV Mart project using **React + Tailwind CSS + MUI**.
+* Ensured mobile-friendly behavior by:
+
+  * Using **conditional rendering** for menu collapse on smaller screens.
+  * Integrating `useMediaQuery` (from MUI) and Tailwind's `sm:`, `md:`, `lg:` breakpoints.
+* Dynamically displayed user authentication state:
+
+  * If **logged in**: show user name, avatar, and logout option.
+  * If **logged out**: show Sign In / Sign Up buttons.
+
+---
+
+### 🔐 **Sign In / Sign Up Page Enhancements**
+
+* Continued development of **Sign In & Sign Up forms** using **Material UI components**.
+* Ensured **responsive layout** with Tailwind grid and flex utilities.
+* Added:
+
+  * Form validation and feedback.
+  * Password visibility toggles.
+  * Button styling consistent with the app’s theme.
+
