@@ -1,26 +1,27 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
-const auth = ( req, res, next) => {
-    try {
-        const token = req.headers.authorization.split(" ")[1];
-        const isCustomAuth  = token.length < 500;
-        let decodedData;
-        if( token && isCustomAuth){
-            decodedData = jwt.verify(token, 'test');
-            req.userId = decodedData?.id;
-            console.log("Custom auth called!!");
-            
-        } else {
-            decodedData = jwt.decode(token);
-            req.userId = decodedData?.sub;
-            console.log("google auth called!!");
-        }
+const auth = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
 
-        next();
-    } catch (error) {
-        console.log(error);
-
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'No token provided' });
     }
-}
+
+    const token = authHeader.split(" ")[1];
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = {
+      id: decodedData.id,
+      email: decodedData.email,
+      role: decodedData.role // assuming you store role in the token
+    };
+
+    next();
+  } catch (error) {
+    console.error("Auth middleware error:", error.message);
+    res.status(401).json({ message: 'Invalid or expired token' });
+  }
+};
 
 export default auth;

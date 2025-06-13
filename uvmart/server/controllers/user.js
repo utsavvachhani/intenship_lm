@@ -1,79 +1,77 @@
-import bcrypt from 'bcryptjs'
-import mongoose from "mongoose";
-import jwt from 'jsonwebtoken'
-import User from '../models/user.js';
+import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { sendOTP } from '../utils/sendOtp.js';
 
-export const signin = async(req, res) => {
-  console.log("signin request received");
-    const { email, password } = req.body;
-    try {
-        const existingUser = await User.findOne({ email });
+const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
-        if(!existingUser) return res.status(404).json({ message:  " User doesn't exist."});
-
-        const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
-        if(!isPasswordCorrect) return res.status(400).json({ message: "Invalid Credentials."})
-
-        const token = jwt.sign({ email: existingUser.email, id: existingUser._id}, 'test', { expiresIn: "1h"});
-
-        res.status(200).json({ result: existingUser, token});
-    } catch (error) {
-        res.status(500).json({ message: "Something went wrong"})
-        // console.log(error);
-        
-    }
-}
-
-export const signup = async(req, res) => {
-  console.log("signup request received");
+export const signUp = async (req, res) => {
+  console.log("New User Signup!!");
   
-    const { email, password, confirmPassword, firstName, lastName} = req.body;
-
-    try {
-        const existingUser = await User.findOne({ email });
-        if(existingUser) return res.status(404).json({ message:  "User Alrady exist."});
-        if(password !== confirmPassword) return res.status(404).json({ message:  "Passwords Don't Match."});
-
-        const hashedPassword = await bcrypt.hash(password, 12);
-        const result = await User.create({ email, password: hashedPassword, firstName: firstName, lastName: lastName  });
-        const token = jwt.sign({ email: result.email, id: result._id}, 'test', { expiresIn: "1h"});
-
-        return res.status(200).json({ result: result, token});
-        // res.send('SignUp');
-    } catch (error) {
-        console.error("Signup error:", error);
-        res.status(500).json({ message: "Something went wrong"})
-    }
-}
-
-export const upadteUserProfile = async (req, res) => {
-  console.log("updateUserProfile request received");
-  
-  const { id: _id } = req.params;
-  const {formData}  = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send('No user with that id.');
-  }
-
   try {
-
-    if(formData.password) {
-        const hashedPassword = await bcrypt.hash(formData.password, 12);
-        formData.password = hashedPassword;
+    const { email, fullName, password,mobile, confirmPassword } = req.body;
+    if (!fullName || !password || password !== confirmPassword) {
+      return res.status(400).json({ message: 'Invalid data or passwords do not match' });
     }
 
-    const result = await User.findByIdAndUpdate(
-      _id,
-      { ...formData, _id },
-      { new: true }
-    );
+    const otp = generateOTP();
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const updatedUserProfile = {result} ;
-    // console.log('Updated Profile!!', updatedUserProfile);
-    res.json(updatedUserProfile);
-  } catch (error) {
-    console.error('Error updating user:', error);
-    res.status(500).json({ message: 'Failed to update user profile.' });
+    const user = new User({
+      fullName,
+      email,
+      mobile,
+      password: hashedPassword,
+      otp,
+      otpExpires: new Date(Date.now() + 10 * 60 * 1000) // 10 minutes
+    });
+
+    await sendOTP(email, otp);
+    await user.save();
+
+    res.status(200).json({ email, message: 'OTP sent. Please verify your email.' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const verifySignup = async (req, res) => {
+  console.log("Verification called");
+  
+  try {
+    const { email, otp } = req.body;
+
+    const userDeatils = await User.findOne({ email, otp, otpExpires: { $gt: new Date() } });
+    if (!userDeatils) return res.status(400).json({ message: 'Invalid or expired OTP' });
+
+    userDeatils.isVerified = true;
+    userDeatils.otp = null;
+    userDeatils.otpExpires = null;
+    await userDeatils.save();
+
+    const token = jwt.sign({ id: userDeatils._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+    const user = { fullName : userDeatils.fullName}
+    res.status(200).json({user, message: 'User verified successfully', token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const signin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const userDeatils = await User.findOne({ email });
+    if (!userDeatils || !userDeatils.isVerified) return res.status(401).json({ message: 'Invalid credentials or unverified user' });
+
+    const match = await bcrypt.compare(password, userDeatils.password);
+    if (!match) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const token = jwt.sign({ id: userDeatils._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const user = { fullName : userDeatils.fullName }
+    res.status(200).json({user, token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
