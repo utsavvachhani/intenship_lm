@@ -700,3 +700,101 @@ Daily Breakdown with Detailed Tasks
   * Password visibility toggles.
   * Button styling consistent with the app’s theme.
 
+---
+
+### 📅 **Day 19 – 12/06/2025 (Thursday)**
+
+📍 **Week 4 – Day 4**
+
+---
+
+## 🛠️ Tasks & Explanations:
+
+### 🔍 **API Testing & Postman Exploration**
+
+* 🧪 **Explored Postman for API Testing**
+
+  * Reviewed how to test RESTful APIs using **Postman** – focusing on:
+
+    * `GET`, `POST`, `PATCH`, `DELETE` methods
+    * Header configurations and body formats (JSON, URL-encoded)
+    * Authorization tab usage (Bearer Token)
+  * Tested key backend routes for **UV Mart**:
+
+    * `/api/products`
+    * `/api/user/signin`
+    * `/api/user/profile/:id`
+    * Verified success/failure responses and payload handling
+
+* ✅ **Checked Backend Auth Flow**
+
+  * Used Postman to simulate login, token generation, and profile fetching
+  * Tested JWT verification middleware by sending invalid/expired tokens
+  * Debugged edge cases: missing fields, duplicate users, incorrect passwords
+
+---
+
+### 📦 **Reviewed API Checker Tools**
+
+* 🔧 Explored online tools like:
+
+  * **Hoppscotch (formerly Postwoman.io)** – lightweight alternative to Postman
+  * **ReqBin** – for quick HTTP requests
+* Compared interface, ease of use, and ability to persist environments
+
+---
+
+---
+
+### 📅 **Day 20 – 13/06/2025 (Friday)**
+
+📍 **Week 4 – Day 5**
+
+---
+
+## 🛠️ Tasks & Explanations:
+
+---
+
+### 📧 **Explored Email OTP Verification Platforms**
+
+* 🔍 **Reviewed OTP Services for Email Auth**
+
+  * Researched platforms like:
+
+    * **EmailJS**
+    * **OTPify**
+    * **Firebase Email Authentication**
+    * Custom Node.js + Nodemailer approach
+  * Analyzed their:
+
+    * Ease of integration
+    * Pricing models
+    * Security practices (token expiration, rate limiting)
+
+* 🧪 **Built a Sample OTP Flow (Conceptual)**
+
+  * Defined how an email OTP system would work:
+
+    1. User enters email on signup
+    2. Server generates 6-digit OTP & stores it temporarily (Redis or DB)
+    3. Sends OTP via email using SMTP or third-party service
+    4. User submits OTP; server validates & proceeds
+  * Outlined API routes like:
+
+    * `POST /send-otp`
+    * `POST /verify-otp`
+
+---
+
+### 🧠 **Built UV Mart Architecture Flow (Using draw\.io)**
+
+* 🗂️ **Created a Visual Flowchart of UV Mart Architecture** using **draw\.io** (diagrams.net):
+
+  * Mapped how the UV Mart app works:
+
+    * **Frontend:** React + Redux → Axios → REST API
+    * **Backend:** Express.js → Controllers → MongoDB
+    * **Auth:** Google OAuth + JWT + Protected Routes
+    * **State Flow:** Redux manages auth & products
+    * **Pages:** Product List → Details → Profile → Auth
