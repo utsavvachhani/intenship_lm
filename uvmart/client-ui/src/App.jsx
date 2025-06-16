@@ -7,6 +7,9 @@ import Auth from './components/Auth/Auth.jsx';
 import UserProfile from './components/UserProfile/UserProfile.jsx';
 import ProductDeatils from './components/ProductDeatils/ProductDeatils.jsx';
 import Verifyed from './components/Auth/Verifyed.jsx'
+import ForgetPassword from './components/Auth/ForgetPassword.jsx'
+import ForgotVerifying from './components/Auth/ForgotVerifying.jsx'
+
 import { ToastContainer } from 'react-toastify';
   function App() {
     const user = JSON.parse(localStorage.getItem('profile'));
@@ -27,8 +30,15 @@ import { ToastContainer } from 'react-toastify';
               />
               <Route 
                 path='/verifying'
-                element={<Verifyed/>}
-                // element={!user ? < Verifyed/> : <Navigate to="/home" replace /> }
+                element={!user ? < Verifyed/> : <Navigate to="/home" replace /> }
+              />
+              <Route 
+                path='/forgetpassword'
+                element={!user ? < ForgetPassword/> : <Navigate to="/home" replace /> }
+              />
+              <Route 
+                path='/forgotverifying'
+                element={!user ? < ForgotVerifying/> : <Navigate to="/home" replace /> }
               />
             </Routes>
           <Fotter />

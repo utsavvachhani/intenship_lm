@@ -12,12 +12,12 @@ export const signin = (formData) => async(dispatch) =>  {
          return { success: true };
     } catch (error) {
         console.log(error);
-        return { success: false, message: 'Username or password is incorrect! Please try again!' };          
+        return { success: false, message: error.response?.data?.message || 'Something went wrong. Please try again!' };          
     }
 }
 
 export const signup = (formData) => async (dispatch) => {
-    console.log("signup ");
+    // console.log("signup ");
     
     try {
         const { data } = await api.signUp(formData);
@@ -26,8 +26,8 @@ export const signup = (formData) => async (dispatch) => {
         // navigate(`/posts`); 
         return { success: true };      
     } catch (error) {
-        console.log(error);
-        return { success: false, message: 'Something went wrong. Please try again!' };
+        // console.log(error);
+        return { success: false,  message: error.response?.data?.message || 'Something went wrong. Please try again!' };
     }
 }
 
@@ -38,20 +38,52 @@ export const verifyingUser = ({email, otp}) => async (dispatch) => {
         return { success: true };
     } catch (error) {
         console.log(error);
-        return { success: false, message: 'Something went wrong. Please try again!' };
+        return { success: false, message: error.response?.data?.message || 'Something went wrong. Please try again!' };
     }
 }
 
-export const updateUserProfile = (id, formData) => async (dispatch) => {
+export const verifyingforeget = ({email, otp}) => async (dispatch) => {
     try {
-        // console.log(id,formData);
-        const {data} = await api.updateUserProfile(id,{formData : formData});
+        const {data} = await api.verifyingforeget({email,otp});
+        dispatch({ type: AUTH, data});
+        return { success: true };
+    } catch (error) {
+        console.log(error);
+        return { success: false, message: error.response?.data?.message || 'Something went wrong. Please try again!' };
+    }
+}
+
+export const forget = (formData) => async (dispatch) => {
+    try {
+        const { data } = await api.forget(formData);
+        dispatch({type: SIGNUP, data});
+        return { success: true };      
+    } catch (error) {
+        return { success: false,  message: error.response?.data?.message || 'Something went wrong. Please try again!' };
+    }
+}
+
+export const updateUserProfile = (id, updatePayload) => async (dispatch) => {
+    try {
+        // console.log(id,updatePayload);
+        const {data} = await api.updateUserProfile(id,{updatePayload : updatePayload});
         // console.log("data : ",data);
         dispatch({ type: AUTH, data});
         return { success: true };
 
     } catch (error) {
         console.log(error);
-        return { success: false, message: 'Something went wrong. Please try again!' };
+        return { success: false, message: error.response?.data?.message || 'Something went wrong. Please try again!' };
+    }
+}
+
+export const googleSignIn = (userData) => async (dispatch) => {
+    try {
+        const { data } = await api.googleSignIn(userData); // <-- backend route
+        dispatch({ type: AUTH, data });
+        return { success: true };
+    } catch (error) {
+        console.log(error);
+        return { success: false, message: error.response?.data?.message || 'Something went wrong. Please try again!' };
     }
 }

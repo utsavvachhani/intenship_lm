@@ -7,8 +7,9 @@ import Input from './Input';
 import Icon from './Icon';
 import { useDispatch } from'react-redux';
 import { useNavigate } from'react-router-dom';
-import { signin, signup } from '../../actions/auth.jsx'
+import { signin, signup, googleSignIn } from '../../actions/auth.jsx'
 import { toast } from 'react-toastify';
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input'
 import { useStyles } from '../../styles.js';
 
 const initialState = { fullName: '', email: '',mobile : '', password: '', confirmPassword: '' }
@@ -20,10 +21,16 @@ function Auth() {
   const [isSignup, setIsSignup] = useState(false);
   const [ formData, setFormData ] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
+  const [isMobileValid, setIsMobileValid] = useState(true); // track mobile validity
+  const [loading, setLoading] = useState(false);
+  const forgotPassword = () => {
+    navigate('/forgetpassword');
+  }
   const handleSubmit = async(e) => {
      e.preventDefault();
     // handle form submit logic
     // console.log(formData);
+    setLoading(true);
 
     let res;
     if(isSignup){
@@ -35,13 +42,13 @@ function Auth() {
         theme: "dark",
       });
       setTimeout(() => navigate('/verifying'), 500);
-    } else {
-      toast.error(res?.message || 'Signup failed', {
-        position: "top-right",
-        autoClose: 5000,
-        theme: "dark",
-      });
-    }
+      } else {
+        toast.error(res?.message || 'Signup failed', {
+          position: "top-right",
+          autoClose: 5000,
+          theme: "dark",
+        });
+      }
     } else {
       res = await dispatch(signin(formData));
       if (res?.success) {
@@ -59,23 +66,45 @@ function Auth() {
       });
     }
     }
+    setLoading(false);
   };
   
   const handleChange = (e) => {
     // handle input changes
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const handleChangeMobile = (newValue) => {
+    setFormData({ ...formData, mobile: newValue });
+    setIsMobileValid(matchIsValidTel(newValue));
+  };
   const handleShowPassword = () => setShowPassword((prev) => !prev);
-  const googleSuccess = async (credentialResponse) => {
-    const token = credentialResponse.credential;
-    const result = jwtDecode(token); // name, email, picture, etc.
-
-    try {
-      dispatch({ type: 'AUTH', data: { result, token } });
-      // Redirect or further actions
-      navigate('/');
-    } catch (error) {
-      console.log(error);
+  const googleSuccess = async (res) => {
+    const result = res?.profileObj || res?.credential ? jwtDecode(res.credential) : null;
+    const token = res?.tokenId || res?.credential;
+    // Prepare data to send to backend
+    const userData = {
+      fullName: result.name,
+      email: result.email,
+      googleId: result.sub,
+      token
+    };
+    let googleRes = await dispatch(googleSignIn(userData));
+    // console.log(googleRes);
+    
+    if (googleRes?.success) {
+      toast.success('🎉 Google Sing in Done !!', {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      const googleId = JSON.parse(localStorage.getItem('profile'))
+      setTimeout(() => navigate(`/user/profile/${googleId}`), 500);
+    } else {
+      toast.error(googleRes?.message || 'Signup failed', {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
     }
   };
 
@@ -108,7 +137,18 @@ function Auth() {
             <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
             {isSignup && (
               <>
-                <Input name="mobile" label="Mobile Number" handleChange={handleChange} autoFocus type="mobile" />
+                <MuiTelInput 
+                  name="mobile" 
+                  value={formData.mobile} 
+                  onChange={handleChangeMobile} 
+                  fullWidth 
+                  defaultCountry="IN"
+                />
+                {!isMobileValid && (
+                  <span style={{ color: 'red', fontSize: '0.875rem' }}>
+                    Please enter a valid mobile number.
+                  </span>
+                )}             
               </>
             )}
             <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'}  handleShowPassword={handleShowPassword} />
@@ -118,7 +158,7 @@ function Auth() {
           </Grid>
 
           <Button className={classes.siginbutton} type="submit" fullWidth variant="contained">
-            {isSignup? 'Verified Your Self' : 'Sign In'}
+            {isSignup? (loading ? 'Verifying ...' : 'Verified Your Self') : (loading ? 'Signin ... ' : 'Signin')}
           </Button>
 
           <GoogleLogin 
@@ -136,9 +176,21 @@ function Auth() {
             onError={googleFailure} 
           />
 
+          {
+            !isSignup && (
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Button onClick={forgotPassword} fullWidth style={{margin: '12px 0 0 0' }} className="hover-bold-button">
+                    {'forgot password ?' }
+                  </Button>
+                </Grid>
+              </Grid>
+            )
+          }
+          
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Button onClick={switchMode} fullWidth style={{margin: '12px 0' }} className="hover-bold-button">
+              <Button onClick={switchMode} fullWidth style={{margin: '0 0 12px 0' }} className="hover-bold-button">
                 {isSignup? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
               </Button>
             </Grid> 

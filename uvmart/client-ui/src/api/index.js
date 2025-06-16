@@ -12,4 +12,7 @@ API.interceptors.request.use((req) => {
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData); 
 export const verifyingUser = ({email, otp}) => API.post('/user/verifyinguser',{email,otp})
-export const updateUserProfile = (id,formData) =>API.put(`/user/${id}`,formData)
+export const verifyingforeget = ({email, otp}) => API.post('/user/verifyingforeget',{email,otp})
+export const updateUserProfile = (id,updatePayload) =>API.put(`/user/${id}`,updatePayload)
+export const forget = (formData) => API.post('/user/forget',formData);
+export const googleSignIn = (userData) => API.post('/user/googlesignin',userData);
