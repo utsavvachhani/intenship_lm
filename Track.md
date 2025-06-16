@@ -798,3 +798,114 @@ Daily Breakdown with Detailed Tasks
     * **Auth:** Google OAuth + JWT + Protected Routes
     * **State Flow:** Redux manages auth & products
     * **Pages:** Product List → Details → Profile → Auth
+
+
+
+---
+------
+📍 **Week 5 – 14/06/2025 (Monday) to 20/06/2025 (Friday)**
+---
+## 📅 **Day 21 – 14/06/2025 (Friday)**
+
+📍 **Week 5 – Day 1**
+
+---
+
+### 🛠️ **Tasks & Progress Summary:**
+
+---
+
+### 🔐 **Staff Portal – Authentication Module (Frontend & Backend)**
+
+#### ✅ **Sign In & Sign Up Functionalities**
+
+* Developed full **Sign In** and **Sign Up** forms using **React + Material UI**.
+* Integrated **JWT-based authentication** via backend API (`/api/staff/signin` and `/api/staff/signup`).
+* Validated email format, password length, and matched confirm password fields on the client side.
+* Stored login tokens in `localStorage` for persistent sessions.
+* Implemented conditional rendering on Navbar to show authenticated staff info.
+
+---
+
+### ✉️ **Forgot Password with OTP via Email**
+
+#### 💡 **Feature Overview:**
+
+* Enabled secure **password reset** through **OTP verification** sent via email.
+
+#### 🔧 **Backend (Node.js + Express):**
+
+* Created APIs:
+
+  * `POST /api/staff/forgot-password` – generates and emails OTP
+  * `POST /api/staff/verify-otp` – verifies OTP before password reset
+  * `PATCH /api/staff/reset-password` – updates password in DB
+
+* OTP Details:
+
+  * Stored OTP with expiry (5–10 mins) using MongoDB or in-memory store (optional Redis).
+  * Hashed OTP for security before saving in DB.
+  * Used **nodemailer** for sending emails from a verified Gmail SMTP sender.
+
+#### 🎯 **Frontend Flow:**
+
+* Users input email → get OTP in email → input OTP → set new password.
+* OTP inputs validated and submitted to backend for verification.
+* Password reset form shown only after successful OTP check.
+
+---
+
+### 🛡️ **Admin Authentication Interface (Secure Key Based)**
+
+#### ✅ **Admin Login Page (React + Tailwind/MUI)**
+
+* Created a **separate admin login interface** with a secret key validation step.
+* Frontend included:
+
+  * Admin email + password + secret key field
+  * Show error toast if invalid key or credentials
+* Used `react-toastify` for error/success feedback.
+* On successful admin login:
+
+  * Redirected to admin dashboard (`/admin/dashboard`)
+  * Admin token saved and used for protected routes
+
+#### 🔧 **Backend Logic:**
+
+* Validated submitted secret key against `.env` config (`process.env.ADMIN_SECRET`).
+* Differentiated admin vs. staff in JWT payload for route access control.
+* Protected routes using a custom middleware (`adminAuth.js`).
+
+---
+
+### 📁 **Code & Architecture Enhancements**
+
+* Created separate **auth controller**, **OTP utility**, and **email helper functions** for modularity.
+* Defined clear API structure:
+
+  ```
+  /api/staff/
+  ├── signup
+  ├── signin
+  ├── forgot-password
+  ├── verify-otp
+  └── reset-password
+
+  /api/admin/
+  ├── login
+  └── dashboard (protected)
+  ```
+
+---
+
+### 🧪 **Testing & Validation**
+
+* Tested full auth flow via:
+
+  * **Frontend UI forms**
+  * **Postman API checks** for OTP and password flows
+* Verified:
+
+  * Expired OTP returns appropriate error
+  * Secure password hashing via `bcryptjs`
+  * Correct JWT payload for both staff and admin
