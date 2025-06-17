@@ -909,3 +909,34 @@ Daily Breakdown with Detailed Tasks
   * Expired OTP returns appropriate error
   * Secure password hashing via `bcryptjs`
   * Correct JWT payload for both staff and admin
+
+---
+
+### 📅 **Day 20 – 17/06/2025 (Tuesday)**
+
+📍 **Week 5 – Day 2**
+
+---
+
+### 🛠️ **Tasks & Explanations:**
+
+---
+
+### 🛒 **Category Creation & Bug Fixing**
+
+* 🐛 **Resolved MongoDB Duplicate Key Error:**
+
+  * Fixed the `E11000 duplicate key error` caused by a unique index on the `email` field in the `categories` collection.
+  * Identified that the `email` field was either missing or being passed as `null`.
+  * **Solution:** Removed or corrected the `email` field from schema or ensured it receives a valid value before inserting a new document.
+
+* 🗂️ **Improved Category Schema Validation:**
+
+  * Ensured that new category submissions require all mandatory fields: `categoriesName`, `description`, and `categoriesImage`.
+  * Validated `parentCategories` against existing entries to avoid broken relationships.
+
+* 🆕 **Successful Category Insertion:**
+
+  * Implemented safe category addition via the backend API with proper MongoDB handling using Mongoose.
+  * Added appropriate error handling and response messages to the controller.
+
