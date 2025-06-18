@@ -939,4 +939,68 @@ Daily Breakdown with Detailed Tasks
 
   * Implemented safe category addition via the backend API with proper MongoDB handling using Mongoose.
   * Added appropriate error handling and response messages to the controller.
+---
 
+### 📅 **Day 22 – 18/06/2025 (Wednesday)**
+
+📍 **Week 5 – Day 3**
+
+---
+
+## 🛠️ **Tasks & Progress Summary:**
+
+---
+
+### 👨‍💼 **Staff Management – Admin Approval Flow**
+
+#### ✅ **Staff Creation from Staff Portal**
+
+* Staff users can now **sign up** from the `staff-portal` with necessary details.
+* All newly registered staff are saved with `isVerified: false` and status as `Pending`.
+
+#### 🛡️ **Admin-Side Verification (UI + Logic)**
+
+* Built a **dedicated admin UI panel** to view unverified staff.
+* Admin can now:
+
+  * View full staff details (profile image, name, role, message, etc.)
+  * Approve or Reject staff directly from UI
+  * Latest issued actions are shown with `Issued By`, `Action`, and admin details
+
+#### 🔁 **Dynamic IssuedBy History Tracking**
+
+* Updated **staff schema** to store a full `issuedBy` array with:
+
+  * Admin ID (ref)
+  * Action taken (Approved / Rejected)
+  * Timestamp
+* When actions are taken multiple times (approve → reject → approve), each is stored with history.
+
+---
+
+### 🗂️ **Category Management Improvements**
+
+#### ✍️ **Staff-Added Categories (Pending State)**
+
+* Staff can now submit **new category requests** from the staff portal.
+* These are stored with `isVerified: false` and visible only to the admin for approval.
+
+#### ✅ **Admin Review & Approval (UI + Backend)**
+
+* Developed admin-side category approval UI similar to staff verification:
+
+  * Grid view and Table view toggle (responsive with MUI)
+  * Shows image, parent, createdBy, and issuedBy history
+  * Admin can Approve / Reject categories
+  * Actions stored in `issuedBy` field in category schema as well
+
+---
+
+### 🧱 **Admin Block UI Enhancements**
+
+* Created fully functional and **responsive admin dashboard interface** for:
+
+  * Reviewing pending staff and categories
+  * Taking action with real-time status updates
+  * Toast feedback on actions (approve/reject)
+  * Table layout for quick bulk review, and grid layout for detail preview
