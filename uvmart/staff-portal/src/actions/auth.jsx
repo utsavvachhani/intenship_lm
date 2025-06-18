@@ -2,13 +2,10 @@ import * as api from '../api';
 import { AUTH,SIGNUP } from '../constants/actionTypes.js'
 
 export const signin = (formData) => async(dispatch) =>  {
-    // console.log("signin");
-    
     try {
         const { data } = await api.signIn(formData);
         
         dispatch({ type: AUTH, data});
-        // navigate(`/posts`);
          return { success: true };
     } catch (error) {
         console.log(error);

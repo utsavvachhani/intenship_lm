@@ -84,4 +84,33 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
+  header : {
+    backgroundColor : `${theme.palette.custom.header.background} !important`,
+    width: '100%',
+    height: '100%'
+  },
+
+  successButton : {
+    backgroundColor: `${theme.palette.custom.button.successBG} !important`,
+    color : `${theme.palette.custom.button.hoverText} !important`,
+    fontWeight : `bold !important`,
+    border: `${theme.palette.custom.button.hoverText} 2px solid !important`,
+    '&:hover': {
+      backgroundColor: `${theme.palette.custom.button.hoverText} !important`,
+      color: `${theme.palette.custom.button.successBG} !important`,
+      border: `${theme.palette.custom.button.successBG} 2px solid !important`,
+      fontWeight: 'bold !important',
+    },
+  },
+  rejectButton : {
+    color : `${theme.palette.custom.button.hoverText} !important`,
+    fontWeight : `bold !important`,
+    border: `${theme.palette.custom.button.hoverText} 2px solid !important`,
+    '&:hover': {
+      color: `${theme.palette.custom.button.rejectedBG} !important`,
+      border: `${theme.palette.custom.button.rejectedBG} 2px solid !important`,
+      fontWeight: 'bold !important',
+    },
+  },
 }))

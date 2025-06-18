@@ -8,6 +8,7 @@ router.post('/verifyinguser', verifySignup);
 router.post('/verifyingforeget',verifyingForeget)
 router.post('/signin', signin);
 router.post('/forget', forget);
-router.put('/:id',updateUserProfile)
-router.post('/googlesignin',googleSignIn)
+router.put('/:id',updateUserProfile);
+router.post('/googlesignin',googleSignIn);
+
 export default router;

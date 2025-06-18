@@ -6,9 +6,10 @@ import { useDispatch } from'react-redux';
 import { useNavigate } from'react-router-dom';
 import { signin, signup} from '../../actions/auth.jsx'
 import { toast } from 'react-toastify';
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input'
 import { useStyles } from '../../styles.js';
 
-const initialState = { fullName: '', email: '', password: '', confirmPassword: '', secretKey: '' }
+const initialState = { fullName: '', email: '', password: '', confirmPassword: '', secretKey: '', mobile: '' }
 
 function Auth() {
   const dispatch = useDispatch();
@@ -16,11 +17,14 @@ function Auth() {
   const classes = useStyles();
   const [isSignup, setIsSignup] = useState(false);
   const [ formData, setFormData ] = useState(initialState);
+  const [isMobileValid, setIsMobileValid] = useState(true); // track mobile validity
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const forgotPassword = () => {
-    navigate('/forgetpassword');
-  }
+  const handleChangeMobile = (newValue) => {
+    setFormData({ ...formData, mobile: newValue });
+    setIsMobileValid(matchIsValidTel(newValue));
+  };
+  
   const handleSubmit = async(e) => {
      e.preventDefault();
     // handle form submit logic
@@ -93,6 +97,22 @@ function Auth() {
               </>
             )}
             <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
+            {isSignup && (
+              <>
+                <MuiTelInput 
+                  name="mobile" 
+                  value={formData.mobile} 
+                  onChange={handleChangeMobile} 
+                  fullWidth 
+                  defaultCountry="IN"
+                />
+                {!isMobileValid && (
+                  <span style={{ color: 'red', fontSize: '0.875rem' }}>
+                    Please enter a valid mobile number.
+                  </span>
+                )}             
+              </>
+            )}
             <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'}  handleShowPassword={handleShowPassword} />
             {isSignup && (
               <>
@@ -106,18 +126,6 @@ function Auth() {
             {isSignup? (loading ? 'Verifying ...' : 'Verified Your Self') : (loading ? 'Signin ... ' : 'Signin')}
           </Button>
 
-          {
-            !isSignup && (
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Button onClick={forgotPassword} fullWidth style={{margin: '12px 0 0 0' }} className="hover-bold-button">
-                    {'forgot password ?' }
-                  </Button>
-                </Grid>
-              </Grid>
-            )
-          }
-          
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode} fullWidth style={{margin: '0 0 12px 0' }} className="hover-bold-button">

@@ -9,8 +9,14 @@ API.interceptors.request.use((req) => {
     return req;
 })
 
-export const signIn = (formData) => API.post('/staff/signin', formData);
-export const signUp = (formData) => API.post('/staff/signup', formData); 
-export const verifyingUser = ({email, otp}) => API.post('/staff/verifyinguser',{email,otp})
-export const verifyingforeget = ({email, otp}) => API.post('/staff/verifyingforeget',{email,otp})
-export const forget = (formData) => API.post('/staff/forget',formData);
+export const signIn = (formData) => API.post('/admin/signin', formData);
+export const signUp = (formData) => API.post('/admin/signup', formData); 
+export const verifyingUser = ({email, otp}) => API.post('/admin/verifyinguser',{email,otp})
+
+export const fetchUnverifiedCategories = () => API.get('/categories/unverified');
+export const approveCategory = (categoryId) => API.put(`/categories/${categoryId}/approve`);
+export const rejectCategory = (categoryId) => API.put(`/categories/${categoryId}/reject`);
+
+export const getStaffWhonotVerified = () => API.get('/staff/unverified');
+export const approveStaff = (staffId) => API.put(`/staff/${staffId}/approve`);
+export const rejectStaff = (staffId) => API.put(`/staff/${staffId}/reject`);

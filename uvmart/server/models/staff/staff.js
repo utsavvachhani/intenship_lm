@@ -6,7 +6,8 @@ const staffSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true },
   mobile: { type: String, required: true },
   password: { type: String, required: true },
-  role: { type: String, 
+  role: {
+    type: String,
     enum: [
       'Vendor',
       'Supplier',
@@ -18,8 +19,18 @@ const staffSchema = new mongoose.Schema({
     ],
     required: true
   },
+  profilePic: { type: String },
+  messageReq : {type : String},
   isVerified: { type: Boolean, default: false },
   isVerifiedByAdmin: { type: Boolean, default: false },
+  issuedBy: [
+    {
+      admin: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
+      action: { type: String, enum: ['approved', 'rejected'] },
+      issuedAt: { type: Date, default: Date.now }
+    }
+  ],
+  status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
   createdAt: { type: Date, default: Date.now }
 });
 

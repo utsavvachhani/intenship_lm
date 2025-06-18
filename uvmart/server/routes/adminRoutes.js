@@ -1,12 +1,10 @@
 import express from 'express';
-import { signin, signup, upadteAdminProfile, adminUpdatesRole } from '../controllers/admin.js';
-import auth from '../middleware/auth.js'
+import { signin, signUp, verifySignup } from '../controllers/admin.js';
 
 const router = express.Router();
 
+router.post('/signup', signUp);
+router.post('/verifyinguser', verifySignup);
 router.post('/signin', signin);
-router.post('/signup', signup);
-router.put('/:id',auth, upadteAdminProfile);
-router.put('/updaterole/:id', adminUpdatesRole);
 
 export default router;

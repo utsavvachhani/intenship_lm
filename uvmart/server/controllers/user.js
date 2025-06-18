@@ -169,7 +169,6 @@ export const verifyingForeget = async (req, res) => {
   }
 };
 
-
 export const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -178,7 +177,7 @@ export const signin = async (req, res) => {
     if (!userDetails || !userDetails.isVerified) return res.status(401).json({ message: 'Invalid credentials or unverified user' });
 
     const match = await bcrypt.compare(password, userDetails.password);
-    if (!match) return res.status(401).json({ message: 'Invalid credentials' });
+    if (!match) return res.status(401).json({ message: 'Password is Not Matched !' });
 
     const token = jwt.sign({ id: userDetails._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     const user = { fullName : userDetails.fullName, _id: userDetails._id, email: userDetails.email, mobile: userDetails.mobile}
@@ -187,7 +186,6 @@ export const signin = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 export const updateUserProfile = async (req, res) => {
   console.log("Updated Profiles !!");

@@ -4,10 +4,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/adminRoutes.js';
-import categoryRoutes from './routes/categoryRoutes.js';
+import staffRoutes from './routes/staffRoutes.js'
+import categoriesRoutes from './routes/categoriesRoutes.js';
 
 dotenv.config();
 
@@ -18,11 +18,10 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
 
 
-
 app.use('/user',userRoutes);
 app.use('/admin',adminRoutes);
-app.use('/category',categoryRoutes);
-
+app.use('/staff',staffRoutes);
+app.use('/categories',categoriesRoutes);
 
 
 app.get('/', (req, res) => {

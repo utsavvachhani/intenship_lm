@@ -1,108 +1,130 @@
-import bcrypt from 'bcryptjs'
-import mongoose from "mongoose";
-import jwt from 'jsonwebtoken'
-import Admin from '../models/admin.js';
+import Admin from '../models/admin/admin.js';
+import AdminVerification from '../models/admin/adminVarification.js';
+import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import { sendOTP } from '../utils/sendOtp.js';
 
-export const signin = async(req, res) => {
-  console.log("signin request received for admin");
-    const { email, password } = req.body;
-    try {
-        const existingAdmin = await Admin.findOne({ email });
+const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
+dotenv.config();
 
-        if(!existingAdmin) return res.status(404).json({ message:  " Admin doesn't exist."});
-        if(existingAdmin.role === "false") return res.status(404).json({ message:  "Wait for the Approveled"});
-
-        const isPasswordCorrect = await bcrypt.compare(password, existingAdmin.password);
-        if(!isPasswordCorrect) return res.status(400).json({ message: "Invalid Credentials."})
-
-        const token = jwt.sign({ email: existingAdmin.email, id: existingAdmin._id}, 'test', { expiresIn: "1h"});
-
-        res.status(200).json({ result: existingAdmin, token});
-    } catch (error) {
-        res.status(500).json({ message: "Something went wrong"})
-        // console.log(error);
-        
-    }
-}
-
-export const signup = async(req, res) => {
-  console.log("signup request received for admin");
+export const signUp = async (req, res) => {
+  console.log("Admin Signup");
   
-    const { email, password, confirmPassword, firstName, lastName} = req.body;
-
-    try {
-        const existingAdmin = await Admin.findOne({ email });
-        if(existingAdmin) return res.status(404).json({ message:  "Admin Alrady exist."});
-        if(password !== confirmPassword) return res.status(404).json({ message:  "Passwords Don't Match."});
-
-        const hashedPassword = await bcrypt.hash(password, 12);
-        const result = await Admin.create({ email, password: hashedPassword, firstName: firstName, lastName: lastName, role: false  });
-        const token = jwt.sign({ email: result.email, id: result._id}, 'test', { expiresIn: "1h"});
-
-        return res.status(200).json({ result: result, token});
-        // res.send('SignUp');
-    } catch (error) {
-        console.error("Signup error:", error);
-        res.status(500).json({ message: "Something went wrong"})
-    }
-}
-
-export const upadteAdminProfile = async (req, res) => {
-  console.log("upadteAdminProfile request received");
-  
-  const { id: _id } = req.params;
-  const {formData}  = req.body;
-  // console.log(formData); 
-  
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send('No Admin with that id.');
-  }
-
   try {
+    const {
+      fullName,
+      email,
+      mobile,
+      password,
+      confirmPassword,
+      secretKey
+    } = req.body;
 
-    if(formData.password) {
-        const hashedPassword = await bcrypt.hash(formData.password, 12);
-        formData.password = hashedPassword;
+    // Basic validation
+    if (!fullName || !email || !mobile || !password || !confirmPassword || !secretKey) {
+      return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    const result = await Admin.findByIdAndUpdate(
-      _id,
-      { ...formData, _id },
-      { new: true }
-    );
+    if(secretKey!==process.env.SECRET_kEY){
+      return res.status(400).json({ message: 'Secret Key is Wrong !! Please Provides Right.' });
+    }
 
-    const token = jwt.sign({ email: result.email, id: result._id}, 'test', { expiresIn: "1h"});
-    res.status(200).json({ result: result, token})
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: 'Passwords do not match.' });
+    }
+
+    const existingUser = await Admin.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Admin already exists.' });
+    }
+
+    const existingVerification = await AdminVerification.findOne({ email });
+    if (existingVerification) {
+      await AdminVerification.deleteOne({ email }); // cleanup stale entry
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const otp = generateOTP();
+
+    const tempAdmin = new AdminVerification({
+      fullName,
+      email,
+      mobile,
+      password: hashedPassword,
+      secretKey,
+      otp,
+      otpExpires: new Date(Date.now() + 10 * 60 * 1000) // 10 mins
+    });
+
+    await sendOTP(email, otp); // Implement email sender
+    await tempAdmin.save();
+
+    res.status(200).json({
+      success: true,
+      email,
+      message: 'OTP sent. Please verify your email.'
+    });
   } catch (error) {
-    console.error('Error updating Admin:', error);
-    res.status(500).json({ message: 'Failed to update Admin profile.' });
+    console.error('Signup Error:', error);
+    res.status(500).json({ message: 'Signup failed. Try again later.' });
   }
 };
 
-export const adminUpdatesRole = async (req, res) => {
-  console.log("updateAdminProfile request received");
-
-  const { id: _id } = req.params;
-  const { role } = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send('No Admin with that id.');
-  }
-
+export const verifySignup = async (req, res) => {
+  console.log("Verification ADMIN called");
+  
   try {
-    const updatedAdmin = await Admin.findByIdAndUpdate(
-      _id,
-      { role },
-      { new: true }
-    );
+    const { email, otp } = req.body;
 
-    if (!updatedAdmin) {
-      return res.status(404).json({ message: 'Admin not found.' });
-    }
+    const userDetails = await AdminVerification.findOne({ email, otp, otpExpires: { $gt: new Date() } });
+    if (!userDetails) return res.status(400).json({ message: 'Invalid or expired OTP' });
+
+    userDetails.isVerified = true;
+    userDetails.otp = null;
+    userDetails.otpExpires = null;
+    await userDetails.save();
+
+    const newUser = new Admin({
+      fullName: userDetails.fullName,
+      email: userDetails.email,
+      mobile: userDetails.mobile,
+      password: userDetails.password,
+      isVerified: true,
+    });
     
-    res.status(200).json({ message: 'Admin role updated successfully.', admin: updatedAdmin });
-  } catch (error) {
-    console.error('Error updating Admin role:', error);
-    res.status(500).json({ message: 'Failed to update Admin role.' });
+    await newUser.save();
+    const token = jwt.sign({ id: newUser._id,role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    await AdminVerification.deleteOne({ _id: userDetails._id });
+
+    const user = { fullName : newUser.fullName, _id: newUser._id, email: newUser.email, mobile: newUser.mobile}
+    res.status(200).json({user, message: 'User verified successfully', token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log(err)
   }
 };
+
+export const signin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const userDetails = await Admin.findOne({ email });
+    if (!userDetails || !userDetails.isVerified) return res.status(401).json({ message: 'Invalid credentials or unverified user' });
+
+    const match = await bcrypt.compare(password, userDetails.password);
+    if (!match) return res.status(401).json({ message: 'Password Not Matched !!' });
+
+    const token = jwt.sign({ id: userDetails._id, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const user = { 
+      fullName : userDetails.fullName, 
+      _id: userDetails._id, 
+      email: userDetails.email, 
+      mobile: userDetails.mobile
+    }
+    res.status(200).json({user, token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+

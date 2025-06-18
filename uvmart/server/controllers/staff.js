@@ -20,7 +20,7 @@ export const signUp = async (req, res) => {
     } = req.body;
 
     // Basic validation
-    if (!fullName || !email || !mobile || !password || !confirmPassword || !role) {
+    if (!fullName || !email || !mobile || !password || !confirmPassword || !role || !profilePic) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -87,6 +87,8 @@ export const verifySignup = async (req, res) => {
       mobile: userDetails.mobile,
       password: userDetails.password,
       role: userDetails.role,
+      profilePic: userDetails.profilePic,
+      messageReq: userDetails.messageReq,
       isVerified: true,
       createdAt: userDetails.createdAt
     });
@@ -109,10 +111,10 @@ export const signin = async (req, res) => {
     const { email, password } = req.body;
 
     const userDetails = await Staff.findOne({ email });
-    if (!userDetails || !userDetails.isVerified) return res.status(401).json({ message: 'Invalid credentials or unverified user' });
+    if (!userDetails || !userDetails.isVerified) return res.status(401).json({ message: 'Might User are not register Yet!!' });
 
     const match = await bcrypt.compare(password, userDetails.password);
-    if (!match) return res.status(401).json({ message: 'Invalid credentials' });
+    if (!match) return res.status(401).json({ message: 'Enter Your Correct Password' });
 
     const token = jwt.sign({ id: userDetails._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     const user = { 
@@ -251,3 +253,69 @@ export const updateUserProfile = async (req, res) => {
   }
 }
 
+export const fetchUnverifiedStaff = async (req, res) => {
+  try {
+    const unverifiedStaff = await Staff.find({ isVerifiedByAdmin: false })
+      .sort({ createdAt: -1 })
+      .limit(10);
+    res.status(200).json(unverifiedStaff);
+  } catch (error) {
+    console.error('Error fetching unverified staff:', error.message);
+    res.status(500).json({ message: 'Server Error while fetching unverified staff' });
+  }
+};
+
+
+export const approveStaff = async (req, res) => {
+  console.log("approved staff");
+  
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied: Admins only' });
+    }
+
+    const staff = await Staff.findById(req.params.id);
+    if (!staff) return res.status(404).json({ message: 'Category not found' });
+
+    staff.isVerifiedByAdmin = true;
+    staff.status = 'Approved';
+    staff.issuedBy.push({
+      admin: req.user.id,
+      action: 'approved',
+      issuedAt: new Date()
+    });  
+
+    await staff.save();
+
+    res.status(200).json(staff);
+  } catch (error) {
+    console.error('Error approving staff:', error);
+    res.status(500).json({ message: 'Server error while approving staff' });
+  }
+};
+
+export const rejectStaff = async (req, res) => {
+  console.log("removed staff");
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied: Admins only' });
+    }
+
+    const staff = await Categories.findById(req.params.id);
+    if (!staff) return res.status(404).json({ message: 'Category not found' });
+
+    staff.isVerifiedByAdmin = true;
+    staff.status = 'Rejected';
+    staff.issuedBy.push({
+      admin: req.user.id,
+      action: 'rejected',
+      issuedAt: new Date()
+    }); 
+    await staff.save();
+
+    res.status(200).json(staff);
+  } catch (error) {
+    console.error('Error rejecting staff:', error);
+    res.status(500).json({ message: 'Server error while rejecting staff' });
+  }
+};

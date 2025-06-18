@@ -2,7 +2,6 @@ import React,{ useState } from 'react'
 import { Avatar, Button, Paper, Grid, Typography, Container, FormControl, InputLabel , MenuItem, Select, TextField } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Input from './Input';
-import Icon from './Icon';
 import { useDispatch } from'react-redux';
 import { useNavigate } from'react-router-dom';
 import { signin, signup } from '../../actions/auth.jsx'
@@ -44,12 +43,13 @@ function Auth() {
     if(isSignup){
       res = await dispatch(signup(formData));
       if (res?.success) {
-      toast.success('🎉 OTP sent. Please verify your email.!', {
-        position: "top-right",
-        autoClose: 5000,
-        theme: "dark",
-      });
-      setTimeout(() => navigate('/verifying'), 500);
+        toast.success('🎉 SignUp is Done !!', {
+          position: "top-right",
+          autoClose: 5000,
+          theme: "dark"
+        });
+      
+        setTimeout(() => navigate('/verifying'), 500);
       } else {
         toast.error(res?.message || 'Signup failed', {
           position: "top-right",

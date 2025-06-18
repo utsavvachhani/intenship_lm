@@ -8,11 +8,27 @@ import UserProfile from './components/UserProfile/UserProfile.jsx';
 import Verifyed from './components/Auth/Verifyed.jsx'
 import ForgetPassword from './components/Auth/ForgetPassword.jsx'
 import ForgotVerifying from './components/Auth/ForgotVerifying.jsx'
-
+import AdddedCategories from './components/categories/AdddedCategories.jsx'
 import { ToastContainer } from 'react-toastify';
-  function App() {
-    const user = JSON.parse(localStorage.getItem('profile'));
-    
+
+
+export const PrivateRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem('profile'));
+  return user ? children : <Navigate to="/auth" replace />;
+};
+
+export const PublicRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem('profile'));
+  return !user ? children : <Navigate to="/home" replace />;
+};
+
+export const VerifyedRoutes = ({ children }) => {
+   const user = JSON.parse(localStorage.getItem('user'));
+  return user ? children : <Navigate to="/home" replace />;
+}
+
+
+function App() {
     return (
       <BrowserRouter>
         <Container maxWidth='xl'>
@@ -21,23 +37,12 @@ import { ToastContainer } from 'react-toastify';
             <Routes>
               <Route path='/' element={<Navigate to="/home" replace />} />
               <Route path='/home' element={<Home />} />
-              <Route path='/user/profile/:creatorId' element={<UserProfile />} />
-              <Route
-                path='/auth'
-                element={!user ? <Auth /> : <Navigate to="/home" replace />}
-              />
-              <Route 
-                path='/verifying'
-                element={!user ? < Verifyed/> : <Navigate to="/home" replace /> }
-              />
-              <Route 
-                path='/forgetpassword'
-                element={!user ? < ForgetPassword/> : <Navigate to="/home" replace /> }
-              />
-              <Route 
-                path='/forgotverifying'
-                element={!user ? < ForgotVerifying/> : <Navigate to="/home" replace /> }
-              />
+              <Route path='/user/profile/:creatorId' element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+              <Route path='/auth' element={<PublicRoute><Auth/></PublicRoute>} />
+              <Route path='/verifying' element={<VerifyedRoutes><Verifyed/></VerifyedRoutes>} />
+              <Route path='/forgetpassword' element={<PublicRoute><ForgetPassword/></PublicRoute>} />
+              <Route path='/forgotverifying' element={<VerifyedRoutes><ForgotVerifying/></VerifyedRoutes>} />
+              <Route path='/added-categories' element={<PrivateRoute><AdddedCategories/></PrivateRoute>} />
             </Routes>
           <Fotter />
         </Container>
