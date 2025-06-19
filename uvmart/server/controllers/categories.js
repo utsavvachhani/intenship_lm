@@ -1,4 +1,7 @@
 import Categories from '../models/categories/categories.js';
+import Staff from '../models/staff/staff.js'
+import Admin from '../models/admin/admin.js'
+import { sendApprovele } from '../utils/sendMessage.js';
 
 export const addCategories = async (req, res) => {
   console.log("Add Categories Called !!");
@@ -7,19 +10,29 @@ export const addCategories = async (req, res) => {
     const { id, formData } = req.body;
     const _id = id;
     const {
-        categories,
-        description,
-        categoriesImage,
-        parentCategories
+      categories,
+      description,
+      categoriesImage,
+      parentCategories
     } = formData
-    
+
     if (!categories || !description || !categoriesImage) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    const existingCategory = await Categories.findOne({ categories : categories });
+    const staff = await Staff.findOne({ _id });
+    if (!staff) {
+      return res.status(408).json({ message: 'Staff Does not Existes in Databse' });
+    }
+    if (staff.role !== "Vendor" && staff.role !== "Warehouse Manager" && staff.role !== "Supplier") {
+      return res.status(408).json({ message: 'You have No access to added Iteams ...' });
+    }
+    if (staff.status !== 'Approved') {
+      return res.status(408).json({ message: 'You have No access to added Iteams ...!! Please Wait for Admin Verfiyed you' });
+    }
+
+    const existingCategory = await Categories.findOne({ categories: categories });
     if (existingCategory) {
-      
       return res.status(409).json({ message: 'Category already exists. Use it directly.' });
     }
 
@@ -38,13 +51,14 @@ export const addCategories = async (req, res) => {
       parentCategoryIds = foundParents.map(cat => cat._id);
     }
 
+
     const newCategory = new Categories({
       categories,
       parentCategories: parentCategoryIds,
       description,
       categoriesImage,
-      users: [_id],       
-      issuedBy: [],       
+      users: [_id],
+      issuedBy: [],
       isVerified: false
     });
 
@@ -60,9 +74,9 @@ export const addCategories = async (req, res) => {
 export const fetchUnverifiedCategories = async (req, res) => {
   try {
     const unverifiedCategories = await Categories.find({ isVerified: false })
-      .populate('users', 'fullName email role')               
-      .populate('issuedBy.admin', 'fullName email')                  
-      .populate('parentCategories', 'categoriesName')          
+      .populate('users', 'fullName email role')
+      .populate('issuedBy.admin', 'fullName email')
+      .populate('parentCategories', 'categories')
       .sort({ createdAt: -1 })
       .limit(10);
     res.status(200).json(unverifiedCategories);
@@ -74,13 +88,16 @@ export const fetchUnverifiedCategories = async (req, res) => {
 
 export const approveCategory = async (req, res) => {
   console.log("approved");
-  
+
   try {
     if (req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Access denied: Admins only' });
     }
 
-    const category = await Categories.findById(req.params.id);
+    const category = await Categories.findById(req.params.id)
+      .populate('users', 'fullName email')
+      .populate('parentCategories', 'categories')
+      .exec();
     if (!category) return res.status(404).json({ message: 'Category not found' });
 
     category.isVerified = true;
@@ -89,9 +106,21 @@ export const approveCategory = async (req, res) => {
       admin: req.user.id,
       action: 'approved',
       issuedAt: new Date()
-    });  
+    });
 
     await category.save();
+
+
+    const adminInfo = {
+      fullName: req.user.fullName,
+      email: req.user.email
+    };
+    
+    if (category.users?.length && category.users[0].email) {
+      await sendApprovele(category.users[0].email, category, adminInfo);
+    } else {
+      console.warn('No valid user email found to send approval email');
+    }
 
     res.status(200).json(category);
   } catch (error) {
@@ -117,7 +146,7 @@ export const rejectCategory = async (req, res) => {
       admin: req.user.id,
       action: 'rejected',
       issuedAt: new Date()
-    }); 
+    });
     await category.save();
 
     res.status(200).json(category);
@@ -126,4 +155,3 @@ export const rejectCategory = async (req, res) => {
     res.status(500).json({ message: 'Server error while rejecting category' });
   }
 };
-

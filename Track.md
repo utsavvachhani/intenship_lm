@@ -1004,3 +1004,48 @@ Daily Breakdown with Detailed Tasks
   * Taking action with real-time status updates
   * Toast feedback on actions (approve/reject)
   * Table layout for quick bulk review, and grid layout for detail preview
+---
+
+### 📅 **Day 23 – 19/06/2025 (Thursday)**
+
+📍 **Week 5 – Day 4**
+
+---
+
+## 🛠️ **Tasks & Progress Summary:**
+
+---
+
+### 🧩 **Admin Panel – Category Verification Enhancements**
+
+#### 🎨 **UI Improvements for Category Review**
+
+* Worked on refining the **Admin UI** for category approvals:
+
+  * Enhanced the **table and grid view toggle** for smoother UX
+  * Improved **visual hierarchy** using MUI components for better readability (color-coded status, action buttons)
+  * Added **pagination and search filters** for managing large category lists
+  * Implemented **real-time UI feedback** using `react-toastify` for approve/reject actions
+
+#### ✉️ **Email Notifications for Category Submissions**
+
+* Developed backend functionality to **notify staff** when their submitted category is:
+
+  * **Approved**
+  * **Rejected**
+* Email content includes:
+
+  * Category name, status, and any optional admin notes
+  * Sent via **Nodemailer** using Gmail SMTP
+* Created a **reusable email utility function** to handle different mail types (OTP, category status, etc.)
+
+#### 🔧 **Backend Enhancements**
+
+* Extended category schema to include:
+
+  * `status` (Pending, Approved, Rejected)
+  * `issuedBy[]` history with `adminId`, action, timestamp
+* Improved category controller logic:
+
+  * Admin actions trigger email notifications
+  * Approval updates `isVerified` to `true`, rejection keeps it `false` and updates `status`

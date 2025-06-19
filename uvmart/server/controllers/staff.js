@@ -2,7 +2,7 @@ import Staff from '../models/staff/staff.js';
 import StaffVerification from '../models/staff/staffVarification.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { sendOTP } from '../utils/sendOtp.js';
+import { sendOTP } from '../utils/sendMessage.js';
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -257,14 +257,14 @@ export const fetchUnverifiedStaff = async (req, res) => {
   try {
     const unverifiedStaff = await Staff.find({ isVerifiedByAdmin: false })
       .sort({ createdAt: -1 })
+      .populate('issuedBy.admin', 'fullName email')                  
       .limit(10);
     res.status(200).json(unverifiedStaff);
-  } catch (error) {
+  } catch (error) { 
     console.error('Error fetching unverified staff:', error.message);
     res.status(500).json({ message: 'Server Error while fetching unverified staff' });
   }
 };
-
 
 export const approveStaff = async (req, res) => {
   console.log("approved staff");

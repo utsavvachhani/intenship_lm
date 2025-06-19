@@ -3,7 +3,7 @@ import AdminVerification from '../models/admin/adminVarification.js';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import { sendOTP } from '../utils/sendOtp.js';
+import { sendOTP } from '../utils/sendMessage.js';
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 dotenv.config();

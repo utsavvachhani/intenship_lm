@@ -2,7 +2,7 @@ import User from '../models/user/User.js';
 import userVerificationSchema from '../models/user/userVarification.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { sendOTP } from '../utils/sendOtp.js';
+import { sendOTP } from '../utils/sendMessage.js';
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 

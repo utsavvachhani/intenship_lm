@@ -61,7 +61,7 @@ const StaffVerify = () => {
         onTableView={() => setView('table')}
       />
 
-      <Box padding={4}>
+      <Box padding={4} flexGrow={1} overflow="auto">
         {staff.length === 0 ? (
           <Typography variant="h6" align="center">
             No unverified Staff found.
@@ -93,7 +93,7 @@ const StaffVerify = () => {
                     <Typography variant="h6" gutterBottom>
                       <strong>Full Name  </strong> : {staffDeatils.fullName}
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
+                    <Typography variant="body2" sx={{ mb: 1, maxWidth: 200, overflowX: 'auto', whiteSpace: 'nowrap', display: 'block' }}>
                       <strong>Email  </strong> : {staffDeatils.email}
                     </Typography>
                     <Typography variant="body2" sx={{ display: 'block', mb: 1, }}  >
@@ -102,16 +102,42 @@ const StaffVerify = () => {
                     <Typography variant="body2" sx={{ display: 'block', mb: 1, }}  >
                       <strong>Role : </strong> {staffDeatils.role}
                     </Typography>
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1, }}  >
-                      <strong>Message  : </strong> {staffDeatils.messageReq}
+                    <Typography variant="body2" sx={{ display: 'block', mb: 1 }}>
+                      <strong>Message :</strong>
+                      {staffDeatils.messageReq ? (
+                        <div
+                          style={{
+                            maxWidth: 300, maxHeight: 80,
+                            overflow: 'hidden', textOverflow: 'ellipsis',
+                            whiteSpace: 'normal', paddingTop: 4,
+                            border: '1px solid #ccc', padding: '4px 8px',
+                          }}
+                        >
+                          {staffDeatils.messageReq}
+                        </div>
+                      ) : (
+                        ' N/A'
+                      )}
                     </Typography>
 
                     <Typography variant="body2" sx={{ display: 'block', mb: 1 }}>
                       <strong>Issued By:</strong>{' '}
-                      {staffDeatils.issuedBy && staffDeatils.issuedBy.length > 0 && staffDeatils.issuedBy.at(-1).admin
-                        ? `${staffDeatils.issuedBy.at(-1).admin.fullName} (${staffDeatils.issuedBy.at(-1).admin.email}) - ${staffDeatils.issuedBy.at(-1).action}`
-                        : 'N/A'}
+                      {staffDeatils.issuedBy && staffDeatils.issuedBy.length > 0 ? (
+                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
+                          {staffDeatils.issuedBy.map((issue, index) => (
+                            <div key={index} className="list-item" style={{ marginBottom: 12, borderBottom: '1px solid #ccc', paddingBottom: 8 }}>
+                              <div><strong>Name:</strong> {issue.admin?.fullName || 'N/A'}</div>
+                              <div><strong>Email:</strong> {issue.admin?.email || 'N/A'}</div>
+                              <div><strong>Action:</strong> {issue.action || 'N/A'}</div>
+                              <div><small>Issued At: {new Date(issue.issuedAt).toLocaleString()}</small></div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        'N/A'
+                      )}
                     </Typography>
+
                   </CardContent>
 
                   <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
@@ -142,8 +168,8 @@ const StaffVerify = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {staff.map((staffDeatils) => (
-                  <TableRow key={staffDeatils._id}>
+                {staff.map((staffDeatils, index) => (
+                  <TableRow key={staffDeatils._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc', }}>
                     <TableCell>
                       {staffDeatils.profilePic ? (
                         <img
@@ -154,14 +180,38 @@ const StaffVerify = () => {
                       ) : 'N/A'}
                     </TableCell>
                     <TableCell>{staffDeatils.fullName}</TableCell>
-                    <TableCell>{staffDeatils.email}</TableCell>
+                    <TableCell >
+                      {staffDeatils.email}
+                    </TableCell>
                     <TableCell>{staffDeatils.mobile}</TableCell>
                     <TableCell>{staffDeatils.role}</TableCell>
-                    <TableCell>{staffDeatils.messageReq}</TableCell>
+                    <TableCell >
+                      <div style={{
+                        maxWidth: 200,
+                        maxHeight: 80,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'normal',
+                        paddingTop: 4
+                      }}>
+                        {staffDeatils.messageReq}
+                      </div>
+                    </TableCell>
                     <TableCell>
-                      {staffDeatils.issuedBy && staffDeatils.issuedBy.length > 0 && staffDeatils.issuedBy.at(-1).admin
-                        ? `${staffDeatils.issuedBy.at(-1).admin.fullName} (${staffDeatils.issuedBy.at(-1).admin.email}) - ${staffDeatils.issuedBy.at(-1).action}`
-                        : 'N/A'}
+                      {staffDeatils.issuedBy && staffDeatils.issuedBy.length > 0 ? (
+                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
+                          {staffDeatils.issuedBy.map((issue, index) => (
+                            <div key={index} className="list-item" style={{ marginBottom: 12, borderBottom: '1px solid #ccc', paddingBottom: 8 }}>
+                              <div><strong>Name:</strong> {issue.admin?.fullName || 'N/A'}</div>
+                              <div><strong>Email:</strong> {issue.admin?.email || 'N/A'}</div>
+                              <div><strong>Action:</strong> {issue.action || 'N/A'}</div>
+                              <div><small>Issued At: {new Date(issue.issuedAt).toLocaleString()}</small></div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        'N/A'
+                      )}
                     </TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={1}>
