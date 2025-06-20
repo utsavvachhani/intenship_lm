@@ -2,9 +2,15 @@ import Staff from '../models/staff/staff.js';
 import StaffVerification from '../models/staff/staffVarification.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { sendOTP } from '../utils/sendMessage.js';
+import { sendOTP, sendStaffStatusEmail } from '../utils/sendMessage.js';
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
+
+
+export const getProfile = (req, res) => {
+  const { _id, fullName, email, mobile, role, profilePic, isVerified, isVerifiedByAdmin, status, createdAt } = req.staff;
+  res.json({ user: { _id, fullName, email, mobile, role, profilePic, isVerified, isVerifiedByAdmin,status, createdAt } });
+};
 
 export const signUp = async (req, res) => {
   try {
@@ -97,7 +103,17 @@ export const verifySignup = async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     await StaffVerification.deleteOne({ _id: userDetails._id });
 
-    const user = { fullName : newUser.fullName, _id: newUser._id, email: newUser.email, mobile: newUser.mobile}
+    const user = { 
+      fullName : newUser.fullName,
+      _id: newUser._id, 
+      email: newUser.email, 
+      mobile: newUser.mobile, 
+      role: newUser.role, 
+      profilePic: newUser.profilePic, 
+      isVerified: newUser.isVerified, 
+      isVerifiedByAdmin : newUser.isVerifiedByAdmin,
+      status : newUser.status
+    }
     res.status(200).json({user, message: 'User verified successfully', token });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -117,11 +133,16 @@ export const signin = async (req, res) => {
     if (!match) return res.status(401).json({ message: 'Enter Your Correct Password' });
 
     const token = jwt.sign({ id: userDetails._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    const user = { 
-      fullName : userDetails.fullName, 
+     const user = { 
+      fullName : userDetails.fullName,
       _id: userDetails._id, 
       email: userDetails.email, 
-      mobile: userDetails.mobile
+      mobile: userDetails.mobile, 
+      role: userDetails.role, 
+      profilePic: userDetails.profilePic, 
+      isVerified: userDetails.isVerified, 
+      isVerifiedByAdmin : userDetails.isVerifiedByAdmin,
+      status : userDetails.status
     }
     res.status(200).json({user, token });
   } catch (err) {
@@ -214,7 +235,18 @@ export const verifyingForeget = async (req, res) => {
     await StaffVerification.deleteOne({ _id: verificationRecord._id });
     const token = jwt.sign({ id: userDetails._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     await userDetails.save();
-    const user = { fullName : userDetails.fullName, _id: userDetails._id, email: userDetails.email, mobile: userDetails.mobile}
+    
+    const user = { 
+      fullName : newUser.fullName,
+      _id: newUser._id, 
+      email: newUser.email, 
+      mobile: newUser.mobile, 
+      role: newUser.role, 
+      profilePic: newUser.profilePic, 
+      isVerified: newUser.isVerified, 
+      isVerifiedByAdmin : newUser.isVerifiedByAdmin,
+      status : newUser.status
+    }
     res.status(200).json({user, message: 'OTP verified successfully. You can now reset your password.',token });
   } catch (error) {
     console.error(error);
@@ -287,6 +319,28 @@ export const approveStaff = async (req, res) => {
 
     await staff.save();
 
+    const staffRequest = await Staff.findById(req.params.id)
+      .populate('issuedBy.admin', 'fullName email');
+
+    const lastApproved = staffRequest.issuedBy
+      ?.filter(entry => entry.action === 'approved')
+      ?.pop();
+
+    const adminInfo = {
+      fullName: lastApproved?.admin?.fullName || req.user?.fullName || 'N/A',
+      email: lastApproved?.admin?.email || req.user?.email || 'N/A',
+      issuedAt: lastApproved?.issuedAt
+        ? new Date(lastApproved.issuedAt).toLocaleString()
+        : new Date().toLocaleString()
+    }; 
+
+    if (staffRequest && staffRequest.email) {
+      await sendStaffStatusEmail(staffRequest.email, staffRequest, adminInfo, 'approved');
+    } else {
+      console.warn('No valid user email found to send approval email');
+    }
+
+
     res.status(200).json(staff);
   } catch (error) {
     console.error('Error approving staff:', error);
@@ -301,7 +355,7 @@ export const rejectStaff = async (req, res) => {
       return res.status(403).json({ message: 'Access denied: Admins only' });
     }
 
-    const staff = await Categories.findById(req.params.id);
+    const staff = await Staff.findById(req.params.id);
     if (!staff) return res.status(404).json({ message: 'Category not found' });
 
     staff.isVerifiedByAdmin = true;
@@ -312,6 +366,27 @@ export const rejectStaff = async (req, res) => {
       issuedAt: new Date()
     }); 
     await staff.save();
+
+    const staffRequest = await Staff.findById(req.params.id)
+      .populate('issuedBy.admin', 'fullName email');
+
+    const lastApproved = staffRequest.issuedBy
+      ?.filter(entry => entry.action === 'rejected')
+      ?.pop();
+
+    const adminInfo = {
+      fullName: lastApproved?.admin?.fullName || req.user?.fullName || 'N/A',
+      email: lastApproved?.admin?.email || req.user?.email || 'N/A',
+      issuedAt: lastApproved?.issuedAt
+        ? new Date(lastApproved.issuedAt).toLocaleString()
+        : new Date().toLocaleString()
+    }; 
+
+    if (staffRequest && staffRequest.email) {
+      await sendStaffStatusEmail(staffRequest.email, staffRequest, adminInfo, 'rejected');
+    } else {
+      console.warn('No valid user email found to send approval email');
+    }
 
     res.status(200).json(staff);
   } catch (error) {

@@ -5,7 +5,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Input from '../Auth/Input';
 import { useStyles } from '../../styles.js';
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addedCategories } from '../../actions/categories.jsx'
 import { MuiChipsInput } from 'mui-chips-input'
 
@@ -16,7 +16,8 @@ function AdddedCategories() {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(intialData);
   const [loading, setLoading] = useState(false);
-  const userData = JSON.parse(localStorage.getItem('profile'));
+  const userData = useSelector((state) => state.auth.user);
+  
   const handleParentCategoriesChange = (newCategories) => {
     setFormData(prev => ({ ...prev, parentCategories: newCategories }));
   };
@@ -26,7 +27,7 @@ function AdddedCategories() {
     console.log(formData);
     
     setLoading(true);
-    const res = await dispatch(addedCategories({ id: userData?.user?._id, formData }));
+    const res = await dispatch(addedCategories({ id: userData?._id, formData }));
     if (res?.success) {
       toast.success('🎉 Request Sent !!', {
         position: "top-right",

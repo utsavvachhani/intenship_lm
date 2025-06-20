@@ -8,19 +8,29 @@ import {
 } from '@mui/material';
 import VerificationBar from '../Navbar/VerificationBar';
 import { useStyles } from '../../styles'
+import CircularProgress from '@mui/material/CircularProgress';
 
 const StaffVerify = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const staff = useSelector((state) => state.staff.unverified || []);
   const [view, setView] = useState('grid');
+  const [isFetching, setFetching] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState({});
 
   useEffect(() => {
-    dispatch(getStaffWhonotVerified());
+    const fetchStaff = async () => {
+      setFetching(true);
+      await dispatch(getStaffWhonotVerified());
+      setFetching(false);
+    };
+    fetchStaff();
   }, [dispatch]);
 
   const handleApprove = async (id) => {
+    setLoadingStatus((prev) => ({ ...prev, [id]: 'approve' }));
     const res = await dispatch(approvestaffDeatils(id));
+    setLoadingStatus((prev) => ({ ...prev, [id]: null }));
     if (res?.success) {
       toast.success(`${id} staff Approved ✅`, {
         position: "top-right",
@@ -37,7 +47,9 @@ const StaffVerify = () => {
   };
 
   const handleReject = async (id) => {
+    setLoadingStatus((prev) => ({ ...prev, [id]: 'reject' }));
     const res = await dispatch(rejectstaffDeatils(id));
+    setLoadingStatus((prev) => ({ ...prev, [id]: null }));
     if (res?.success) {
       toast.success(`${id} staff Rejected ❌`, {
         position: "top-right",
@@ -53,10 +65,15 @@ const StaffVerify = () => {
     }
   };
 
+  if (isFetching) return (
+    <CircularProgress />
+  );
+
   return (
     <>
       <VerificationBar
         title="Staff Verification"
+        view={view}
         onGridView={() => setView('grid')}
         onTableView={() => setView('table')}
       />
@@ -141,11 +158,31 @@ const StaffVerify = () => {
                   </CardContent>
 
                   <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
-                    <Button variant="contained" className={classes.successButton} onClick={() => handleApprove(staffDeatils._id)}>
-                      Approve
+                    <Button
+                      variant="contained"
+                      className={classes.successButton}
+                      onClick={() => handleApprove(staffDeatils._id)}
+                      disabled={!!loadingStatus[staffDeatils._id]}
+                      startIcon={
+                        loadingStatus[staffDeatils._id] === 'approve' ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : null
+                      }
+                    >
+                      {loadingStatus[staffDeatils._id] === 'approve' ? 'Approving...' : 'Approve'}
                     </Button>
-                    <Button variant="outlined" className={classes.rejectButton} onClick={() => handleReject(staffDeatils._id)}>
-                      Reject
+                    <Button
+                      variant="outlined"
+                      className={classes.rejectButton}
+                      onClick={() => handleReject(staffDeatils._id)}
+                      disabled={!!loadingStatus[staffDeatils._id]}
+                      startIcon={
+                        loadingStatus[staffDeatils._id] === 'reject' ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : null
+                      }
+                    >
+                      {loadingStatus[staffDeatils._id] === 'reject' ? 'Rejecting...' : 'Reject'}
                     </Button>
                   </Stack>
                 </Card>
@@ -214,22 +251,32 @@ const StaffVerify = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      <Stack direction="row" spacing={1}>
+                      <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
                         <Button
-                          size="small"
                           variant="contained"
                           className={classes.successButton}
                           onClick={() => handleApprove(staffDeatils._id)}
+                          disabled={!!loadingStatus[staffDeatils._id]}
+                          startIcon={
+                            loadingStatus[staffDeatils._id] === 'approve' ? (
+                              <CircularProgress size={20} color="inherit" />
+                            ) : null
+                          }
                         >
-                          Approve
+                          {loadingStatus[staffDeatils._id] === 'approve' ? 'Approving...' : 'Approve'}
                         </Button>
                         <Button
-                          size="small"
                           variant="outlined"
                           className={classes.rejectButton}
                           onClick={() => handleReject(staffDeatils._id)}
+                          disabled={!!loadingStatus[staffDeatils._id]}
+                          startIcon={
+                            loadingStatus[staffDeatils._id] === 'reject' ? (
+                              <CircularProgress size={20} color="inherit" />
+                            ) : null
+                          }
                         >
-                          Reject
+                          {loadingStatus[staffDeatils._id] === 'reject' ? 'Rejecting...' : 'Reject'}
                         </Button>
                       </Stack>
                     </TableCell>

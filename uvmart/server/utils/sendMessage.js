@@ -27,28 +27,36 @@ transporter.verify((error, success) => {
   }
 });
 
+const mailOptions = async (to, subject, html, text) => {
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: to,
+      subject: subject,
+      html: html,
+      text: text
+    };
+
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error('❌ Error sending email:', error);
+    throw new Error('Sending Mail Is Not Done!!')
+  }
+}
+
 export const sendOTP = async (receiverEmail, otp) => {
   try {
     if (!receiverEmail) return;
 
     // Read the HTML file
     const templatePath = path.join(__dirname, 'templates', 'otp.html');
-    let messageHtml = fs.readFileSync(templatePath, 'utf-8');
+    let messageHtml = await fs.readFile(templatePath, 'utf-8');
 
     // Replace placeholder with real OTP
     messageHtml = messageHtml.replace('{{OTP}}', otp);
-
     const messageText = `This message is from uvMart. Please do not share this with anyone. Your One-Time Password is: ${otp}`;
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: receiverEmail,
-      subject: 'Your uvMart OTP Verification Code',
-      text: messageText,
-      html: messageHtml
-    };
-
-    await transporter.sendMail(mailOptions);
+    const subject = 'Your uvMart OTP Verification Code';
+    await mailOptions(receiverEmail, subject, messageHtml, messageText)
     console.log('✅ OTP sent via Email');
   } catch (error) {
     console.error('❌ Error sending OTP:', error.message);
@@ -56,33 +64,61 @@ export const sendOTP = async (receiverEmail, otp) => {
   }
 };
 
-export const sendApprovele = async (receiverEmail, category, adminInfo) => {
+export const sendCategoryStatusEmail = async (receiverEmail, category, adminInfo, action = 'approved') => {
   try {
     if (!receiverEmail) throw new Error('Receiver email is required');
 
-    const filePath = path.join(__dirname, 'templates', 'approve.html'); 
+    const templateName =
+      action === 'approved' ? 'approveCategories.html' : 'rejectCategories.html';
+    const filePath = path.join(__dirname, 'templates', templateName);
 
-    // ✅ Use await version with encoding
     const htmlContent = await fs.readFile(filePath, 'utf-8');
-const customizedHtml = htmlContent
-  .replace(/{{CATEGORY_NAME}}/g, category?.categories || 'N/A')
-  .replace(/{{CATEGORY_DESC}}/g, category?.description || 'N/A')
-  .replace(/{{CATEGORY_STATUS}}/g, category?.status || 'N/A')
-  .replace(/{{APPROVED_BY}}/g, adminInfo?.fullName || 'N/A')
-  .replace(/{{APPROVED_DATE}}/g, new Date().toLocaleString());
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: receiverEmail,
-      subject: 'Your Category Has Been Approved - uvMart',
-      html: customizedHtml,
-    };
+    const customizedHtml = htmlContent
+      .replace(/{{CATEGORY_NAME}}/g, category?.categories || 'N/A')
+      .replace(/{{CATEGORY_DESC}}/g, category?.description || 'N/A')
+      .replace(/{{CATEGORY_STATUS}}/g, category?.status || (action === 'approved' ? 'Approved' : 'Rejected'))
+      .replace(/{{ACTION_BY}}/g, adminInfo.fullName)
+      .replace(/{{ACTION_BY_EMAIL}}/g, adminInfo.email)
+      .replace(/{{ACTION_DATE}}/g, adminInfo.issuedAt);
 
-    await transporter.sendMail(mailOptions);
-    console.log('✅ Approval email sent to:', receiverEmail);
+    const subject = `Your Category Has Been ${action.charAt(0).toUpperCase() + action.slice(1)} - uvMart`;
+
+    await mailOptions(receiverEmail, subject, customizedHtml);
+    console.log(`✅ ${action.charAt(0).toUpperCase() + action.slice(1)} Categories email sent to:`, receiverEmail);
 
   } catch (error) {
-    console.error('❌ Error sending approval email:', error);
-    throw new Error('Failed to send approval email');
+    console.error(`❌ Error sending ${action} email:`, error);
+    throw new Error(`Failed to send ${action} email`);
   }
 };
+
+export const sendStaffStatusEmail = async (receiverEmail, staff, adminInfo, action = 'approved') => {
+  try {
+    if (!receiverEmail) throw new Error('Receiver email is required');
+
+    const templateName = action === 'approved' ? 'approveStaff.html' : 'rejectStaff.html';
+    const filePath = path.join(__dirname, 'templates', templateName);
+
+    const htmlContent = await fs.readFile(filePath, 'utf-8');
+
+    const customizedHtml = htmlContent
+      .replace(/{{STAFF_NAME}}/g, staff?.fullName || 'N/A')
+      .replace(/{{STAFF_MOBILE}}/g, staff?.mobile || 'N/A')
+      .replace(/{{STAFF_ROLE}}/g, staff?.role || 'N/A')
+      .replace(/{{STAFF_MESSAGE}}/g, staff?.messageReq || 'N/A')
+      .replace(/{{STAFF_STATUS}}/g, staff?.status || (action === 'approved' ? 'Approved' : 'Rejected'))
+      .replace(/{{ACTION_BY}}/g, adminInfo.fullName)
+      .replace(/{{ACTION_BY_EMAIL}}/g, adminInfo.email)
+      .replace(/{{ACTION_DATE}}/g, adminInfo.issuedAt);
+
+    const subject = `Your Staff Has Been ${action.charAt(0).toUpperCase() + action.slice(1)} - uvMart`;
+
+    await mailOptions(receiverEmail, subject, customizedHtml);
+    console.log(`✅ ${action.charAt(0).toUpperCase() + action.slice(1)} Staff email sent to:`, receiverEmail);
+
+  } catch (error) {
+    console.error(`❌ Error sending ${action} email:`, error);
+    throw new Error(`Failed to send ${action} email`);
+  }
+}

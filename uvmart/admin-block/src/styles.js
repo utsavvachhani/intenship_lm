@@ -102,6 +102,12 @@ export const useStyles = makeStyles((theme) => ({
       border: `${theme.palette.custom.button.successBG} 2px solid !important`,
       fontWeight: 'bold !important',
     },
+     '&.Mui-disabled': {
+    backgroundColor: `${theme.palette.custom.button.disableBaground} !important`,
+    color: `${theme.palette.custom.button.disabledText} !important`,
+    border: `2px solid ${theme.palette.custom.button.disabledBorder} !important`,
+    cursor: 'not-allowed',
+  },
   },
   rejectButton : {
     color : `${theme.palette.custom.button.hoverText} !important`,
@@ -112,5 +118,10 @@ export const useStyles = makeStyles((theme) => ({
       border: `${theme.palette.custom.button.rejectedBG} 2px solid !important`,
       fontWeight: 'bold !important',
     },
+     '&.Mui-disabled': {
+    color: `${theme.palette.custom.button.disabledText} !important`,
+    border: `2px solid ${theme.palette.custom.button.disabledBorder} !important`,
+    cursor: 'not-allowed',
+  },
   },
 }))

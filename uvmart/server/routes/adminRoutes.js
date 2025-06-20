@@ -7,4 +7,5 @@ router.post('/signup', signUp);
 router.post('/verifyinguser', verifySignup);
 router.post('/signin', signin);
 
+
 export default router;

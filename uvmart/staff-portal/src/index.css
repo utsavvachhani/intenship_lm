@@ -38,12 +38,16 @@ body {
 .color-navbar { background-color: #666666; } 
 .color-symbol { color: #7a7979bb; }
 .font-logo { font-family:Georgia, 'Times New Roman', Times, serif ; }
+.font-semibold { color: #ffffff;}
 .font-color-primary { color: #fefefe ; }
 .font-color-secondary { color: #ffffffd2 ; }
 .font-color-thired { color: #000000d2 ; }
 .font-color-sigin { color: #000000; }
 .avatar-bg { background-color: #000000; }
 .avatar-text { color: #1e1d1e   ; }
+.approved-text { color:  #33c515;}
+.rejected-text { color:  #ff0000;}
+.panding-text { color:  #868686;}
 .ButtonCSS {
     background-color: #000000;
     border-radius: 2px;

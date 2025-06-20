@@ -1,13 +1,28 @@
-import { ADDCATEGORIES} from '../constants/actionTypes.js'
+// reducers/categories.js
+import { GETCATEGORIES, ADDCATEGORIES } from '../constants/actionTypes';
 
-const categoriesReducer = (state = { categoriesData : null }, action) => {
-    switch (action.type) {
-        case ADDCATEGORIES:
-            return { ...state, authData: action?.data };
+const initialState = {
+  userData: [],      
+  allData: [],       
+};
 
-        default:
-            return state;
-    }
-}
+const categoriesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GETCATEGORIES:
+      return {
+        ...state,
+        userData: action.data, 
+      };
 
-export default categoriesReducer
+    case ADDCATEGORIES:
+      return {
+        ...state,
+        allData: [...state.allData, action.data],
+      };
+
+    default:
+      return state;
+  }
+};
+
+export default categoriesReducer;

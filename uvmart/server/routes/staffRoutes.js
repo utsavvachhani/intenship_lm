@@ -1,5 +1,6 @@
 import express from 'express';
-import { 
+import {
+    getProfile, 
     signUp, 
     verifySignup, 
     signin, 
@@ -10,10 +11,12 @@ import {
     approveStaff,
     rejectStaff
 } from '../controllers/staff.js';
-import auth from '../middleware/auth.js';
+import { auth } from '../middleware/auth.js'
+import { authStaff } from '../middleware/staffAuth.js';
 
 const router = express.Router();
 
+router.get('/me',authStaff,getProfile)
 router.post('/signup', signUp);
 router.post('/verifyinguser', verifySignup);
 router.post('/verifyingforeget',verifyingForeget)

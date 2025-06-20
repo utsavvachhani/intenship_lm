@@ -24,7 +24,7 @@ function Verifyed() {
 
   const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
-  const email = user?.email;
+  const email = user;
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !otp) {

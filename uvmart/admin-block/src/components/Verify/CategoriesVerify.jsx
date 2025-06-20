@@ -8,19 +8,31 @@ import {
 } from '@mui/material';
 import VerificationBar from '../Navbar/VerificationBar';
 import { useStyles } from '../../styles'
+import CircularProgress from '@mui/material/CircularProgress';
 
 const CategoriesVerify = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const categories = useSelector((state) => state.categories.unverified || []);
   const [view, setView] = useState('grid');
+  const [isFetching, setFetching] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState({});
 
   useEffect(() => {
-    dispatch(getCategoriesWhonotVerified());
+    const fetchCategories = async () => {
+      setFetching(true);
+      await dispatch(getCategoriesWhonotVerified());
+      setFetching(false);
+    };
+    fetchCategories();
   }, [dispatch]);
 
+
+
   const handleApprove = async (id) => {
+    setLoadingStatus((prev) => ({ ...prev, [id]: 'approve' }));
     const res = await dispatch(approveCategory(id));
+    setLoadingStatus((prev) => ({ ...prev, [id]: null }));
     if (res?.success) {
       toast.success(`${id} categories Approved ✅`, {
         position: "top-right",
@@ -37,7 +49,9 @@ const CategoriesVerify = () => {
   };
 
   const handleReject = async (id) => {
+    setLoadingStatus((prev) => ({ ...prev, [id]: 'reject' }));
     const res = await dispatch(rejectCategory(id));
+    setLoadingStatus((prev) => ({ ...prev, [id]: null }));
     if (res?.success) {
       toast.success(`${id} categories Rejected ❌`, {
         position: "top-right",
@@ -53,10 +67,16 @@ const CategoriesVerify = () => {
     }
   };
 
+  if (isFetching) return (
+    <Box display="flex" justifyContent="center" alignItems="center" height="60vh">
+      <CircularProgress />
+    </Box>
+  );
   return (
     <>
       <VerificationBar
         title="Categories Verification"
+        view={view}
         onGridView={() => setView('grid')}
         onTableView={() => setView('table')}
       />
@@ -179,11 +199,32 @@ const CategoriesVerify = () => {
                   </CardContent>
 
                   <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
-                    <Button variant="contained" className={classes.successButton} onClick={() => handleApprove(category._id)}>
-                      Approve
+                    <Button
+                      variant="contained"
+                      className={classes.successButton}
+                      onClick={() => handleApprove(category._id)}
+                      disabled={!!loadingStatus[category._id]}
+                      startIcon={
+                        loadingStatus[category._id] === 'approve' ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : null
+                      }
+                    >
+                      {loadingStatus[category._id] === 'approve' ? 'Approving...' : 'Approve'}
+
                     </Button>
-                    <Button variant="outlined" className={classes.rejectButton} onClick={() => handleReject(category._id)}>
-                      Reject
+                    <Button
+                      variant="outlined"
+                      className={classes.rejectButton}
+                      onClick={() => handleReject(category._id)}
+                      disabled={!!loadingStatus[category._id]}
+                      startIcon={
+                        loadingStatus[category._id] === 'reject' ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : null
+                      } 
+                      >
+                      {loadingStatus[category._id] === 'reject' ? 'Rejecting...' : 'Reject'}
                     </Button>
                   </Stack>
                 </Card>
@@ -297,27 +338,37 @@ const CategoriesVerify = () => {
 
                     {/* Actions */}
                     <TableCell>
-                      <Stack direction="row" spacing={1}>
+                      <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
                         <Button
-                          size="small"
                           variant="contained"
                           className={classes.successButton}
                           onClick={() => handleApprove(category._id)}
+                          disabled={!!loadingStatus[category._id]}
+                          startIcon={
+                            loadingStatus[category._id] === 'approve' ? (
+                              <CircularProgress size={20} color="inherit" />
+                            ) : null
+                          }
                         >
-                          Approve
+                          {loadingStatus[category._id] === 'approve' ? 'Approving...' : 'Approve'}
+
                         </Button>
                         <Button
-                          size="small"
                           variant="outlined"
                           className={classes.rejectButton}
                           onClick={() => handleReject(category._id)}
-                        >
-                          Reject
+                          disabled={!!loadingStatus[category._id]}
+                          startIcon={
+                            loadingStatus[category._id] === 'reject' ? (
+                              <CircularProgress size={20} color="inherit" />
+                            ) : null
+                          }
+                           >
+                          {loadingStatus[category._id] === 'reject' ? 'Rejecting...' : 'Reject'}
                         </Button>
                       </Stack>
                     </TableCell>
                   </TableRow>
-
                 ))}
               </TableBody>
             </Table>

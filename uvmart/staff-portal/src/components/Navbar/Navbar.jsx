@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
-import { useDispatch } from'react-redux'
+import { useDispatch, useSelector } from'react-redux'
 import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify';
 import Typography from '@mui/material/Typography'
@@ -14,7 +14,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useStyles } from '../../styles.js'
 
 function Navbar() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));  
+  const {user} = useSelector((state) => state.auth)
   const navigate = useNavigate();
   const location = useLocation();
   const classes = useStyles();
@@ -30,7 +30,6 @@ function Navbar() {
 
   const logout = () => {
     dispatch({ type: LOGOUT });
-    setUser(null);
     toast.success('LogOut successfully!', {
       position: 'top-right',
       autoClose: 3000,
@@ -41,7 +40,7 @@ function Navbar() {
   };
 
   const goToProfile = () => {
-    navigate(`/user/profile/${user.user._id}`);
+    navigate(`/user/profile/${user._id}`);
     handleMenuClose();
   };
 
@@ -51,8 +50,6 @@ function Navbar() {
       const decodedToken = jwtDecode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-
-    setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
 
   return (
@@ -87,12 +84,12 @@ function Navbar() {
         ) : (
           <div className={''}>
             <Button onClick={handleMenuOpen} className={classes.ButtonUI} >
-              <Avatar className={classes.avatar} alt={user.user.fullName}>
-                {user.user.fullName?.charAt(0) || 'U'}
+              <Avatar className={classes.avatar} alt={user.fullName}>
+                {user.fullName?.charAt(0) || 'U'}
               </Avatar>
               <Box sx={{ mx: 2 }}>
                 <Typography variant="subtitle2" className={''}>
-                    {user.user.fullName || user.user.name || 'User'}
+                    {user.fullName || user.name || 'User'}
                 </Typography>
                 </Box>
                   <ArrowDownwardIcon  />

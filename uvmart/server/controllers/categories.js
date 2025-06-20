@@ -1,7 +1,6 @@
 import Categories from '../models/categories/categories.js';
 import Staff from '../models/staff/staff.js'
-import Admin from '../models/admin/admin.js'
-import { sendApprovele } from '../utils/sendMessage.js';
+import { sendCategoryStatusEmail } from '../utils/sendMessage.js';
 
 export const addCategories = async (req, res) => {
   console.log("Add Categories Called !!");
@@ -86,6 +85,22 @@ export const fetchUnverifiedCategories = async (req, res) => {
   }
 };
 
+export const getCategoriesByStaffId = async (req, res) => {
+  try {
+    const staffId = req.params.id ;
+    const unverifiedCategories = await Categories.find({ users : staffId })
+      .populate('users', 'fullName email role')
+      .populate('issuedBy.admin', 'fullName email')
+      .populate('parentCategories', 'categories')
+      .sort({ createdAt: -1 })
+      .limit(10);
+    res.status(200).json(unverifiedCategories);
+  } catch (error) {
+    console.error('Error fetching unverified categories:', error.message);
+    res.status(500).json({ message: 'Server Error while fetching unverified categories' });
+  }
+}
+
 export const approveCategory = async (req, res) => {
   console.log("approved");
 
@@ -97,7 +112,8 @@ export const approveCategory = async (req, res) => {
     const category = await Categories.findById(req.params.id)
       .populate('users', 'fullName email')
       .populate('parentCategories', 'categories')
-      .exec();
+      .populate('issuedBy.admin', 'fullName email');
+
     if (!category) return res.status(404).json({ message: 'Category not found' });
 
     category.isVerified = true;
@@ -110,24 +126,36 @@ export const approveCategory = async (req, res) => {
 
     await category.save();
 
+    const categoryRequest = await Categories.findById(req.params.id)
+      .populate('users', 'fullName email')
+      .populate('parentCategories', 'categories')
+      .populate('issuedBy.admin', 'fullName email');
+
+    const lastApproved = categoryRequest.issuedBy
+      ?.filter(entry => entry.action === 'approved')
+      ?.pop();
 
     const adminInfo = {
-      fullName: req.user.fullName,
-      email: req.user.email
+      fullName: lastApproved?.admin?.fullName || req.user?.fullName || 'N/A',
+      email: lastApproved?.admin?.email || req.user?.email || 'N/A',
+      issuedAt: lastApproved?.issuedAt
+        ? new Date(lastApproved.issuedAt).toLocaleString()
+        : new Date().toLocaleString()
     };
-    
-    if (category.users?.length && category.users[0].email) {
-      await sendApprovele(category.users[0].email, category, adminInfo);
+
+    if (categoryRequest.users?.length && categoryRequest.users[0].email) {
+      await sendCategoryStatusEmail(categoryRequest.users[0].email, categoryRequest, adminInfo, 'approved');
     } else {
       console.warn('No valid user email found to send approval email');
     }
 
-    res.status(200).json(category);
+    res.status(200).json(categoryRequest);
   } catch (error) {
     console.error('Error approving category:', error);
     res.status(500).json({ message: 'Server error while approving category' });
   }
 };
+
 
 export const rejectCategory = async (req, res) => {
   console.log("removed categories               ");
@@ -148,6 +176,29 @@ export const rejectCategory = async (req, res) => {
       issuedAt: new Date()
     });
     await category.save();
+
+    const categoryRequest = await Categories.findById(req.params.id)
+      .populate('users', 'fullName email')
+      .populate('parentCategories', 'categories')
+      .populate('issuedBy.admin', 'fullName email');
+
+    const lastApproved = categoryRequest.issuedBy
+      ?.filter(entry => entry.action === 'rejected')
+      ?.pop();
+
+    const adminInfo = {
+      fullName: lastApproved?.admin?.fullName || req.user?.fullName || 'N/A',
+      email: lastApproved?.admin?.email || req.user?.email || 'N/A',
+      issuedAt: lastApproved?.issuedAt
+        ? new Date(lastApproved.issuedAt).toLocaleString()
+        : new Date().toLocaleString()
+    };
+
+    if (categoryRequest.users?.length && categoryRequest.users[0].email) {
+      await sendCategoryStatusEmail(categoryRequest.users[0].email, categoryRequest, adminInfo, 'rejected');
+    } else {
+      console.warn('No valid user email found to send approval email');
+    }
 
     res.status(200).json(category);
   } catch (error) {

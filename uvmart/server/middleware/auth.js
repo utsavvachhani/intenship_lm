@@ -2,7 +2,7 @@
 import jwt from 'jsonwebtoken';
 import Admin from '../models/admin/admin.js'; // adjust path as needed
 
-const auth = async (req, res, next) => {
+export const auth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -34,4 +34,3 @@ const auth = async (req, res, next) => {
   }
 };
 
-export default auth;

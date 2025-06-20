@@ -1004,6 +1004,7 @@ Daily Breakdown with Detailed Tasks
   * Taking action with real-time status updates
   * Toast feedback on actions (approve/reject)
   * Table layout for quick bulk review, and grid layout for detail preview
+
 ---
 
 ### 📅 **Day 23 – 19/06/2025 (Thursday)**
@@ -1049,3 +1050,75 @@ Daily Breakdown with Detailed Tasks
 
   * Admin actions trigger email notifications
   * Approval updates `isVerified` to `true`, rejection keeps it `false` and updates `status`
+
+Got it! You want me to polish and expand your **Day 23** update with additional notes on:
+
+* The final calls and logic in the **rejectCategories** and **approveCategories** backend functions
+* Similar implementation for **rejectProducts** and **approveProducts**, mirroring staff verification logic
+* How the admin side was improved for easier linking and state management (like using `useSelector` in React)
+* Other improvements or refinements that make the system smoother and cleaner overall
+
+---
+
+### 📅 **Day 23 – 19/06/2025 (Thursday)**
+
+📍 **Week 5 – Day 4**
+
+---
+
+## 🛠️ **Tasks & Progress Summary:**
+
+---
+
+### 🧩 **Admin Panel – Category & Product Verification Enhancements**
+
+#### 🎨 **UI Improvements for Category Review**
+
+* Enhanced the **Admin UI** for category approvals with:
+
+  * Smooth **table and grid view toggle**, improving user experience.
+  * Better **visual hierarchy** using Material-UI components, including color-coded statuses and clear action buttons.
+  * Added **pagination and search filters** to efficiently manage large category lists.
+  * Integrated **real-time toast notifications** (`react-toastify`) for approve/reject actions to provide immediate feedback.
+
+#### 🔄 **Category & Product Approval/Rejection Logic**
+
+* Finalized backend functions for:
+
+  * **rejectCategories** and **approveCategories**:
+
+    * These endpoints update category `status`, `isVerified` flags, and append detailed `issuedBy` history with admin info and timestamps.
+    * Trigger email notifications to staff submitters via a reusable Nodemailer utility.
+  * Implemented similar **rejectProducts** and **approveProducts** endpoints with consistent logic:
+
+    * Mirror staff verification flow by tracking actions in `issuedBy` arrays.
+    * Support multiple status transitions (approve → reject → approve), preserving full history.
+    * Send email notifications to product submitters upon status changes.
+
+#### 🛠️ **Admin Side State Management & UI Linking**
+
+* Refactored React components using **Redux `useSelector` hooks** for efficient global state access.
+* Improved **component linking and navigation flows** on the admin dashboard:
+
+  * Easier cross-linking between staff, category, and product verification views.
+  * Enhanced performance and reduced unnecessary re-renders.
+* Utilized **TypeScript typings** extensively for props and state, improving code maintainability and reducing bugs.
+
+#### ✉️ **Email Notification Enhancements**
+
+* Extended reusable email utility to support multiple email types:
+
+  * OTP verification
+  * Category approval/rejection
+  * Product approval/rejection
+* Email content dynamically populates relevant details (name, status, admin notes).
+* All emails sent via Nodemailer with Gmail SMTP configured securely.
+
+#### 🔧 **Additional Backend Improvements**
+
+* Expanded category and product schemas to include:
+
+  * `status` (Pending, Approved, Rejected)
+  * `issuedBy[]` history tracking admin actions with timestamps.
+* Improved API error handling and success responses for admin actions.
+* Added backend validation to prevent unauthorized status changes or malformed requests.
