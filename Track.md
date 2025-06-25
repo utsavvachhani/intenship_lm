@@ -1123,3 +1123,86 @@ Got it! You want me to polish and expand your **Day 23** update with additional 
 * Improved API error handling and success responses for admin actions.
 * Added backend validation to prevent unauthorized status changes or malformed requests.
 
+---
+
+# 📍 **Week 6 – 21/06/2025 (Saturday) to 27/06/2025 (Friday)**
+
+---
+
+## 📅 **Day 24 – 21/06/2025 (Saturday)**
+
+📍 **Week 6 – Day 1**
+
+---
+
+### ☔ **No Work – Heavy Rain (RAJA)**
+
+* No tasks completed due to **continuous heavy rain** throughout the day.
+* Offices remained closed, and no work-from-home was initiated.
+* Marked as **official off** under **RAJA (regional holiday/weather-based halt)**.
+
+---
+
+## 📅 **Day 25 – 22/06/2025 (Sunday)**
+
+📍 **Week 6 – Day 2**
+
+---
+
+### ☔ **No Work – Heavy Rain Continued**
+
+* Severe weather persisted with **flood alerts in multiple areas**, leading to **continued halt in operations**.
+* No active tasks completed or remote work initiated.
+* Status: **No work (RAJA + weather disruption)**
+
+---
+
+## 📅 **Day 26 – 23/06/2025 (Monday)**
+
+📍 **Week 6 – Day 3**
+
+---
+
+## 🛠️ **Tasks & Progress Summary:**
+
+---
+
+### 🧩 **Company Type – Module Completion**
+
+* Finalized the implementation of the **Company Types** feature:
+
+  * Created **Company Type listing page** on the staff panel.
+  * Enabled adding new company types with validations (name, description).
+  * Added company type reference support to other related models (if applicable).
+
+* Backend Enhancements:
+
+  * Created controller & route to handle CRUD operations for company types.
+  * Added role-based restrictions to allow only certain staff/admin to manage types.
+
+---
+
+### 📊 **UI Improvements – Table View Fixes**
+
+* Explored and resolved **UI glitches in the `MyCategories` table view**:
+
+  * Issue: Misalignment and overflow of content in responsive layouts.
+  * Fix: Adjusted `MUI DataGrid` properties including `autoHeight`, `columnFlex`, and padding settings.
+  * Optimized **column sizing** and added **tooltips** for truncated text.
+
+* Added **conditional rendering** to handle:
+
+  * Empty datasets
+  * Loading states
+  * Error messages on fetch failures
+
+---
+
+### 🔍 **Basic Detail Enhancements**
+
+* Worked on refining **basic detail pages/forms** for staff and admin:
+
+  * Added form placeholders and validation for incomplete entries.
+  * Enhanced UI with consistent spacing, section headers, and helper text using **MUI best practices**.
+
+* Linked **basic details** section with the **auth-based profile view**, enabling dynamic visibility and edit controls based on roles.
