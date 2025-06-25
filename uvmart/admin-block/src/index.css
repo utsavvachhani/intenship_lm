@@ -42,8 +42,13 @@ body {
 .font-color-secondary { color: #ffffffd2 ; }
 .font-color-navbar { color: #dde0e0 ; }
 .font-color-thired { color: #000000d2 ; }
+.font-color-pepar:hover { color: #0bb9b9; }
 .font-color-sigin { color: #000000; }
 .avatar-bg { background-color: #000000; }
+.approved-text { color:  #33c515;}
+.rejected-text { color:  #ff0000;}
+.panding-text { color:  #868686;}
+
 .avatar-text { color: #1e1d1e   ; }
 .ButtonCSS {
     background-color: #000000;
@@ -59,3 +64,4 @@ body {
   font-weight: bold;
 }
 
+.font-color-pepar:hover { color: #00000096; }

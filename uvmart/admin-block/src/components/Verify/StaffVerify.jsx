@@ -6,6 +6,8 @@ import {
   Card, CardContent, CardMedia, Typography, Button, Box, Grid, Stack,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@mui/material';
+import { TextFiled, TextFiledScorall, TextFiledHorizontalScorall, TextFileMultiplesThings } from '../MultiChanges/CardComponents';
+import { TableFiled, TableFiledScorall, TableFiledHorizontalScorall, TableFileMultiplesThings } from '../MultiChanges/TableComponents';
 import VerificationBar from '../Navbar/VerificationBar';
 import { useStyles } from '../../styles'
 import CircularProgress from '@mui/material/CircularProgress';
@@ -80,7 +82,7 @@ const StaffVerify = () => {
 
       <Box padding={4} flexGrow={1} overflow="auto">
         {staff.length === 0 ? (
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" align="center" className='font-color-thired' >
             No unverified Staff found.
           </Typography>
         ) : view === 'grid' ? (
@@ -90,16 +92,16 @@ const StaffVerify = () => {
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: "5px" }}>
                   <CardMedia
                     component="img"
-                    height="250"
-                    width="250"
+                    height="300"
+                    width="300"
                     sx={{
                       width: {
                         xs: '100%',
-                        sm: 250,
+                        sm: 300,
                       },
                       height: {
                         xs: 'auto',
-                        sm: 250,
+                        sm: 300,
                       },
                       objectFit: 'cover',
                     }}
@@ -107,56 +109,20 @@ const StaffVerify = () => {
                     alt={staffDeatils.fullName}
                   />
                   <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      <strong>Full Name  </strong> : {staffDeatils.fullName}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1, maxWidth: 200, overflowX: 'auto', whiteSpace: 'nowrap', display: 'block' }}>
-                      <strong>Email  </strong> : {staffDeatils.email}
-                    </Typography>
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1, }}  >
-                      <strong>Mobile : </strong> {staffDeatils.mobile}
-                    </Typography>
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1, }}  >
-                      <strong>Role : </strong> {staffDeatils.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1 }}>
-                      <strong>Message :</strong>
-                      {staffDeatils.messageReq ? (
-                        <div
-                          style={{
-                            maxWidth: 300, maxHeight: 80,
-                            overflow: 'hidden', textOverflow: 'ellipsis',
-                            whiteSpace: 'normal', paddingTop: 4,
-                            border: '1px solid #ccc', padding: '4px 8px',
-                          }}
-                        >
-                          {staffDeatils.messageReq}
-                        </div>
-                      ) : (
-                        ' N/A'
-                      )}
-                    </Typography>
-
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1 }}>
-                      <strong>Issued By:</strong>{' '}
-                      {staffDeatils.issuedBy && staffDeatils.issuedBy.length > 0 ? (
-                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
-                          {staffDeatils.issuedBy.map((issue, index) => (
-                            <div key={index} className="list-item" style={{ marginBottom: 12, borderBottom: '1px solid #ccc', paddingBottom: 8 }}>
-                              <div><strong>Name:</strong> {issue.admin?.fullName || 'N/A'}</div>
-                              <div><strong>Email:</strong> {issue.admin?.email || 'N/A'}</div>
-                              <div><strong>Action:</strong> {issue.action || 'N/A'}</div>
-                              <div><small>Issued At: {new Date(issue.issuedAt).toLocaleString()}</small></div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        'N/A'
-                      )}
-                    </Typography>
-
+                    <TextFiled head="Full Name" details={staffDeatils.fullName} gutterBottom />
+                    <TextFiledScorall head="Email" details={staffDeatils.email} variant="body2" showCopy={true} />
+                    <TextFiledScorall head="Mobile" details={staffDeatils.mobile} variant="body2" showCopy={true} />
+                    <TextFiledScorall head="Role" details={staffDeatils.role} variant="body2" />
+                    <TextFiledHorizontalScorall head="Message" details={staffDeatils.messageReq} variant="body2" />
+                    <TextFileMultiplesThings head="Issued By" details={staffDeatils.issuedBy} variant="body2"
+                      subDeatils={{
+                        "Name": "fullName",
+                        "Email": "email",
+                        "Action": "action",
+                        "Issued At": "issuedAt",
+                      }}
+                    />
                   </CardContent>
-
                   <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
                     <Button
                       variant="contained"
@@ -191,9 +157,9 @@ const StaffVerify = () => {
           </Grid>
         ) : (
           <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
+            <Table style={{ border: 'black 2px solid' }} >
+              <TableHead style={{ borderBottom: 'black 2px solid' }}>
+                <TableRow className='bg-amber-100 '>
                   <TableCell><strong>Profile</strong></TableCell>
                   <TableCell><strong>Full Name</strong></TableCell>
                   <TableCell><strong>Email</strong></TableCell>
@@ -206,7 +172,7 @@ const StaffVerify = () => {
               </TableHead>
               <TableBody>
                 {staff.map((staffDeatils, index) => (
-                  <TableRow key={staffDeatils._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc', }}>
+                  <TableRow key={staffDeatils._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc', borderBottom: 'black 2px solid' }}>
                     <TableCell>
                       {staffDeatils.profilePic ? (
                         <img
@@ -216,39 +182,30 @@ const StaffVerify = () => {
                         />
                       ) : 'N/A'}
                     </TableCell>
-                    <TableCell>{staffDeatils.fullName}</TableCell>
-                    <TableCell >
-                      {staffDeatils.email}
+                    <TableCell>
+                      <TableFiled details={staffDeatils.fullName} gutterBottom />
                     </TableCell>
-                    <TableCell>{staffDeatils.mobile}</TableCell>
-                    <TableCell>{staffDeatils.role}</TableCell>
                     <TableCell >
-                      <div style={{
-                        maxWidth: 200,
-                        maxHeight: 80,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'normal',
-                        paddingTop: 4
-                      }}>
-                        {staffDeatils.messageReq}
-                      </div>
+                      <TableFiledScorall details={staffDeatils.email} variant="body2" showCopy={true} />
                     </TableCell>
                     <TableCell>
-                      {staffDeatils.issuedBy && staffDeatils.issuedBy.length > 0 ? (
-                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
-                          {staffDeatils.issuedBy.map((issue, index) => (
-                            <div key={index} className="list-item" style={{ marginBottom: 12, borderBottom: '1px solid #ccc', paddingBottom: 8 }}>
-                              <div><strong>Name:</strong> {issue.admin?.fullName || 'N/A'}</div>
-                              <div><strong>Email:</strong> {issue.admin?.email || 'N/A'}</div>
-                              <div><strong>Action:</strong> {issue.action || 'N/A'}</div>
-                              <div><small>Issued At: {new Date(issue.issuedAt).toLocaleString()}</small></div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        'N/A'
-                      )}
+                      <TableFiled details={staffDeatils.mobile} gutterBottom showCopy={true} />
+                    </TableCell>
+                    <TableCell>
+                      <TableFiled details={staffDeatils.role} variant="body2" gutterBottom />
+                    </TableCell>
+                    <TableCell >
+                      <TableFiledHorizontalScorall details={staffDeatils.messageReq} variant="body2" />
+                    </TableCell>
+                    <TableCell>
+                      <TableFileMultiplesThings details={staffDeatils.issuedBy} variant="body2"
+                        subDeatils={{
+                          "Name": "fullName",
+                          "Email": "email",
+                          "Action": "action",
+                          "Issued At": "issuedAt",
+                        }}
+                      />
                     </TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>

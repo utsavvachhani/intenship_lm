@@ -77,7 +77,7 @@ export const fetchUnverifiedCategories = async (req, res) => {
       .populate('issuedBy.admin', 'fullName email')
       .populate('parentCategories', 'categories')
       .sort({ createdAt: -1 })
-      .limit(10);
+      .limit(3);
     res.status(200).json(unverifiedCategories);
   } catch (error) {
     console.error('Error fetching unverified categories:', error.message);

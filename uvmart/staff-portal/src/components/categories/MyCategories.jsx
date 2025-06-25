@@ -5,6 +5,8 @@ import {
   Card, CardContent, CardMedia, Typography, Box, Grid,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@mui/material';
+import { TextFiled, TextItems, TextFiledHorizontalScorall, TextFileMultiplesThings, TextFiledRole } from '../MultiChanges/CardComponents';
+import { TableFiled, TableItems, TableFiledHorizontalScorall, TableFileMultiplesThings, TableFiledRole } from '../MultiChanges/TableComponents';
 import VerificationBar from '../Navbar/VerificationBar';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -76,39 +78,18 @@ function MyCategories() {
                     }}
                   />
                   <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      <strong>Category:</strong> {category.categories}
-                    </Typography>
-                    <Typography variant="body2" component="div" sx={{ mb: 1, maxWidth: 200, overflowX: 'auto', whiteSpace: 'nowrap', display: 'block' }}>
-                      <strong>Description:</strong>
-                      <div style={{
-                        maxWidth: 300, maxHeight: 80,
-                        overflow: 'hidden', textOverflow: 'ellipsis',
-                        whiteSpace: 'normal', paddingTop: 4,
-                        border: '1px solid #ccc', padding: '4px 8px',
-                      }}>
-                        {category.description}
-                      </div>
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      <strong>Status:</strong> {category.status}
-                    </Typography>
-                    <Typography variant="body2" component="div">
-                      <strong>Parent Category:</strong>
-                      {category.parentCategories?.length > 0 ? (
-                        category.parentCategories.map((parent, i) => (
-                          <div key={i} style={{
-                            maxHeight: 80,
-                            overflow: 'hidden',
-                            padding: '4px 8px',
-                            border: '1px solid #ccc',
-                            marginTop: 4
-                          }}>
-                            {parent.categories}
-                          </div>
-                        ))
-                      ) : ' N/A'}
-                    </Typography>
+                    <TextFiled head="Categore" details={category.categories} gutterBottom />
+                    <TextFiledHorizontalScorall head="Descripton" details={category.description} variant="body2" />
+                    <TextFiledRole head="Status" details={category.status} />
+                    <TextFileMultiplesThings head="Issued By" details={category.issuedBy} variant="body2"
+                      subDeatils={{
+                        "Name": "fullName",
+                        "Email": "email",
+                        "Action": "action",
+                        "Issued At": "issuedAt",
+                      }}
+                    />
+                    <TextItems head="Parent Category" variant="body2" details={category.parentCategories} />
                   </CardContent>
                 </Card>
               </Grid>
@@ -116,10 +97,10 @@ function MyCategories() {
           </Grid>
         ) : (
           <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell ><strong>Category</strong></TableCell>
+            <Table sx={{}} style={{ border: 'black 2px solid' }} >
+              <TableHead style={{ borderBottom: 'black 2px solid' }} >
+                <TableRow className='bg-amber-100 ' >
+                  <TableCell><strong>Category</strong></TableCell>
                   <TableCell><strong>Description</strong></TableCell>
                   <TableCell><strong>Status</strong></TableCell>
                   <TableCell><strong>Parent</strong></TableCell>
@@ -127,29 +108,35 @@ function MyCategories() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {categories.map((category) => (
-                  <TableRow
-                    key={category._id}
-                  >
-                    <TableCell>{category.categories}</TableCell>
-                    <TableCell>
-                      <div style={{
-                        maxHeight: 80,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'normal'
-                      }}>
-                        {category.description}
-                      </div>
+                {categories.map((category,index) => (
+                  <TableRow key={category._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc', borderBottom: 'black 2px solid' }}>
+                    <TableCell sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
+                      <TableFiled details={category.categories} gutterBottom />
                     </TableCell>
-                    <TableCell>{category.status}</TableCell>
+
                     <TableCell>
-                      {category.parentCategories?.length > 0 ? (
-                        category.parentCategories.map((parent, i) => (
-                          <div key={i}>{parent.categories}</div>
-                        ))
-                      ) : 'N/A'}
+                      <TableFiledHorizontalScorall details={category.description} variant="body2" />
                     </TableCell>
+
+                    <TableCell>
+                      <TableFiledRole details={category.status} />
+                    </TableCell>
+
+                    <TableCell>
+                      <TableFileMultiplesThings details={category.issuedBy} variant="body2"
+                        subDeatils={{
+                          "Name": "fullName",
+                          "Email": "email",
+                          "Action": "action",
+                          "Issued At": "issuedAt",
+                        }}
+                      />
+
+                    </TableCell>
+                    <TableCell>
+                      <TableItems details={category.parentCategories} />
+                    </TableCell>
+
                     <TableCell>
                       {category.categoriesImage ? (
                         <img

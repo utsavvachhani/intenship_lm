@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post('/add', addCategories);
 
-router.get('/unverified',auth,fetchUnverifiedCategories);
+router.get('/unverified',fetchUnverifiedCategories);
 router.get('/gets/:id',authStaff,getCategoriesByStaffId)
 
 router.put('/:id/approve',auth, approveCategory);

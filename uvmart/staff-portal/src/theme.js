@@ -18,9 +18,7 @@ const theme = createTheme({
       main: '#606574',
     },
 
-    divider : {
-      main: '#E0E0E0',
-    },
+    divider : '#E0E0E0',
     text: {
       primary: '#000000',
       secondary: '#ffffff',

@@ -6,6 +6,9 @@ import {
   Card, CardContent, CardMedia, Typography, Button, Box, Grid, Stack,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@mui/material';
+import { TextFiled, TextItems, TextFiledHorizontalScorall, TextFileMultiplesThings, TextFiledRole } from '../MultiChanges/CardComponents';
+import { TableFiled, TableItems, TableFiledHorizontalScorall, TableFileMultiplesThings, TableFiledRole } from '../MultiChanges/TableComponents';
+
 import VerificationBar from '../Navbar/VerificationBar';
 import { useStyles } from '../../styles'
 import CircularProgress from '@mui/material/CircularProgress';
@@ -83,7 +86,7 @@ const CategoriesVerify = () => {
 
       <Box padding={4} flexGrow={1} overflow="auto">
         {categories.length === 0 ? (
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" align="center" className='font-color-thired'>
             No unverified categories found.
           </Typography>
         ) : view === 'grid' ? (
@@ -93,16 +96,16 @@ const CategoriesVerify = () => {
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: "5px" }}>
                   <CardMedia
                     component="img"
-                    height="250"
-                    width="250"
+                    height="300"
+                    width="300"
                     sx={{
                       width: {
                         xs: '100%',
-                        sm: 250,
+                        sm: 300,
                       },
                       height: {
                         xs: 'auto',
-                        sm: 250,
+                        sm: 300,
                       },
                       objectFit: 'cover',
                     }}
@@ -110,92 +113,26 @@ const CategoriesVerify = () => {
                     alt={category.categories}
                   />
                   <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      <strong>Categore  </strong> : {category.categories}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1, maxWidth: 200, overflowX: 'auto', whiteSpace: 'nowrap', display: 'block' }}>
-                      <strong>Descripton  </strong> :
-                      <div
-                        style={{
-                          maxWidth: 300, maxHeight: 80,
-                          overflow: 'hidden', textOverflow: 'ellipsis',
-                          whiteSpace: 'normal', paddingTop: 4,
-                          border: '1px solid #ccc', padding: '4px 8px',
-                        }}
-                      >
-                        {category.description}
-                      </div>
-                    </Typography>
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1, }}  >
-                      <strong>Status:</strong> {category.status}
-                    </Typography>
+                    <TextFiled head="Categore" details={category.categories} gutterBottom />
+                    <TextFiledHorizontalScorall head="Descripton" details={category.description} variant="body2" />
+                    <TextFiledRole head="Status" details={category.status} />
+                    <TextFileMultiplesThings head="Issued By" details={category.issuedBy} variant="body2"
+                      subDeatils={{
+                        "Name": "fullName",
+                        "Email": "email",
+                        "Action": "action",
+                        "Issued At": "issuedAt",
+                      }}
+                    />
 
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1, }} >
-                      {category.issuedBy && category.issuedBy.length > 0 ? (
-                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
-                          {category.issuedBy.map((issue, index) => (
-                            <div key={index} className="list-item" style={{ marginBottom: 12, borderBottom: '1px solid #ccc', paddingBottom: 8 }}>
-                              <div><strong>Name:</strong> {issue.admin?.fullName || 'N/A'}</div>
-                              <div><strong>Email:</strong> {issue.admin?.email || 'N/A'}</div>
-                              <div><strong>Action:</strong> {issue.action || 'N/A'}</div>
-                              <div><small>Issued At: {new Date(issue.issuedAt).toLocaleString()}</small></div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        'N/A'
-                      )}
-                    </Typography>
-
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1 }}>
-                      <strong>Requested By:</strong><br />
-                      {category.users && category.users.length > 0 ? (
-                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
-                          {category.users.map((request, index) => (
-                            <div
-                              key={index}
-                              className="list-item"
-                              style={{
-                                marginBottom: 12,
-                                borderBottom: '1px solid #ccc',
-                                paddingBottom: 8,
-                              }}
-                            >
-                              <div><strong>Name:</strong> {request.fullName || 'N/A'}</div>
-                              <div><strong>Email:</strong> {request.email || 'N/A'}</div>
-                              <div><strong>Role:</strong> {request.role || 'N/A'}</div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        'N/A'
-                      )}
-                    </Typography>
-
-
-
-                    <Typography variant="body2" sx={{ display: 'block', mb: 1, }}  >
-                      <strong>Parent Category : </strong>
-                      {category.parentCategories && category.parentCategories.length > 0 ? (
-                        <>
-                          {category.parentCategories.map((parent) => (
-                            <div
-                              style={{
-                                maxWidth: 300, maxHeight: 80,
-                                overflow: 'hidden', textOverflow: 'ellipsis',
-                                whiteSpace: 'normal', paddingTop: 4,
-                                border: '1px solid #ccc', padding: '4px 8px',
-                              }}
-                            >
-                              {parent.categories}
-                              <br />
-                            </div>
-                          ))}
-                        </>
-                      ) : (
-                        'N/A'
-                      )}
-                    </Typography>
+                    <TextFileMultiplesThings head="Requested By" details={category.users} variant="body2"
+                      subDeatils={{
+                        "Name": "fullName",
+                        "Email": "email",
+                        "Role": "role"
+                      }}
+                    />
+                    <TextItems head="Parent Category" variant="body2" details={category.parentCategories} />
                   </CardContent>
 
                   <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
@@ -222,8 +159,8 @@ const CategoriesVerify = () => {
                         loadingStatus[category._id] === 'reject' ? (
                           <CircularProgress size={20} color="inherit" />
                         ) : null
-                      } 
-                      >
+                      }
+                    >
                       {loadingStatus[category._id] === 'reject' ? 'Rejecting...' : 'Reject'}
                     </Button>
                   </Stack>
@@ -233,9 +170,9 @@ const CategoriesVerify = () => {
           </Grid>
         ) : (
           <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
+            <Table style={{ border: 'black 2px solid' }} >
+              <TableHead style={{ borderBottom: 'black 2px solid' }} >
+                <TableRow className='bg-amber-100 '>
                   <TableCell><strong>Category</strong></TableCell>
                   <TableCell><strong>Description</strong></TableCell>
                   <TableCell><strong>Status</strong></TableCell>
@@ -248,84 +185,45 @@ const CategoriesVerify = () => {
               </TableHead>
               <TableBody>
                 {categories.map((category, index) => (
-                  <TableRow key={category._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc' }}>
-                    {/* Category Name */}
+                  <TableRow key={category._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc', borderBottom: 'black 2px solid' }}>
                     <TableCell sx={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {category.categories}
+                      <TableFiled details={category.categories} gutterBottom />
                     </TableCell>
 
-                    {/* Description */}
                     <TableCell>
-                      <div style={{
-                        maxWidth: 200,
-                        maxHeight: 80,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'normal',
-                        paddingTop: 4
-                      }}>
-                        {category.description}
-                      </div>
+                      <TableFiledHorizontalScorall details={category.description} variant="body2" />
                     </TableCell>
 
-                    {/* Status */}
-                    <TableCell>{category.status}</TableCell>
-
-                    {/* Issued By */}
                     <TableCell>
-                      {category.issuedBy && category.issuedBy.length > 0 ? (
-                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
-                          {category.issuedBy.map((issue, index) => (
-                            <div key={index} className="list-item" style={{ marginBottom: 12, borderBottom: '1px solid #ccc', paddingBottom: 8 }}>
-                              <div><strong>Name:</strong> {issue.admin?.fullName || 'N/A'}</div>
-                              <div><strong>Email:</strong> {issue.admin?.email || 'N/A'}</div>
-                              <div><strong>Action:</strong> {issue.action || 'N/A'}</div>
-                              <div><small>Issued At: {new Date(issue.issuedAt).toLocaleString()}</small></div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        'N/A'
-                      )}
+                      <TableFiledRole details={category.status} />
                     </TableCell>
 
-                    {/* Requested By */}
                     <TableCell>
-                      {category.users && category.users.length > 0 ? (
-                        <div style={{ maxHeight: 200, overflowY: 'auto', paddingLeft: 16 }}>
-                          {category.users.map((request, index) => (
-                            <div
-                              key={index}
-                              className="list-item"
-                              style={{
-                                marginBottom: 12,
-                                borderBottom: '1px solid #ccc',
-                                paddingBottom: 8,
-                              }}
-                            >
-                              <div><strong>Name:</strong> {request.fullName || 'N/A'}</div>
-                              <div><strong>Email:</strong> {request.email || 'N/A'}</div>
-                              <div><strong>Role:</strong> {request.role || 'N/A'}</div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        'N/A'
-                      )}
+                      <TableFileMultiplesThings details={category.issuedBy} variant="body2"
+                        subDeatils={{
+                          "Name": "fullName",
+                          "Email": "email",
+                          "Action": "action",
+                          "Issued At": "issuedAt",
+                        }}
+                      />
+
                     </TableCell>
 
-                    {/* Parent Categories */}
                     <TableCell>
-                      {category.parentCategories?.length > 0 ? (
-                        <div style={{ maxHeight: 80, overflowY: 'auto' }}>
-                          {category.parentCategories.map((parent, i) => (
-                            <div key={i} className="m-3" >{parent.categories}</div>
-                          ))}
-                        </div>
-                      ) : 'N/A'}
+                      <TableFileMultiplesThings details={category.users} variant="body2"
+                        subDeatils={{
+                          "Name": "fullName",
+                          "Email": "email",
+                          "Role": "role"
+                        }}
+                      />
                     </TableCell>
 
-                    {/* Image */}
+                    <TableCell>
+                      <TableItems details={category.parentCategories} />
+                    </TableCell>
+
                     <TableCell>
                       {category.categoriesImage ? (
                         <img
@@ -336,7 +234,6 @@ const CategoriesVerify = () => {
                       ) : 'N/A'}
                     </TableCell>
 
-                    {/* Actions */}
                     <TableCell>
                       <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
                         <Button
@@ -363,7 +260,7 @@ const CategoriesVerify = () => {
                               <CircularProgress size={20} color="inherit" />
                             ) : null
                           }
-                           >
+                        >
                           {loadingStatus[category._id] === 'reject' ? 'Rejecting...' : 'Reject'}
                         </Button>
                       </Stack>

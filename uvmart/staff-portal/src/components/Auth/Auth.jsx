@@ -167,7 +167,7 @@ function Auth() {
                     ))}
                   </Select>
                 </FormControl>
-                <Input name="messageReq" label="Enter Your Message" handleChange={handleChange} type="text" />
+                <Input name="messageReq" label="Enter Your Message" row={4} handleChange={handleChange} type="text" />
                 
                  <div style={{ marginBottom: '1rem', marginLeft: '1rem' }}>
                   <input
