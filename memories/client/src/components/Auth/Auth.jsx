@@ -5,6 +5,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode'; 
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom' ;
+import CircularProgress from '@mui/material/CircularProgress';
 import Icon from './Icon.jsx';
 import Input from './Input.jsx';
 import { signin, signup } from '../../actions/auth.jsx'
@@ -18,6 +19,7 @@ function Auth() {
   const [isSignup, setIsSignup] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [ formData, setFormData ] = useState(initialState)
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ function Auth() {
     e.preventDefault();
     // handle form submit logic
     // console.log(formData);
-
+    setLoading(true);
     let res;
     if(isSignup){
       res = await dispatch(signup(formData));
@@ -60,7 +62,7 @@ function Auth() {
       });
     }
     }
-    
+    setLoading(false);
   };
   
   const handleChange = (e) => {
@@ -128,7 +130,7 @@ function Auth() {
           </Grid>
 
           <Button className={classes.logout} type="submit" fullWidth variant="contained" >
-            {isSignup ? 'Sign Up' : 'Sign In'}
+          {loading ? <CircularProgress size={24} color="inherit" /> : (isSignup ? 'Sign Up' : 'Sign In')}
           </Button>
 
           <GoogleLogin 

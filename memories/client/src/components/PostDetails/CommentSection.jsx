@@ -8,17 +8,19 @@ function CommentSection({ post }) {
   const classes = usePostDetailsStyles();
   const [comment, setComment] = useState("")
   const [comments, setComments] = useState(post?.comments)
+  const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch()
   const commentRef = useRef();
   const user = JSON.parse(localStorage.getItem('profile'))
 
   const handleClick = async() => {
+    setLoading(true);
     const finalCommit = user?.result?.name ? `${user?.result?.name} : ${comment} ` : `${user?.result?.firstName} ${user?.result?.lastName} : ${comment}`;
     const newCommits = await dispatch(commentPost(finalCommit, post._id));
     setComments(newCommits);
     setComment('');
-
     commentRef.current.scrollIntoView({ behavior:'smooth' } );
+    setLoading(false);
   }
     return (
     <div>
@@ -61,7 +63,7 @@ function CommentSection({ post }) {
                     onChange={(e) => setComment(e.target.value) }
                 />
                 <Button className={classes.buttonSubmit} style={{ marginTop: '10px'}} fullWidth disabled={!comment} variant="contained" color="primary" onClick={handleClick} >
-                    Commit
+                    {loading ? 'Commenting...' : 'Comment'}
                 </Button>
             </div>
           )

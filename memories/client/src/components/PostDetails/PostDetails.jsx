@@ -21,7 +21,7 @@ function PostDetails() {
       dispatch(getPost(id));
     }, [id, dispatch]);
 
-``
+
     useEffect(() => {
       if(post){
         dispatch(getPostsBySearch({ search: 'none', tags: post?.tags.join(',')} ));
@@ -56,7 +56,6 @@ function PostDetails() {
           {/* <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography> */}
           <Divider style={{ margin: '10PX 0' }} />
 
-
           <Typography variant="body1">
             <strong><CommentSection post={post} /></strong>
           </Typography>
@@ -84,7 +83,6 @@ function PostDetails() {
                     <Typography gutterBottom  style={{alignItems: 'center', justifyContent: 'center'}}><strong>Likes :</strong>   {likes.length} </Typography>
                     {/* <img src={selectedFile} width="200px" /> */}
                      <img className={classes.recommendedPhoto} src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
-
                   </div>
                 ))
               }
