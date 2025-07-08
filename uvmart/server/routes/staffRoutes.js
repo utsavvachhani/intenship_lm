@@ -7,7 +7,7 @@ import {
     forget, 
     verifyingForeget,
     updateUserProfile, 
-    fetchUnverifiedStaff,
+    fetchStaff,
     approveStaff,
     rejectStaff
 } from '../controllers/staff.js';
@@ -24,7 +24,7 @@ router.post('/signin', signin);
 router.post('/forget', forget);
 router.put('/:id',updateUserProfile)
 
-router.get('/unverified',fetchUnverifiedStaff)
+router.get('/fetch',fetchStaff)
 router.put('/:id/approve',auth, approveStaff);
 router.put('/:id/reject',auth, rejectStaff);
 

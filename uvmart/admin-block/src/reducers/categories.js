@@ -1,36 +1,40 @@
-import { FETCH_UNVERIFIED_CATEGORIES, APPROVE_CATEGORY_SUCCESS, APPROVE_CATEGORY_FAIL, REJECT_CATEGORY_SUCCESS, REJECT_CATEGORY_FAIL } from '../constants/actionTypes'
+import {
+  FETCH_CATEGORIES,
+  APPROVE_CATEGORY_SUCCESS,
+  APPROVE_CATEGORY_FAIL,
+  REJECT_CATEGORY_SUCCESS,
+  REJECT_CATEGORY_FAIL
+} from '../constants/actionTypes';
 
 const initialState = {
-  unverified: [],
+  categories: [],
+  pagination: {
+    total: 0,
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+  },
 };
-
 
 const categoriesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_UNVERIFIED_CATEGORIES:
-      return { ...state, unverified: action.payload };
+    case FETCH_CATEGORIES:
+      return {
+        ...state,
+        categories: action.payload.categories || [],
+        pagination: action.payload.pagination || initialState.pagination,
+      };
 
     case APPROVE_CATEGORY_SUCCESS:
-      return {
-        ...state,
-        unverified: state.unverified.filter(cat => cat._id !== action.payload._id),
-      };
-
-    case APPROVE_CATEGORY_FAIL:
-      return {
-        ...state,
-      };
-
     case REJECT_CATEGORY_SUCCESS:
       return {
         ...state,
-        unverified: state.unverified.filter(cat => cat._id !== action.payload._id),
+        categories: state.categories.filter(cat => cat._id !== action.payload._id),
       };
 
+    case APPROVE_CATEGORY_FAIL:
     case REJECT_CATEGORY_FAIL:
-      return {
-        ...state,
-      };
+      return { ...state };
 
     default:
       return state;

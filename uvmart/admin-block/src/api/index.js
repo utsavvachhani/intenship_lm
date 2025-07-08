@@ -13,10 +13,10 @@ export const signIn = (formData) => API.post('/admin/signin', formData);
 export const signUp = (formData) => API.post('/admin/signup', formData); 
 export const verifyingUser = ({email, otp}) => API.post('/admin/verifyinguser',{email,otp})
 
-export const fetchUnverifiedCategories = () => API.get('/categories/unverified');
+export const getCategoriesDetails = (params) => API.get(`/categories/fetch`, { params });
 export const approveCategory = (categoryId) => API.put(`/categories/${categoryId}/approve`);
 export const rejectCategory = (categoryId) => API.put(`/categories/${categoryId}/reject`);
 
-export const getStaffWhonotVerified = () => API.get('/staff/unverified');
+export const getStaffDetails = (params) => API.get('/staff/fetch', { params });
 export const approveStaff = (staffId) => API.put(`/staff/${staffId}/approve`);
 export const rejectStaff = (staffId) => API.put(`/staff/${staffId}/reject`);

@@ -1,6 +1,6 @@
 import * as api from '../api';
 import { 
-  FETCH_UNVERIFIED_STAFF ,
+  FETCH_STAFF,
   APPROVE_STAFF_SUCCESS,
   APPROVE_STAFF_FAIL,
   REJECT_STAFF_SUCCESS,
@@ -8,10 +8,10 @@ import {
 } from '../constants/actionTypes'
 
 
-export const getStaffWhonotVerified = () => async (dispatch) => {
+export const getStaffDetails = (params) => async (dispatch) => {
   try {
-    const { data } = await api.getStaffWhonotVerified();
-    dispatch({ type: FETCH_UNVERIFIED_STAFF, payload: data });
+    const { data } = await api.getStaffDetails(params);
+    dispatch({ type: FETCH_STAFF, payload: data });
   } catch (error) {
     console.error(error);
   }

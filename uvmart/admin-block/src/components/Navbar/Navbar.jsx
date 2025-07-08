@@ -52,11 +52,11 @@ function Navbar() {
 
   return (
     <>
-    <div className={`color-baground  rounded-b-4xl flex items-center justify-between pl-4`} > 
+    <div className={`color-baground  rounded-b-4xl flex flex-col md:flex-row items-center justify-between pl-4`} > 
       <Link to="/" className='color-navbar flex-shrink-0 md:rounded-b-4xl md:rounded-t-none rounded-4xl mb-3  '>
         <div className="flex flex-col md:flex-row items-center gap-2 p-3 md:gap-6">
           <img src={logo} className={`h-15 w-15 `}/>
-          <div className="flex flex-col md:flex-row md:gap-20 items-center text-center">
+          <div className="flex flex-row gap-3 items-center text-center">
             <Typography
               sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}
               className="font-logo font-color-primary"
@@ -70,10 +70,9 @@ function Navbar() {
               Admin
             </Typography>
           </div>
-
         </div>
       </Link>
-      <div className='flex flex-end mr-22'>
+      <div className='flex flex-end mr-0 md:mr-20 mb-5 md:mb-0'>
       {
         !user ? (
           <Button variant="contained" className={classes.ButtonUI} onClick={() => navigate('/auth')} >

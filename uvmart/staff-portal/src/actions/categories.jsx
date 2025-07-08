@@ -12,9 +12,9 @@ export const addedCategories = ({ id, formData }) => async (dispatch) => {
     }
 }
 
-export const getCategoriesByStaffId = ({ id }) => async (dispatch) => {
+export const getCategoriesByStaffId = (params ) => async (dispatch) => {
     try {
-        const { data } = await api.getCategoriesByStaffId({ id });
+        const { data } = await api.getCategoriesByStaffId( {id : params.id, params} );
         dispatch({ type: GETCATEGORIES, data });
         return { success: true };
     } catch (error) {

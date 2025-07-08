@@ -1,10 +1,10 @@
 import * as api from '../api';
-import { FETCH_UNVERIFIED_CATEGORIES, APPROVE_CATEGORY_SUCCESS, APPROVE_CATEGORY_FAIL,REJECT_CATEGORY_SUCCESS, REJECT_CATEGORY_FAIL } from '../constants/actionTypes'
+import { FETCH_CATEGORIES, APPROVE_CATEGORY_SUCCESS, APPROVE_CATEGORY_FAIL,REJECT_CATEGORY_SUCCESS, REJECT_CATEGORY_FAIL } from '../constants/actionTypes'
 
-export const getCategoriesWhonotVerified = () => async (dispatch) => {
+export const getCategoriesDetails = (params) => async (dispatch) => {
   try {
-    const { data } = await api.fetchUnverifiedCategories();
-    dispatch({ type: FETCH_UNVERIFIED_CATEGORIES, payload: data });
+    const { data } = await api.getCategoriesDetails(params);
+    dispatch({ type: FETCH_CATEGORIES, payload: data });
   } catch (error) {
     console.error(error);
   }

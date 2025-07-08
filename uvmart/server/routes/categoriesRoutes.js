@@ -1,7 +1,7 @@
 import express from 'express';
 import { 
     addCategories,
-    fetchUnverifiedCategories, 
+    fetchCategories, 
     approveCategory, 
     rejectCategory ,
     getCategoriesByStaffId 
@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post('/add', addCategories);
 
-router.get('/unverified',fetchUnverifiedCategories);
+router.get('/fetch',fetchCategories);
 router.get('/gets/:id',authStaff,getCategoriesByStaffId)
 
 router.put('/:id/approve',auth, approveCategory);

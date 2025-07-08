@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getStaffWhonotVerified, approvestaffDeatils, rejectstaffDeatils } from '../../actions/staff';
+import { getStaffDetails, approvestaffDeatils, rejectstaffDeatils } from '../../actions/staff';
 import { toast } from 'react-toastify';
 import {
   Card, CardContent, CardMedia, Typography, Button, Box, Grid, Stack,
@@ -15,19 +15,67 @@ import CircularProgress from '@mui/material/CircularProgress';
 const StaffVerify = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const staff = useSelector((state) => state.staff.unverified || []);
+  const staff = useSelector((state) => state.staff.staffDetails || []);
+  const { pagination } = useSelector((state) => state.staff);
   const [view, setView] = useState('grid');
   const [isFetching, setFetching] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState({});
+  const [isVerified, setIsVerified] = useState("all");
+  const [isVerifiedByAdmin, setIsVerifiedByAdmin] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [status, setStatus] = useState('Pending');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const filters = [
+    {
+      label: 'isVerified',
+      value: isVerified,
+      onChange: setIsVerified,
+      options: [
+        { label: 'All', value: 'all' },
+        { label: 'Verified', value: 'true' },
+        { label: 'Not Verified', value: 'false' },
+      ],
+    },
+    {
+      label: 'Status',
+      value: status,
+      onChange: setStatus,
+      options: [
+        { label: 'Pending', value: 'Pending' },
+        { label: 'Approved', value: 'Approved' },
+        { label: 'Rejected', value: 'Rejected' },
+        { label: 'All', value: 'all' },
+      ],
+    },
+    {
+      label: 'isVerifiedByAdmin',
+      value: isVerifiedByAdmin,
+      onChange: setIsVerifiedByAdmin,
+      options: [
+        { label: 'All', value: 'all' },
+        { label: 'Verified', value: 'true' },
+        { label: 'Not Verified', value: 'false' },
+      ],
+    },
+  ];
+
 
   useEffect(() => {
-    const fetchStaff = async () => {
+    const delayDebounce = setTimeout(() => {
       setFetching(true);
-      await dispatch(getStaffWhonotVerified());
-      setFetching(false);
-    };
-    fetchStaff();
-  }, [dispatch]);
+      dispatch(getStaffDetails({
+        isVerified,
+        isVerifiedByAdmin,
+        status,
+        searchQuery,
+        page: currentPage,
+        limit: postsPerPage
+      })).finally(() => setFetching(false));
+    }, 300);
+
+    return () => clearTimeout(delayDebounce);
+  }, [dispatch, isVerified, isVerifiedByAdmin, status, searchQuery, currentPage, postsPerPage]);
 
   const handleApprove = async (id) => {
     setLoadingStatus((prev) => ({ ...prev, [id]: 'approve' }));
@@ -67,9 +115,6 @@ const StaffVerify = () => {
     }
   };
 
-  if (isFetching) return (
-    <CircularProgress />
-  );
 
   return (
     <>
@@ -78,136 +123,66 @@ const StaffVerify = () => {
         view={view}
         onGridView={() => setView('grid')}
         onTableView={() => setView('table')}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        filters={filters}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        postsPerPage={postsPerPage}
+        setPostsPerPage={setPostsPerPage}
+        totalPages={pagination?.totalPages || 1}
       />
 
-      <Box padding={4} flexGrow={1} overflow="auto">
-        {staff.length === 0 ? (
-          <Typography variant="h6" align="center" className='font-color-thired' >
-            No unverified Staff found.
-          </Typography>
-        ) : view === 'grid' ? (
-          <Grid container spacing={3}>
-            {staff.map((staffDeatils) => (
-              <Grid item xs={12} sm={6} md={4} key={staffDeatils._id}>
-                <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: "5px" }}>
-                  <CardMedia
-                    component="img"
-                    height="300"
-                    width="300"
-                    sx={{
-                      width: {
-                        xs: '100%',
-                        sm: 300,
-                      },
-                      height: {
-                        xs: 'auto',
-                        sm: 300,
-                      },
-                      objectFit: 'cover',
-                    }}
-                    image={staffDeatils.profilePic}
-                    alt={staffDeatils.fullName}
-                  />
-                  <CardContent>
-                    <TextFiled head="Full Name" details={staffDeatils.fullName} gutterBottom />
-                    <TextFiledScorall head="Email" details={staffDeatils.email} variant="body2" showCopy={true} />
-                    <TextFiledScorall head="Mobile" details={staffDeatils.mobile} variant="body2" showCopy={true} />
-                    <TextFiledScorall head="Role" details={staffDeatils.role} variant="body2" />
-                    <TextFiledHorizontalScorall head="Message" details={staffDeatils.messageReq} variant="body2" />
-                    <TextFileMultiplesThings head="Issued By" details={staffDeatils.issuedBy} variant="body2"
-                      subDeatils={{
-                        "Name": "fullName",
-                        "Email": "email",
-                        "Action": "action",
-                        "Issued At": "issuedAt",
-                      }}
-                    />
-                  </CardContent>
-                  <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
-                    <Button
-                      variant="contained"
-                      className={classes.successButton}
-                      onClick={() => handleApprove(staffDeatils._id)}
-                      disabled={!!loadingStatus[staffDeatils._id]}
-                      startIcon={
-                        loadingStatus[staffDeatils._id] === 'approve' ? (
-                          <CircularProgress size={20} color="inherit" />
-                        ) : null
-                      }
-                    >
-                      {loadingStatus[staffDeatils._id] === 'approve' ? 'Approving...' : 'Approve'}
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      className={classes.rejectButton}
-                      onClick={() => handleReject(staffDeatils._id)}
-                      disabled={!!loadingStatus[staffDeatils._id]}
-                      startIcon={
-                        loadingStatus[staffDeatils._id] === 'reject' ? (
-                          <CircularProgress size={20} color="inherit" />
-                        ) : null
-                      }
-                    >
-                      {loadingStatus[staffDeatils._id] === 'reject' ? 'Rejecting...' : 'Reject'}
-                    </Button>
-                  </Stack>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+      {
+        isFetching ? (
+          <Box display="flex" justifyContent="center" alignItems="center" height="60vh">
+            <CircularProgress />
+          </Box>
         ) : (
-          <TableContainer component={Paper}>
-            <Table style={{ border: 'black 2px solid' }} >
-              <TableHead style={{ borderBottom: 'black 2px solid' }}>
-                <TableRow className='bg-amber-100 '>
-                  <TableCell><strong>Profile</strong></TableCell>
-                  <TableCell><strong>Full Name</strong></TableCell>
-                  <TableCell><strong>Email</strong></TableCell>
-                  <TableCell><strong>Mobile</strong></TableCell>
-                  <TableCell><strong>Role</strong></TableCell>
-                  <TableCell><strong>Message</strong></TableCell>
-                  <TableCell><strong>Issued By</strong></TableCell>
-                  <TableCell><strong>Actions</strong></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {staff.map((staffDeatils, index) => (
-                  <TableRow key={staffDeatils._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc', borderBottom: 'black 2px solid' }}>
-                    <TableCell>
-                      {staffDeatils.profilePic ? (
-                        <img
-                          src={staffDeatils.profilePic}
-                          alt={staffDeatils.fullName}
-                          style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 4 }}
-                        />
-                      ) : 'N/A'}
-                    </TableCell>
-                    <TableCell>
-                      <TableFiled details={staffDeatils.fullName} gutterBottom />
-                    </TableCell>
-                    <TableCell >
-                      <TableFiledScorall details={staffDeatils.email} variant="body2" showCopy={true} />
-                    </TableCell>
-                    <TableCell>
-                      <TableFiled details={staffDeatils.mobile} gutterBottom showCopy={true} />
-                    </TableCell>
-                    <TableCell>
-                      <TableFiled details={staffDeatils.role} variant="body2" gutterBottom />
-                    </TableCell>
-                    <TableCell >
-                      <TableFiledHorizontalScorall details={staffDeatils.messageReq} variant="body2" />
-                    </TableCell>
-                    <TableCell>
-                      <TableFileMultiplesThings details={staffDeatils.issuedBy} variant="body2"
-                        subDeatils={{
-                          "Name": "fullName",
-                          "Email": "email",
-                          "Action": "action",
-                          "Issued At": "issuedAt",
+
+          <Box padding={4} flexGrow={1} overflow="auto">
+            {staff.length === 0 ? (
+              <Typography variant="h6" align="center" className='font-color-thired' >
+                No unverified Staff found.
+              </Typography>
+            ) : view === 'grid' ? (
+              <Grid container spacing={3}>
+                {staff.map((staffDeatils) => (
+                  <Grid item xs={12} sm={6} md={4} key={staffDeatils._id}>
+                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding: "5px" }}>
+                      <CardMedia
+                        component="img"
+                        height="300"
+                        width="300"
+                        sx={{
+                          width: {
+                            xs: '100%',
+                            sm: 300,
+                          },
+                          height: {
+                            xs: 'auto',
+                            sm: 300,
+                          },
+                          objectFit: 'cover',
                         }}
+                        image={staffDeatils.profilePic}
+                        alt={staffDeatils.fullName}
                       />
-                    </TableCell>
-                    <TableCell>
+                      <CardContent>
+                        <TextFiled head="Full Name" details={staffDeatils.fullName} gutterBottom />
+                        <TextFiledScorall head="Email" details={staffDeatils.email} variant="body2" showCopy={true} />
+                        <TextFiledScorall head="Mobile" details={staffDeatils.mobile} variant="body2" showCopy={true} />
+                        <TextFiledScorall head="Role" details={staffDeatils.role} variant="body2" />
+                        <TextFiledHorizontalScorall head="Message" details={staffDeatils.messageReq} variant="body2" />
+                        <TextFileMultiplesThings head="Issued By" details={staffDeatils.issuedBy} variant="body2"
+                          subDeatils={{
+                            "Name": "fullName",
+                            "Email": "email",
+                            "Action": "action",
+                            "Issued At": "issuedAt",
+                          }}
+                        />
+                      </CardContent>
                       <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
                         <Button
                           variant="contained"
@@ -236,14 +211,100 @@ const StaffVerify = () => {
                           {loadingStatus[staffDeatils._id] === 'reject' ? 'Rejecting...' : 'Reject'}
                         </Button>
                       </Stack>
-                    </TableCell>
-                  </TableRow>
+                    </Card>
+                  </Grid>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+              </Grid>
+            ) : (
+              <TableContainer component={Paper}>
+                <Table style={{ border: 'black 2px solid' }} >
+                  <TableHead style={{ borderBottom: 'black 2px solid' }}>
+                    <TableRow className='bg-amber-100 '>
+                      <TableCell><strong>Profile</strong></TableCell>
+                      <TableCell><strong>Full Name</strong></TableCell>
+                      <TableCell><strong>Email</strong></TableCell>
+                      <TableCell><strong>Mobile</strong></TableCell>
+                      <TableCell><strong>Role</strong></TableCell>
+                      <TableCell><strong>Message</strong></TableCell>
+                      <TableCell><strong>Issued By</strong></TableCell>
+                      <TableCell><strong>Actions</strong></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {staff.map((staffDeatils, index) => (
+                      <TableRow key={staffDeatils._id} sx={{ backgroundColor: index % 2 === 0 ? 'white' : '#f3e8dc', borderBottom: 'black 2px solid' }}>
+                        <TableCell>
+                          {staffDeatils.profilePic ? (
+                            <img
+                              src={staffDeatils.profilePic}
+                              alt={staffDeatils.fullName}
+                              style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 4 }}
+                            />
+                          ) : 'N/A'}
+                        </TableCell>
+                        <TableCell>
+                          <TableFiled details={staffDeatils.fullName} gutterBottom />
+                        </TableCell>
+                        <TableCell >
+                          <TableFiledScorall details={staffDeatils.email} variant="body2" showCopy={true} />
+                        </TableCell>
+                        <TableCell>
+                          <TableFiled details={staffDeatils.mobile} gutterBottom showCopy={true} />
+                        </TableCell>
+                        <TableCell>
+                          <TableFiled details={staffDeatils.role} variant="body2" gutterBottom />
+                        </TableCell>
+                        <TableCell >
+                          <TableFiledHorizontalScorall details={staffDeatils.messageReq} variant="body2" />
+                        </TableCell>
+                        <TableCell>
+                          <TableFileMultiplesThings details={staffDeatils.issuedBy} variant="body2"
+                            subDeatils={{
+                              "Name": "fullName",
+                              "Email": "email",
+                              "Action": "action",
+                              "Issued At": "issuedAt",
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <Stack direction="row" spacing={2} justifyContent="center" paddingBottom={2}>
+                            <Button
+                              variant="contained"
+                              className={classes.successButton}
+                              onClick={() => handleApprove(staffDeatils._id)}
+                              disabled={!!loadingStatus[staffDeatils._id]}
+                              startIcon={
+                                loadingStatus[staffDeatils._id] === 'approve' ? (
+                                  <CircularProgress size={20} color="inherit" />
+                                ) : null
+                              }
+                            >
+                              {loadingStatus[staffDeatils._id] === 'approve' ? 'Approving...' : 'Approve'}
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              className={classes.rejectButton}
+                              onClick={() => handleReject(staffDeatils._id)}
+                              disabled={!!loadingStatus[staffDeatils._id]}
+                              startIcon={
+                                loadingStatus[staffDeatils._id] === 'reject' ? (
+                                  <CircularProgress size={20} color="inherit" />
+                                ) : null
+                              }
+                            >
+                              {loadingStatus[staffDeatils._id] === 'reject' ? 'Rejecting...' : 'Reject'}
+                            </Button>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </Box>
         )}
-      </Box>
     </>
   );
 };

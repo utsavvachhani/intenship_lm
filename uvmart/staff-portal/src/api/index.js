@@ -18,4 +18,4 @@ export const forget = (formData) => API.post('/staff/forget',formData);
 
 
 export const addedCategories = ({id,formData}) => API.post(`/categories/add`,{id,formData});
-export const getCategoriesByStaffId = ({id}) => API.get(`categories/gets/${id}`)
+export const getCategoriesByStaffId = ({id, params}) => API.get(`categories/gets/${id}`, { params })
